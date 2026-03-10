@@ -1,27 +1,70 @@
 <!DOCTYPE HTML>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Thibidy Clicker</title>
+        <style>
+        body{margin:0;padding:0;font-family:sans-serif; background-color: #f4f4f4;}
+        header{text-align:center;padding:1rem;background:#eee;position:fixed;top:0;width:100%;box-shadow:0 1px 4px rgba(0,0,0,.1);z-index:20}
+        
+        .layer{display:none;position:absolute;top:0;left:0;width:100%;height:100%;}
+        .layer.active{display:flex;z-index:10;justify-content:center;align-items:center;flex-direction:column;}
+        
+        .LayerMenu.layer.active{display:flex;justify-content:center;align-items:center;height:100vh;padding-top:60px; flex-direction: column;}
+        
+        .menu-button{margin:0.5rem;padding:.75rem 1.5rem;font-size:1rem; cursor: pointer;}
+        .Button-GameUI{margin:0.5rem;padding:.75rem 1.5rem;font-size:1rem; cursor: pointer;}
+
+        
+        p {
+            max-width: 500px;
+            line-height: 1.5;
+            text-align: center;
+            margin-top: 2rem;
+            color: #444;
+            font-style: italic; 
+            padding-left: 15px;
+        }
+    </style>
+    </head>
     <body>
         <header>
-            test
+            Thibidy Clicker
         </header>
 
-        <div class="LayerMenu">
-
+        <div class="LayerMenu layer active">
+            <h1>Welcome To Thibidy Clicker </h1>
+            <button id="buttonUISave" class="menu-button" type="button" data-target="LayerGameUISave">With Save</button>
+            <button id="buttonUINoSave" class="menu-button" type="button" data-target="LayerGameUINoSave">Without Save</button>
+            <p>You will play as a Student Developer in 1999, President of a startup at La Turbine Cergy named Thomas.
+                Its objective is to create a development solution called Thibidy IA to “help” human developers
+                in their tasks by sending requests. No rules are imposed on them other than fulfilling their primary task. 
+                Live the adventure of Thibidy...
+            </p>
         </div>
 
-        <div class="LayerGameUISave">
+        <div class="LayerGameUISave layer">
+            <button id="ButtonUISave" class="Button-GameUI" type="button" >Thibidy AV SAVE</button>
+            <button id="buttonUISettings" class="Button-GameUI" type="button" data-target="LayerSettings">Settings</button>
+            <button id="SaveWithSave" class="Button-GameUI" type="button" >Dl Your Save</button>
 
         </div>
         
-        <div class="LayerGameUINoSave">
-            
-            <button type="button" onClick>
-                Thibidy
-            </button>
+        <div class="LayerGameUINoSave layer">
+            <button id="ButtonUINoSave" class="Button-GameUI" type="button" >Thibidy  NO SAVE</button>
+            <button id="buttonUISettingsNoSave" class="Button-GameUI" type="button" data-target="LayerSettings">Settings</button>
+            <button id="SaveNosave" class="Button-GameUI" type="button" >Dl Your Save </button>
 
+            
         </div>
 
-        <div class="LayerSettings">
+        <div class="LayerSettings layer">
+            <h1>Settings</h1>
+            <p>Here Ajusts The Thibidy Settings for a better experience !</p>
+            <p>Volumn : </p>
+            <p>Speed : </p>
+            <p>Mode : </p>
+            <p>Resolution : </p>
 
         </div>
 
@@ -30,10 +73,34 @@
 
 <script>
     var click = 0;
-    
-    function clicker()
-    {
+    function clicker() {
         click += 1;
         document.getElementsByClassName("clicker").innerHTML = clicks;
     };
+
+    function showLayer(name) {
+        var layers = document.getElementsByClassName('layer');
+        for (var i = 0; i < layers.length; i++) {
+            layers[i].classList.remove('active');
+        }
+        var tgt = document.getElementsByClassName(name);
+        if (tgt.length) {
+            tgt[0].classList.add('active');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('buttonUISave').addEventListener('click', function() {
+            showLayer('LayerGameUISave');
+        });
+        document.getElementById('buttonUINoSave').addEventListener('click', function() {
+            showLayer('LayerGameUINoSave');
+        });
+        document.getElementById('buttonUISettings').addEventListener('click', function() {
+            showLayer('LayerSettings');
+        });
+        document.getElementById('buttonUISettingsNoSave').addEventListener('click', function() {
+            showLayer('LayerSettings');
+        });
+    });
 </script>
