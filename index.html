@@ -15,8 +15,22 @@
         
         <div class="LayerGameUINoSave">
             
-            <button type="button" onClick>
+            <button type="button" onClick="clicking()">
                 Thibidy
+            </button>
+            <button type="button" onClick="clickingBig()">
+                Thibidy2
+            </button>
+            <button type="button" onClick="clickingReset()">
+                ThibidiReset
+            </button>
+
+            <p>Request: <a id="clicker1">0</a></p>
+
+            <p> upgrade : </p>
+
+            <button type="button">
+                upgrade Thibidy
             </button>
 
         </div>
@@ -28,12 +42,30 @@
     </body>
 </html>
 
-<script>
-    var click = 0;
+<script type="text/javascript">
+    let click = 0;
     
-    function clicker()
+    function clicking()
     {
         click += 1;
-        document.getElementsByClassName("clicker").innerHTML = clicks;
+        document.getElementById("clicker1").innerHTML = click;
+    };
+
+    function clickingBig()
+    {
+        click += 100;
+        document.getElementById("clicker1").innerHTML = click;
+    };
+
+    function clickingReset()
+    {
+        click = 0;
+        document.getElementById("clicker1").innerHTML = click;
+    };
+
+    function upClicking()
+    {
+        click++;
+        document.getElementById("clicker1").innerHTML = click;
     };
 </script>
