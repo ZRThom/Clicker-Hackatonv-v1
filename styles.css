@@ -1,38 +1,62 @@
 body{margin:0;padding:0;font-family:sans-serif; background-color: #f4f4f4;overflow:hidden;/* avoid horizontal scroll */}
-header{text-align:center;padding:1rem;background:#eee;/* fixed replaced by relative to avoid unusual overflows */position:relative;top:0;width:100%;box-shadow:0 1px 4px rgba(0,0,0,.1);z-index:20;}
+header{text-align:center;padding:1rem 1rem;background:#eee;position:relative;top:0;width:100%;box-shadow:0 1px 4px rgba(0,0,0,.1);z-index:20;min-height:20px;}
 /* three small circles on left side of header */
 .header-circles{position:absolute;left:1rem;top:50%;transform:translateY(-50%);display:flex;gap:.5rem;}
-/* logo on right side */
-header #pearhone{position:absolute;right:2rem;top:50%;transform:translateY(-50%);height:30px;/* more space from right edge */}
+/* logo in header  */
+header #pearhone{
+    position:absolute;
+    right:3rem; 
+    top:50%;
+    transform:translateY(-75%);
+    height:24px; 
+   
+}
+
+/* thib logo in header */
+header #thib{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    height:70px; /
+}
 
 /* Menus UI */ 
 
 
 /* three small circles on left side of header */
 .header-circles{position:absolute;left:1rem;top:50%;transform:translateY(-50%);display:flex;gap:.5rem;}
-.header-circles .circle{width:10px;height:10px;border-radius:50%;}
+.header-circles .circle{width:13px;height:13px;border-radius:50%;}
 /* individual circle colors by id */
-#circle1 { background: #e74c3c; }    /* red */
-#circle2 { background: #f1c40f; }    /* yellow */
-#circle3 { background: #2ecc71; }    /* green */
+#circle1 { background: #e74c3c; }    
+#circle2 { background: #f1c40f; }    
+#circle3 { background: #2ecc71; }    
 /*dispostion of the layers */
 .layer{display:none;position:absolute;top:0;left:0;width:100%;height:100%;}
 .layer.active{display:flex;z-index:10;justify-content:center;align-items:center;flex-direction:column;}
         
 .LayerMenu.layer.active{display:flex;justify-content:center;align-items:center;height:100vh;padding-top:60px; flex-direction: column;}
  /* Button for menu */
-.menu-button{margin:0.5rem;padding:.75rem 1.5rem;font-size:1rem; cursor: pointer;}
+.menu-button{
+    margin:0.5rem;
+    padding:.75rem 1.5rem;
+    font-size:1rem;
+    cursor: pointer;
+    /* smooth transform and background-gradient transitions */
+    transition: transform 0.2s ease,  0.10s ease;
+}
 
- /* in the Menu layer */
 .LayerMenu .menu-button{
-    background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+    background: linear-gradient(45deg, #fbc2eb 0%,#a6c1ee 100%);
     color:#fff;
     border:none;
     border-radius:5px;
-    transition:background 0.3s;
+    transition: 0.3s;
 }
 .LayerMenu .menu-button:hover {
-    background: linear-gradient(45deg, #00f2fe 0%, #4facfe 100%);
+    /* swap original gradient colors */
+    background: linear-gradient(45deg, #a6c1ee 0%, #fbc2eb 100%);
+    transform: scale(1.1);
 }
         
 /* layer specific backgrounds */
@@ -40,9 +64,55 @@ header #pearhone{position:absolute;right:2rem;top:50%;transform:translateY(-50%)
 .LayerGameUINoSave { background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); }
 .LayerSettings { background: linear-gradient(135deg, #ffe29f 0%, #ffa99f 100%); }
 
+/* settings form styles */
+.LayerSettings form {
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0 auto;
+}
+.LayerSettings .setting-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.LayerSettings label {
+    flex: 1 0 30%;
+}
+.LayerSettings input[type="range"] {
+    flex: 1 0 50%;
+}
+.LayerSettings select {
+    flex: 1 0 50%;
+    padding: .5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.LayerSettings .setting-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
 /* logo in menu */
-.LayerMenu #logo { display: block; max-width: 600px; width: 90%; height: auto; margin:0 auto 1rem; }
-        
+.LayerMenu #logo {
+    display: block;
+    max-width: 600px;
+    width: 90%;
+    height: auto;
+    margin: 0 auto 1rem;
+    position: relative; /* needed for animation offsets */
+    animation: logoteam 7s linear infinite;
+}
+@keyframes logoteam {
+    /* use transform instead of invalid position values */
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
         
 p {
     max-width: 500px;
