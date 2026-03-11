@@ -58,7 +58,6 @@ header #thib{
     transition: 0.3s;
 }
 .LayerMenu .menu-button:hover {
-    /* swap original gradient colors */
     background: linear-gradient(45deg, #a6c1ee 0%, #fbc2eb 100%);
     transform: scale(1.1);
 }
@@ -150,7 +149,7 @@ p {
 
 
 
-/* Settings UI*/
+
 
 
 
