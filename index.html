@@ -34,7 +34,7 @@
 
         <div class="LayerMenu layer active">
             <h1>Welcome To Thibidy Clicker </h1>
-            <button id="buttonUISave" class="menu-button" type="button" data-target="LayerGameUISave">With Save</button>
+            <button id="buttonUISave" class="menu-button" type="button" onclick="triggerImport()">import save</button>
             <button id="buttonUINoSave" class="menu-button" type="button" data-target="LayerGameUINoSave">Without Save</button>
             <p>You will play as a Student Developer in 1999, President of a startup at La Turbine Cergy named Thomas.
                 Its objective is to create a development solution called Thibidy IA to “help” human developers
@@ -42,18 +42,10 @@
                 Live the adventure of Thibidy...
             </p>
         </div>
-
-        <div class="LayerGameUISave layer">
-            <button id="ButtonUISave" class="Button-GameUI" type="button" >Thibidy AV SAVE</button>
-            <button id="buttonUISettings" class="Button-GameUI" type="button" data-target="LayerSettings">Settings</button>
-            <button id="SaveWithSave" class="Button-GameUI" type="button" >Dl Your Save</button>
-
-        </div>
-        
+        <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importSave(event)">        
         <div class="LayerGameUINoSave layer">
-            <button id="ButtonUINoSave" class="Button-GameUI" type="button" >Thibidy  NO SAVE</button>
             <button id="buttonUISettingsNoSave" class="Button-GameUI" type="button" data-target="LayerSettings">Settings</button>
-            <button id="SaveNosave" class="Button-GameUI" type="button" >Dl Your Save </button>
+            <button id="SaveNosave" class="Button-GameUI" type="button" onclick="downloadSave()" >Dl Your Save </button>
 
             
         </div>
@@ -73,10 +65,38 @@
 
 <script>
     var click = 0;
+    var level = 0;
+
     function clicker() {
         click += 1;
-        document.getElementsByClassName("clicker").innerHTML = clicks;
-    };
+        var display = document.querySelector(".clicker");
+        if (display) {
+            display.textContent = click;
+        }
+    }
+
+    function clickerSave() {
+        clicker();
+        downloadSave();
+    }
+
+
+    function downloadSave() {
+        const gameState = {
+            clicks: click,
+            currentLevel: level,
+            date: new Date().toLocaleDateString()
+        };
+
+        const json = JSON.stringify(gameState, null, 2);
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(json);
+        const dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute('href', dataStr);
+        dlAnchor.setAttribute('download', 'save.json');
+        document.body.appendChild(dlAnchor);
+        dlAnchor.click();
+        document.body.removeChild(dlAnchor);
+    }
 
     function showLayer(name) {
         var layers = document.getElementsByClassName('layer');
@@ -89,15 +109,34 @@
         }
     }
 
+    function triggerImport() {
+        var input = document.getElementById('importFile');
+        if (input) input.click();
+    }
+
+    function importSave(event) {
+        var file = event.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                var data = JSON.parse(e.target.result);
+                if (data.clicks !== undefined) click = data.clicks;
+                if (data.currentLevel !== undefined) level = data.currentLevel;
+                var disp = document.querySelector('.clicker');
+                if (disp) disp.textContent = click;
+                alert('Save imported successfully');
+            } catch(err) {
+                alert('Failed to parse save file');
+            }
+        };
+        reader.readAsText(file);
+        event.target.value = '';
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('buttonUISave').addEventListener('click', function() {
-            showLayer('LayerGameUISave');
-        });
         document.getElementById('buttonUINoSave').addEventListener('click', function() {
             showLayer('LayerGameUINoSave');
-        });
-        document.getElementById('buttonUISettings').addEventListener('click', function() {
-            showLayer('LayerSettings');
         });
         document.getElementById('buttonUISettingsNoSave').addEventListener('click', function() {
             showLayer('LayerSettings');
