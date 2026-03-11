@@ -92,6 +92,8 @@
     var lvlAuto = 0;
     var intervalAutoClick = null;
 
+    var level = 0;
+
     // UI update (be called avery time)
     function updateUI()
     {
@@ -127,6 +129,10 @@
         click += clickPower * clickPower2;
         click = cleanNbr(click);
         updateUI();
+        var display = document.querySelector(".clicking");
+        if (display) {
+            display.textContent = click;
+        }
     }
 
     function clickingDev()
@@ -216,15 +222,6 @@
     //auto click end
 
     updateUI();
-    var level = 0;
-
-    function clicking() {
-        click += 1;
-        var display = document.querySelector(".clicking");
-        if (display) {
-            display.textContent = click;
-        }
-    }
 
     function clickingSave() {
         clicking();
