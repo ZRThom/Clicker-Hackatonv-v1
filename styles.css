@@ -9,7 +9,6 @@ header #pearhone{
     top:50%;
     transform:translateY(-75%);
     height:24px; 
-   
 }
 
 /* thib logo in header */
@@ -21,6 +20,7 @@ header #thib{
     height:70px; /
 }
 
+
 /* Menus UI */ 
 
 
@@ -28,9 +28,13 @@ header #thib{
 .header-circles{position:absolute;left:1rem;top:50%;transform:translateY(-50%);display:flex;gap:.5rem;}
 .header-circles .circle{width:13px;height:13px;border-radius:50%;}
 /* individual circle colors by id */
-#circle1 { background: #e74c3c; }    
-#circle2 { background: #f1c40f; }    
+#circle1 { background: #e74c3c; } 
+#circle1:hover { background: #c0392b; transform: scale(1.2); transition: 0.2s ease; }   
+#circle2 { background: #f1c40f; } 
+#circle2:hover { background: #d4ac0d; transform: scale(1.2); transition: 0.2s ease; }   
 #circle3 { background: #2ecc71; }    
+#circle3:hover { background: #27ae60; transform: scale(1.2); transition: 0.2s ease; }
+
 /*dispostion of the layers */
 .layer{display:none;position:absolute;top:0;left:0;width:100%;height:100%;}
 .layer.active{display:flex;z-index:10;justify-content:center;align-items:center;flex-direction:column;}
@@ -104,7 +108,7 @@ header #thib{
     width: 90%;
     height: auto;
     margin: 0 auto 1rem;
-    position: relative; /* needed for animation offsets */
+    position: relative; 
     animation: logoteam 7s linear infinite;
 }
 @keyframes logoteam {
@@ -126,9 +130,44 @@ p {
 
 /* Game UI  */
 
+
+
 /* Button for games */
 .Button-GameUI{margin:0.5rem;padding:.75rem 1.5rem;font-size:1rem; cursor: pointer;}
 
 
 
+
 /* Settings UI*/
+
+
+
+
+
+
+/* Overlay Start(before menu) */
+#startOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 9999; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px); 
+}
+
+#btnStart {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    font-size: 2rem;
+    padding: 1rem 3rem;
+    border-radius: 10px;
+}
+#btnStart:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}

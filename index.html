@@ -6,12 +6,18 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
+        <div id="startOverlay">
+            <button id="btnStart" class="menu-button">Start !</button>
+        </div>
         <header>
             <div class="header-circles">
                 <span id="circle1" class="circle"></span>
                 <span id="circle2" class="circle"></span>
                 <span id="circle3" class="circle"></span>
             </div>
+            <audio id="bgMusic_LayerMenu" loop><source src="Music/Menus.mp3" type="audio/mpeg"></audio>
+            <audio id="bgMusic_LayerGameUINoSave" loop><source src="Music/Game.mp3" type="audio/mpeg"></audio>
+            <audio id="bgMusic_LayerSettings" loop><source src="Music/Settings.mp3" type="audio/mpeg"></audio>
             <img id="thib" src="pictures/thibidy_Project._-removebg-preview.png" alt="Thibidy Logo" />
             <img id="pearhone" src="pictures/lperaphone-removebg-preview.png" alt="Pearhone Logo" />
         </header>
@@ -86,11 +92,7 @@
                     <select id="modeSelect" name="mode">
                         <option value="normal">Thibidy Classic</option>
                         <option value="hard">Hell Tesla Thibidy</option>
-                        <option value="easy">Thibidy </option>
-                    </select>
-                </div>
-                <div class="setting-group">
-                    <label for="resolutionSelect">Zoom</label>
+                        <option value="easy">Thibidy Admin/Debug </option>
                     </select>
                 </div>
                 <div class="setting-actions">
@@ -116,6 +118,7 @@
     var intervalAutoClick = null;
 
     var level = 0;
+    var currentAudio = null;
 
   
     var settings = {
@@ -306,6 +309,7 @@
         if (tgt.length) {
             tgt[0].classList.add('active');
         }
+        playMusicForLayer(name);
     }
 
     function triggerImport() {
@@ -338,6 +342,7 @@
             if (data.settings) {
                 settings = data.settings;
                 updateSettingsUI();
+                updateVolume();
             }
 
             
@@ -358,6 +363,33 @@
     event.target.value = '';
 }
 
+    function playMusicForLayer(layerName) {
+        var audioId = "bgMusic_" + layerName;
+        var newAudio = document.getElementById(audioId);
+        if (currentAudio !== newAudio) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            if (newAudio) {
+                currentAudio = newAudio;
+                currentAudio.volume = settings.volume / 100;
+                var playPromise = currentAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => { console.log("Auto-play prevented"); });
+                }
+            } else {
+                currentAudio = null;
+            }
+        }
+    }
+
+    function updateVolume() {
+        if (currentAudio) {
+            currentAudio.volume = settings.volume / 100;
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('buttonUINoSave').addEventListener('click', function() {
             showLayer('LayerGameUINoSave');
@@ -375,6 +407,9 @@
         if (volumeRange && volumeValue) {
             volumeRange.addEventListener('input', function() {
                 volumeValue.textContent = volumeRange.value;
+                if (currentAudio) {
+                    currentAudio.volume = volumeRange.value / 100;
+                }
             });
         }
         if (speedRange && speedValue) {
@@ -388,8 +423,16 @@
             settings.speed = speedRange.value;
             settings.mode = document.getElementById('modeSelect').value;
             
+            updateVolume();
             alert('Settings applied!');
             showLayer('LayerGameUINoSave'); 
+        });
+
+        // Button Overlay Start
+        document.getElementById('btnStart').addEventListener('click', function() {
+            var overlay = document.getElementById('startOverlay');
+            overlay.style.display = 'none'; 
+            playMusicForLayer('LayerMenu'); 
         });
     });
 </script>
