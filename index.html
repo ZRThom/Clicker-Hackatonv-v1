@@ -22,15 +22,15 @@
                 Thibidy2
             </button>
             <button type="button" onClick="clickingReset()">
-                ThibidiReset
+                ThibidyReset
             </button>
 
-            <p>Request: <a id="clicker1">0</a></p>
+            <p>Request: <span id="clicker1">0</span></p>
 
-            <p> upgrade : </p>
+            <p>upgrade : every <span id="clicker2">0</span> request</p>
 
-            <button type="button">
-                upgrade Thibidy
+            <button type="button" id="upgradeBtn1" onClick="clickingUpgrade()">
+                Multiplyer per click lvl 1 (x1)
             </button>
 
         </div>
@@ -43,29 +43,62 @@
 </html>
 
 <script type="text/javascript">
-    let click = 0;
+    var click = 0;
+    var clickPower = 1;
+    let upgradeCostMult = 20;
+
+    function updateUI()
+    {
+        document.getElementById("clicker1").innerHTML = DisplayNbr(click);
+        document.getElementById("clicker2").innerHTML = DisplayNbr(upgradeCostMult);
+        document.getElementById("upgradeBtn1").innerHTML = "Multiplyer per click lvl " + DisplayNbr(clickPower) +" (x" + DisplayNbr(clickPower) + ")";
+    }
+
+    function DisplayNbr(value) // evite 1.20000000000002, le bug de c*n (arrondie au chiffre)
+    {
+        if (Number.isInteger(value)){
+            return value;
+        }
+        return value.toFixed(1);
+    }
+
+    function cleanNbr(value) // pareil
+    {
+        return Number(value.toFixed(1));
+    }
     
     function clicking()
     {
-        click += 1;
-        document.getElementById("clicker1").innerHTML = click;
-    };
+        click += clickPower;
+        click = cleanNbr(click); 
+        updateUI();
+    }
 
     function clickingBig()
     {
-        click += 100;
-        document.getElementById("clicker1").innerHTML = click;
-    };
+        click += clickPower * 100000;
+        click = cleanNbr(click);
+        updateUI();
+    }
 
     function clickingReset()
     {
         click = 0;
-        document.getElementById("clicker1").innerHTML = click;
-    };
+        clickPower = 1;
+        upgradeCostMult = 20;
+        updateUI();
+    }
 
-    function upClicking()
+    function clickingUpgrade()
     {
-        click++;
-        document.getElementById("clicker1").innerHTML = click;
-    };
+        if (click >= upgradeCostMult){
+            click -= upgradeCostMult;
+            click = cleanNbr(click);
+            clickPower *= 1.1;
+            clickPower = cleanNbr(clickPower);
+            upgradeCostMult *= 1.2;
+            updateUI();
+        }
+    }
+    updateUI();
 </script>
