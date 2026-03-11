@@ -6,9 +6,11 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
+        <!-- Start Overlay -->
         <div id="startOverlay">
             <button id="btnStart" class="menu-button">Start !</button>
         </div>
+        <!-- Header & Audio Resources -->
         <header>
             <div class="header-circles">
                 <span id="circle1" class="circle"></span>
@@ -22,6 +24,7 @@
             <img id="pearhone" src="pictures/lperaphone-removebg-preview.png" alt="Pearhone Logo" />
         </header>
 
+        <!-- Menu Interface -->
         <div class="LayerMenu layer active">
             <img id="logo" src="pictures/thibidy_Project._-removebg-preview.png" alt="Thibidy Logo" />
             <button id="buttonUISave" class="menu-button" type="button" onclick="triggerImport()">Import Save</button>
@@ -33,6 +36,7 @@
             </p>
         </div>
         <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importSave(event)">        
+        <!-- Game Interface -->
         <div class="LayerGameUINoSave layer">
             <button id="buttonUISettingsNoSave" class="Button-GameUI" type="button" data-target="LayerSettings">Settings</button>
             <button id="SaveNosave" class="Button-GameUI" type="button" onclick="downloadSave()" >Dl Your Save </button>
@@ -73,6 +77,7 @@
         </div>
 
 
+        <!-- Settings Interface -->
         <div class="LayerSettings layer">
             <div class="settings-content">
                 <h1>Settings</h1>
@@ -106,6 +111,7 @@
     </body>
 </html>
 
+<!-- Game Logic & Mechanics -->
 <script type="text/javascript">
     var click = 0;
     var clickPower = 1;
