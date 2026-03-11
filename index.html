@@ -27,6 +27,46 @@
 
             
         </div>
+        
+        <div class="LayerGameUINoSave">
+            
+            <button type="button" onClick="clicking()">
+                Thibidy
+            </button>
+            <button type="button" onClick="clickingDev()">
+                Thibidy2
+            </button>
+            <button type="button" onClick="clickingReset()">
+                ThibidyReset
+            </button>
+
+            <p>
+                Request-Sending per click : <span id="showMult">0</span>
+            </p>
+            <p>
+                Auto-Request : <span id="showAuto">0</span>
+            </p>
+
+            <p>Request: <span id="clicker1">0</span></p>
+
+            <p>upgrade : every <span id="clicker2">0</span> request</p>
+            <button type="button" id="upgradeBtn1" onClick="clickingUpgrade()">
+                Multiplyer per click lvl 1 (x1)
+            </button>
+
+            <p>upgrade : every <span id="clicker3">1000</span> request</p>
+            <button type="button" id="upgradeBtn2" onClick="clickingUpgrade2()">
+                Multiplyer per click lvl 1 (x1)
+            </button>
+
+            <p>auto : <span id="AutoClicker1">0</span> request</p>
+            <button type="button" id="autoBtn1" onClick="turnAutoClick()">
+                Auto-Request lvl 1 (+1)
+            </button>
+
+        </div>
+
+        <div class="LayerSettings">
 
         <div class="LayerSettings layer">
             <h1>Settings</h1>
@@ -41,8 +81,143 @@
     </body>
 </html>
 
-<script>
+<script type="text/javascript">
     var click = 0;
+    var clickPower = 1;
+    var clickPower2 = 1;
+    var autoClickPower = 0;
+    var upgradeCostMult = 20;
+    var upgradeCostMult2 = 1000;
+    var upgradeCostAuto = 100;
+    var lvlMult = 0;
+    var lvlMult2 = 0;
+    var lvlAuto = 0;
+    var intervalAutoClick = null;
+
+    // UI update (be called avery time)
+    function updateUI()
+    {
+        document.getElementById("clicker1").innerHTML = DisplayNbr(click);
+        document.getElementById("clicker2").innerHTML = DisplayNbr(upgradeCostMult);
+        document.getElementById("clicker3").innerHTML = DisplayNbr(upgradeCostMult2);
+        document.getElementById("AutoClicker1").innerHTML = DisplayNbr(upgradeCostAuto);
+        document.getElementById("upgradeBtn1").innerHTML = "Multiplyer per click lvl " + lvlMult +" (x" + DisplayNbr(clickPower) + ")";
+        document.getElementById("upgradeBtn2").innerHTML = "Multiplyer per click lvl " + lvlMult2 +" (x" + DisplayNbr(clickPower2) + ")";
+        document.getElementById("autoBtn1").innerHTML = "Auto-Request lvl " + lvlAuto +" (x" + DisplayNbr(autoClickPower) + ")";
+
+        document.getElementById("showMult").innerHTML = DisplayNbr(clickPower * clickPower2);
+        document.getElementById("showAuto").innerHTML = DisplayNbr(autoClickPower);
+    }
+
+    // display all number
+    function DisplayNbr(value) // avoid 1.20000000000002 (arround to number)
+    {
+        if (Number.isInteger(value)){
+            return value;
+        }
+        return value.toFixed(1);
+    }
+
+    function cleanNbr(value) // pareil
+    {
+        return Number(value.toFixed(1));
+    }
+    // end display
+    
+    function clicking()
+    {
+        click += clickPower * clickPower2;
+        click = cleanNbr(click);
+        updateUI();
+    }
+
+    function clickingDev()
+    {
+        click += clickPower * 10000;
+        click = cleanNbr(click);
+        updateUI();
+    }
+
+    function clickingReset()
+    {
+        lvlMult = 0;
+        lvlMult2 = 0;
+        lvlAuto = 0;
+        click = 0;
+        clickPower = 1;
+        clickPower2 = 1;
+        autoClickPower = 0;
+
+        upgradeCostMult = 20;
+        upgradeCostMult2 = 1000;
+        upgradeCostAuto = 1000;
+        clearInterval(intervalAutoClick);
+        intervalAutoClick = null;
+        updateUI();
+    }
+
+    function clickingUpgrade()
+    {
+        if (click >= upgradeCostMult){
+            lvlMult++;
+            click -= upgradeCostMult;
+            click = cleanNbr(click);
+            clickPower *= 1.1;
+            clickPower = cleanNbr(clickPower);
+            upgradeCostMult *= 1.2;
+            upgradeCostMult = cleanNbr(upgradeCostMult);
+            updateUI();
+        }
+    }
+
+    function clickingUpgrade2()
+    {
+        if (click >= upgradeCostMult2){
+            lvlMult2++;
+            click -= upgradeCostMult2;
+            click = cleanNbr(click);
+
+            if (clickPower2 === 1){
+                clickPower2 = 10;
+            }
+            else{
+                clickPower2 *= 1.1;
+                clickPower2 = cleanNbr(clickPower2);
+            }
+            
+            upgradeCostMult2 *= 1.2;
+            upgradeCostMult2 = cleanNbr(upgradeCostMult2);
+            updateUI();
+        }
+    }
+
+    // auto click test
+    function autoClick1(){
+        click += autoClickPower;
+        click = cleanNbr(click);
+        updateUI();
+    }
+
+    function turnAutoClick()
+    {
+        if (click >= upgradeCostAuto) {
+            click -= upgradeCostAuto;
+            click = cleanNbr(click);
+            lvlAuto++;
+            autoClickPower++;
+
+            if (intervalAutoClick === null){
+                intervalAutoClick = setInterval(autoClick1, 1000);
+            }
+
+            upgradeCostAuto *= 1.2;
+            upgradeCostAuto = cleanNbr(upgradeCostAuto);
+            updateUI();
+        }
+    }
+    //auto click end
+
+    updateUI();
     var level = 0;
 
     function clicker() {
