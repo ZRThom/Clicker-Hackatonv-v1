@@ -3,29 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Thibidy Clicker</title>
-        <style>
-        body{margin:0;padding:0;font-family:sans-serif; background-color: #f4f4f4;}
-        header{text-align:center;padding:1rem;background:#eee;position:fixed;top:0;width:100%;box-shadow:0 1px 4px rgba(0,0,0,.1);z-index:20}
-        
-        .layer{display:none;position:absolute;top:0;left:0;width:100%;height:100%;}
-        .layer.active{display:flex;z-index:10;justify-content:center;align-items:center;flex-direction:column;}
-        
-        .LayerMenu.layer.active{display:flex;justify-content:center;align-items:center;height:100vh;padding-top:60px; flex-direction: column;}
-        
-        .menu-button{margin:0.5rem;padding:.75rem 1.5rem;font-size:1rem; cursor: pointer;}
-        .Button-GameUI{margin:0.5rem;padding:.75rem 1.5rem;font-size:1rem; cursor: pointer;}
-
-        
-        p {
-            max-width: 500px;
-            line-height: 1.5;
-            text-align: center;
-            margin-top: 2rem;
-            color: #444;
-            font-style: italic; 
-            padding-left: 15px;
-        }
-    </style>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <header>
@@ -33,8 +11,8 @@
         </header>
 
         <div class="LayerMenu layer active">
-            <h1>Welcome To Thibidy Clicker </h1>
-            <button id="buttonUISave" class="menu-button" type="button" onclick="triggerImport()">import save</button>
+            <img id="logo" src="pictures/thibidy_Project._-removebg-preview.png" alt="Thibidy Logo" />
+            <button id="buttonUISave" class="menu-button" type="button" onclick="triggerImport()">Import Save</button>
             <button id="buttonUINoSave" class="menu-button" type="button" data-target="LayerGameUINoSave">New Game</button>
             <p>You will play as a Student Developer in 1999, President of a startup at La Turbine Cergy named Thomas.
                 Its objective is to create a development solution called Thibidy IA to “help” human developers
