@@ -7,6 +7,11 @@
     </head>
     <body>
         <header>
+            <div class="header-circles">
+                <span id="circle1" class="circle"></span>
+                <span id="circle2" class="circle"></span>
+                <span id="circle3" class="circle"></span>
+            </div>
             Thibidy Clicker
         </header>
 
@@ -45,16 +50,16 @@
     var click = 0;
     var level = 0;
 
-    function clicker() {
+    function clicking() {
         click += 1;
-        var display = document.querySelector(".clicker");
+        var display = document.querySelector(".clicking");
         if (display) {
             display.textContent = click;
         }
     }
 
-    function clickerSave() {
-        clicker();
+    function clickingSave() {
+        clicking();
         downloadSave();
     }
 
@@ -101,7 +106,7 @@
                 var data = JSON.parse(e.target.result);
                 if (data.clicks !== undefined) click = data.clicks;
                 if (data.currentLevel !== undefined) level = data.currentLevel;
-                var disp = document.querySelector('.clicker');
+                var disp = document.querySelector('.clicking');
                 if (disp) disp.textContent = click;
                 alert('Save imported successfully');
             } catch(err) {
