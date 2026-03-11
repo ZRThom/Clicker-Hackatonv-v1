@@ -74,31 +74,33 @@
 
 
         <div class="LayerSettings layer">
-            <h1>Settings</h1>
-            <p>Here adjusts the Thibidy settings for a better experience!</p>
-            <form id="settingsForm">
-                <div class="setting-group">
-                    <label for="volumeRange">Volume</label>
-                    <input type="range" id="volumeRange" name="volume" min="0" max="100" value="50">
-                    <span id="volumeValue">50</span>%
-                </div>
-                <div class="setting-group">
-                    <label for="speedRange">Speed</label>
-                    <input type="range" id="speedRange" name="speed" min="1" max="10" value="5">
-                    <span id="speedValue">5</span>
-                </div>
-                <div class="setting-group">
-                    <label for="modeSelect">Mode</label>
-                    <select id="modeSelect" name="mode">
-                        <option value="normal">Thibidy Classic</option>
-                        <option value="hard">Hell Tesla Thibidy</option>
-                        <option value="easy">Thibidy Admin/Debug </option>
-                    </select>
-                </div>
-                <div class="setting-actions">
-                    <button type="button" class="menu-button" id="saveSettingsBtn">Save</button>
-                </div>
-            </form>
+            <div class="settings-content">
+                <h1>Settings</h1>
+                <p>Here adjusts the Thibidy settings for a better experience!</p>
+                <form id="settingsForm">
+                    <div class="setting-group">
+                        <label for="volumeRange">Volume</label>
+                        <input type="range" id="volumeRange" name="volume" min="0" max="100" value="50">
+                        <span id="volumeValue">50</span>%
+                    </div>
+                    <div class="setting-group">
+                        <label for="speedRange">Speed</label>
+                        <input type="range" id="speedRange" name="speed" min="1" max="10" value="5">
+                        <span id="speedValue">5</span>
+                    </div>
+                    <div class="setting-group">
+                        <label for="modeSelect">Mode</label>
+                        <select id="modeSelect" name="mode">
+                            <option value="normal">Thibidy Classic</option>
+                            <option value="hard">Hell Tesla Thibidy</option>
+                            <option value="easy">Thibidy Admin/Debug </option>
+                        </select>
+                    </div>
+                    <div class="setting-actions">
+                        <button type="button" class="menu-button" id="saveSettingsBtn">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
     </body>
@@ -303,6 +305,10 @@
     function showLayer(name) {
         var layers = document.getElementsByClassName('layer');
         for (var i = 0; i < layers.length; i++) {
+            // Si on ouvre les settings et que le layer est le jeu, on ne le cache pas
+            if (name === 'LayerSettings' && layers[i].classList.contains('LayerGameUINoSave')) {
+                continue;
+            }
             layers[i].classList.remove('active');
         }
         var tgt = document.getElementsByClassName(name);
