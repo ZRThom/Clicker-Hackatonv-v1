@@ -27,52 +27,44 @@
         <!-- Menu Interface -->
         <div class="LayerMenu layer active">
             <img id="logo" src="pictures/thibidy_Project._-removebg-preview.png" alt="Thibidy Logo" />
-            <button id="buttonUISave" class="menu-button" type="button" onclick="triggerImport()">Import Save</button>
-            <button id="buttonUINoSave" class="menu-button" type="button" data-target="LayerGameUINoSave">New Game</button>
+            <button id="buttonUISave" class="menu-button" type="button">Import Save</button>
+            <button id="buttonUINoSave" class="menu-button" type="button">New Game</button>
             <p>You will play as a Student Developer in 1999, President of a startup at La Turbine Cergy named Thomas.
                 Its objective is to create a development solution called Thibidy IA to “help” human developers
                 in their tasks by sending requests. No rules are imposed on them other than fulfilling their primary task. 
                 Live the adventure of Thibidy...
             </p>
         </div>
-        <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importSave(event)">        
+        <input type="file" id="importFile" accept="application/json" style="display:none">        
         <!-- Game Interface -->
         <div class="LayerGameUINoSave layer">
-            <button id="buttonUISettingsNoSave" class="Button-GameUI" type="button" data-target="LayerSettings">Settings</button>
-            <button id="SaveNosave" class="Button-GameUI" type="button" onclick="downloadSave()" >Dl Your Save </button>
-            <button type="button" onClick="clicking()">
-                Thibidy
-            </button>
-            <button type="button" onClick="clickingDev()">
-                Thibidy2
-            </button>
-            <button type="button" onClick="clickingReset()">
-                ThibidyReset
-            </button>
+            <button id="buttonUISettingsNoSave" class="Button-GameUI" type="button">Settings</button>
+            <button id="SaveNosave" class="Button-GameUI" type="button">Dl Your Save </button>
 
-            <p>
-                Request-Sending per click : <span id="showMult">0</span>
-            </p>
-            <p>
-                Auto-Request : <span id="showAuto">0</span>
-            </p>
 
-            <p>Request: <span id="clicker1">0</span></p>
+
+            <button type="button" id="mainClickBtn"> Thibidy </button>
+
+            <button type="button" id="devClickBtn"> Thibidy2 </button>
+
+            <button type="button" id="resetBtn"> ThibidyReset </button>
+
+
+
+            <p> Request-Sending per click : <span id="showMult">0</span> </p>
+
+            <p> Auto-Request : <span id="showAuto">0</span> </p>
+
+            <p> Request: <span id="clicker1">0</span> </p>
 
             <p>upgrade : every <span id="clicker2">0</span> request</p>
-            <button type="button" id="upgradeBtn1" onClick="clickingUpgrade()">
-                Multiplyer per click lvl 1 (x1)
-            </button>
+            <button type="button" id="upgradeBtn1"> </button>
 
             <p>upgrade : every <span id="clicker3">1000</span> request</p>
-            <button type="button" id="upgradeBtn2" onClick="clickingUpgrade2()">
-                Multiplyer per click lvl 1 (x1)
-            </button>
+            <button type="button" id="upgradeBtn2"> Multiplyer per click lvl 1 (x1) </button>
 
             <p>auto : <span id="AutoClicker1">0</span> request</p>
-            <button type="button" id="autoBtn1" onClick="turnAutoClick()">
-                Auto-Request lvl 1 (+1)
-            </button>
+            <button type="button" id="autoBtn1"> Auto-Request lvl 1 (+1) </button>
 
         </div>
 
@@ -108,343 +100,7 @@
             </div>
         </div>
 
+        <script src="javascript.js"></script>
     </body>
 </html>
 
-<!-- Game Logic & Mechanics -->
-<script type="text/javascript">
-    var click = 0;
-    var clickPower = 1;
-    var clickPower2 = 1;
-    var autoClickPower = 0;
-    var upgradeCostMult = 20;
-    var upgradeCostMult2 = 1000;
-    var upgradeCostAuto = 100;
-    var lvlMult = 0;
-    var lvlMult2 = 0;
-    var lvlAuto = 0;
-    var intervalAutoClick = null;
-
-    var level = 0;
-    var currentAudio = null;
-
-  
-    var settings = {
-        volume: 50,
-        speed: 5,
-        mode: 'normal'
-    };
-
-    // UI update (be called avery time)
-    function updateUI()
-    {
-        document.getElementById("clicker1").innerHTML = DisplayNbr(click);
-        document.getElementById("clicker2").innerHTML = DisplayNbr(upgradeCostMult);
-        document.getElementById("clicker3").innerHTML = DisplayNbr(upgradeCostMult2);
-        document.getElementById("AutoClicker1").innerHTML = DisplayNbr(upgradeCostAuto);
-        document.getElementById("upgradeBtn1").innerHTML = "Multiplyer per click lvl " + lvlMult +" (x" + DisplayNbr(clickPower) + ")";
-        document.getElementById("upgradeBtn2").innerHTML = "Multiplyer per click lvl " + lvlMult2 +" (x" + DisplayNbr(clickPower2) + ")";
-        document.getElementById("autoBtn1").innerHTML = "Auto-Request lvl " + lvlAuto +" (x" + DisplayNbr(autoClickPower) + ")";
-
-        document.getElementById("showMult").innerHTML = DisplayNbr(clickPower * clickPower2);
-        document.getElementById("showAuto").innerHTML = DisplayNbr(autoClickPower);
-    }
-
-  
-    function updateSettingsUI() {
-        document.getElementById('volumeRange').value = settings.volume;
-        document.getElementById('volumeValue').textContent = settings.volume;
-        document.getElementById('speedRange').value = settings.speed;
-        document.getElementById('speedValue').textContent = settings.speed;
-        document.getElementById('modeSelect').value = settings.mode;
-    }
-
-    // display all number
-    function DisplayNbr(value) // avoid 1.20000000000002 (arround to number)
-    {
-        if (Number.isInteger(value)){
-            return value;
-        }
-        return value.toFixed(1);
-    }
-
-    function cleanNbr(value) 
-    {
-        return Number(value.toFixed(1));
-    }
-    // end display
-    
-    function clicking()
-    {
-        click += clickPower * clickPower2;
-        click = cleanNbr(click);
-        updateUI();
-        var display = document.querySelector(".clicking");
-        if (display) {
-            display.textContent = click;
-        }
-    }
-
-    function clickingDev()
-    {
-        click += clickPower * 10000;
-        click = cleanNbr(click);
-        updateUI();
-    }
-
-    function clickingReset()
-    {
-        lvlMult = 0;
-        lvlMult2 = 0;
-        lvlAuto = 0;
-        click = 0;
-        clickPower = 1;
-        clickPower2 = 1;
-        autoClickPower = 0;
-
-        upgradeCostMult = 20;
-        upgradeCostMult2 = 1000;
-        upgradeCostAuto = 100; 
-        clearInterval(intervalAutoClick);
-        intervalAutoClick = null;
-        updateUI();
-    }
-
-    function clickingUpgrade()
-    {
-        if (click >= upgradeCostMult){
-            lvlMult++;
-            click -= upgradeCostMult;
-            click = cleanNbr(click);
-            clickPower *= 1.1;
-            clickPower = cleanNbr(clickPower);
-            upgradeCostMult *= 1.2;
-            upgradeCostMult = cleanNbr(upgradeCostMult);
-            updateUI();
-        }
-    }
-
-    function clickingUpgrade2()
-    {
-        if (click >= upgradeCostMult2){
-            lvlMult2++;
-            click -= upgradeCostMult2;
-            click = cleanNbr(click);
-
-            if (clickPower2 === 1){
-                clickPower2 = 10;
-            }
-            else{
-                clickPower2 *= 1.1;
-                clickPower2 = cleanNbr(clickPower2);
-            }
-            
-            upgradeCostMult2 *= 1.2;
-            upgradeCostMult2 = cleanNbr(upgradeCostMult2);
-            updateUI();
-        }
-    }
-
-    // auto click test
-    function autoClick1(){
-        click += autoClickPower;
-        click = cleanNbr(click);
-        updateUI();
-    }
-
-    function turnAutoClick()
-    {
-        if (click >= upgradeCostAuto) {
-            click -= upgradeCostAuto;
-            click = cleanNbr(click);
-            lvlAuto++;
-            autoClickPower++;
-
-            if (intervalAutoClick === null){
-                intervalAutoClick = setInterval(autoClick1, 1000);
-            }
-
-            upgradeCostAuto *= 1.2;
-            upgradeCostAuto = cleanNbr(upgradeCostAuto);
-            updateUI();
-        }
-    }
-    //auto click end
-
-    updateUI();
-
-    function clickingSave() {
-        clicking();
-        downloadSave();
-    }
-
-
-    function downloadSave() {
-        const gameState = {
-            clicks: click,
-            
-            lvlMult: lvlMult,
-            lvlMult2: lvlMult2,
-            lvlAuto: lvlAuto,
-            clickPower: clickPower,
-            clickPower2: clickPower2,
-            autoClickPower: autoClickPower,
-            upgradeCostMult: upgradeCostMult,
-            upgradeCostMult2: upgradeCostMult2,
-            upgradeCostAuto: upgradeCostAuto,
-            // Save Actuals Settings
-            settings: settings,
-            currentLevel: level,
-            date: new Date().toLocaleDateString()
-        };
-
-        const json = JSON.stringify(gameState, null, 2);
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(json);
-        const dlAnchor = document.createElement('a');
-        dlAnchor.setAttribute('href', dataStr);
-        dlAnchor.setAttribute('download', 'save.json');
-        document.body.appendChild(dlAnchor);
-        dlAnchor.click();
-        document.body.removeChild(dlAnchor);
-    }
-
-    function showLayer(name) {
-        var layers = document.getElementsByClassName('layer');
-        for (var i = 0; i < layers.length; i++) {
-            // Si on ouvre les settings et que le layer est le jeu, on ne le cache pas
-            if (name === 'LayerSettings' && layers[i].classList.contains('LayerGameUINoSave')) {
-                continue;
-            }
-            layers[i].classList.remove('active');
-        }
-        var tgt = document.getElementsByClassName(name);
-        if (tgt.length) {
-            tgt[0].classList.add('active');
-        }
-        playMusicForLayer(name);
-    }
-
-    function triggerImport() {
-        var input = document.getElementById('importFile');
-        if (input) input.click();
-    }
-
-    function importSave(event) {
-    var file = event.target.files[0];
-    if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            var data = JSON.parse(e.target.result);
-            
-            // Restauration progression
-            if (data.clicks !== undefined) click = data.clicks;
-            if (data.lvlMult !== undefined) lvlMult = data.lvlMult;
-            if (data.lvlMult2 !== undefined) lvlMult2 = data.lvlMult2;
-            if (data.lvlAuto !== undefined) lvlAuto = data.lvlAuto;
-            if (data.clickPower !== undefined) clickPower = data.clickPower;
-            if (data.clickPower2 !== undefined) clickPower2 = data.clickPower2;
-            if (data.autoClickPower !== undefined) autoClickPower = data.autoClickPower;
-            if (data.upgradeCostMult !== undefined) upgradeCostMult = data.upgradeCostMult;
-            if (data.upgradeCostMult2 !== undefined) upgradeCostMult2 = data.upgradeCostMult2;
-            if (data.upgradeCostAuto !== undefined) upgradeCostAuto = data.upgradeCostAuto;
-            if (data.currentLevel !== undefined) level = data.currentLevel;
-
-          
-            if (data.settings) {
-                settings = data.settings;
-                updateSettingsUI();
-                updateVolume();
-            }
-
-            
-            clearInterval(intervalAutoClick);
-            if (lvlAuto > 0) {
-                intervalAutoClick = setInterval(autoClick1, 1000);
-            }
-
-            updateUI(); 
-            showLayer('LayerGameUINoSave'); 
-            
-            alert('Save imported successfully! Welcome back, Thomas.');
-        } catch(err) {
-            alert('Failed to parse save file');
-        }
-    };
-    reader.readAsText(file);
-    event.target.value = '';
-}
-
-    function playMusicForLayer(layerName) {
-        var audioId = "bgMusic_" + layerName;
-        var newAudio = document.getElementById(audioId);
-        if (currentAudio !== newAudio) {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
-            if (newAudio) {
-                currentAudio = newAudio;
-                currentAudio.volume = settings.volume / 100;
-                var playPromise = currentAudio.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => { console.log("Auto-play prevented"); });
-                }
-            } else {
-                currentAudio = null;
-            }
-        }
-    }
-
-    function updateVolume() {
-        if (currentAudio) {
-            currentAudio.volume = settings.volume / 100;
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('buttonUINoSave').addEventListener('click', function() {
-            showLayer('LayerGameUINoSave');
-        });
-        document.getElementById('buttonUISettingsNoSave').addEventListener('click', function() {
-            showLayer('LayerSettings');
-        });
-
-        // settings form dynamic behavior
-        var volumeRange = document.getElementById('volumeRange');
-        var speedRange = document.getElementById('speedRange');
-        var volumeValue = document.getElementById('volumeValue');
-        var speedValue = document.getElementById('speedValue');
-        
-        if (volumeRange && volumeValue) {
-            volumeRange.addEventListener('input', function() {
-                volumeValue.textContent = volumeRange.value;
-                if (currentAudio) {
-                    currentAudio.volume = volumeRange.value / 100;
-                }
-            });
-        }
-        if (speedRange && speedValue) {
-            speedRange.addEventListener('input', function() {
-                speedValue.textContent = speedRange.value;
-            });
-        }
-
-        document.getElementById('saveSettingsBtn').addEventListener('click', function() {
-            settings.volume = volumeRange.value;
-            settings.speed = speedRange.value;
-            settings.mode = document.getElementById('modeSelect').value;
-            
-            updateVolume();
-            alert('Settings applied!');
-            showLayer('LayerGameUINoSave'); 
-        });
-
-        // Button Overlay Start
-        document.getElementById('btnStart').addEventListener('click', function() {
-            var overlay = document.getElementById('startOverlay');
-            overlay.style.display = 'none'; 
-            playMusicForLayer('LayerMenu'); 
-        });
-    });
-</script>
