@@ -38,34 +38,44 @@
         <input type="file" id="importFile" accept="application/json" style="display:none">        
         <!-- Game Interface -->
         <div class="LayerGameUINoSave layer">
-            <button id="buttonUISettingsNoSave" class="Button-GameUI" type="button">Settings</button>
-            <button id="SaveNosave" class="Button-GameUI" type="button">Dl Your Save </button>
-
-
-
-            <button type="button" id="mainClickBtn"> Thibidy </button>
-
-            <button type="button" id="devClickBtn"> Thibidy2 </button>
-
-            <button type="button" id="resetBtn"> ThibidyReset </button>
-
-
-
-            <p> Request-Sending per click : <span id="showMult">0</span> </p>
-
-            <p> Auto-Request : <span id="showAuto">0</span> </p>
-
-            <p> Request: <span id="clicker1">0</span> </p>
-
-            <p>upgrade : every <span id="clicker2">0</span> request</p>
-            <button type="button" id="upgradeBtn1"> </button>
-
-            <p>upgrade : every <span id="clicker3">1000</span> request</p>
-            <button type="button" id="upgradeBtn2"> Multiplyer per click lvl 1 (x1) </button>
-
-            <p>auto : <span id="AutoClicker1">0</span> request</p>
-            <button type="button" id="autoBtn1"> Auto-Request lvl 1 (+1) </button>
-
+            <!-- Left: Stats & Upgrades -->
+            <div class="game-col left-col">
+                <div class="stats-panel">
+                    <h3>Monitoring</h3>
+                    <p>Total Requests: <span id="clicker1">0</span></p>
+                    <p>Per Click: <span id="showMult">0</span></p>
+                    <p>Auto Rate: <span id="showAuto">0</span>/s</p>
+                </div>
+                <div class="upgrades-panel">
+                    <h3>Upgrades</h3>
+                    <div class="upgrade-item">
+                        <p>Cost: <span id="clicker2">0</span></p>
+                        <button type="button" id="upgradeBtn1" class="upgrade-btn"></button>
+                    </div>
+                    <div class="upgrade-item">
+                        <p>Cost: <span id="clicker3">1000</span></p>
+                        <button type="button" id="upgradeBtn2" class="upgrade-btn">Multiplier (x1)</button>
+                    </div>
+                    <div class="upgrade-item">
+                        <p>Cost: <span id="AutoClicker1">0</span></p>
+                        <button type="button" id="autoBtn1" class="upgrade-btn">Auto-Request</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Center: Image & Action -->
+            <div class="game-col center-col">
+                <img src="pictures/thibidy_Project._-removebg-preview.png" alt="Thibidy AI" class="center-img">
+                <button type="button" id="mainClickBtn" class="main-click-btn">THIBIDY</button>
+                <div class="sub-controls">
+                    <button type="button" id="devClickBtn" class="menu-button">Dev</button>
+                    <button type="button" id="resetBtn" class="menu-button">Reset</button>
+                </div>
+            </div>
+            <!-- Right: Settings -->
+            <div class="game-col right-col">
+                <button id="buttonUISettingsNoSave" class="menu-button" type="button">Settings</button>
+                <button id="SaveNosave" class="menu-button" type="button">Save Game</button>
+            </div>
         </div>
 
 
@@ -103,4 +113,3 @@
         <script src="javascript.js"></script>
     </body>
 </html>
-

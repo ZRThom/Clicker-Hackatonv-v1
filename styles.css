@@ -182,3 +182,129 @@ p {
 #btnStart:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
+
+/* --- Game UI Layout (Redesign 3 colonnes) --- */
+
+/* Container principal du jeu - Surcharge le flex-column par défaut */
+.LayerGameUINoSave.active {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 2rem 3rem;
+    gap: 2rem;
+    box-sizing: border-box;
+}
+
+.game-col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Colonne Gauche : Améliorations & Stats */
+.left-col {
+    flex: 1;
+    max-width: 350px;
+    min-width: 280px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+    overflow-y: auto; /* Scroll si trop d'upgrades */
+}
+
+.left-col h3 {
+    margin-top: 0;
+    color: #444;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid rgba(255,255,255,0.5);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Override du style P global pour l'alignement à gauche */
+.stats-panel p, .upgrade-item p {
+    text-align: left;
+    padding-left: 0;
+    margin: 0.5rem 0;
+    font-weight: 600;
+    color: #333;
+}
+
+.upgrade-item {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    transition: transform 0.2s ease, background 0.2s;
+}
+.upgrade-item:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.upgrade-btn {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #a6c1ee, #fbc2eb);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.upgrade-btn:hover { filter: brightness(1.1); }
+.upgrade-btn:active { transform: scale(0.98); }
+
+/* Colonne Centrale : Image & Action Principale */
+.center-col {
+    flex: 2;
+    align-items: center;
+    justify-content: center;
+}
+
+.center-img {
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,0.6));
+    animation: logoteam 6s ease-in-out infinite; /* Utilise l'animation existante */
+}
+
+.main-click-btn {
+    padding: 1.2rem 4rem;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #ffaf02, #ffb8eb);
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transition: transform 0.1s;
+    text-transform: uppercase;
+}
+.main-click-btn:hover { transform: scale(1.05); }
+.main-click-btn:active { transform: scale(0.95); }
+
+.sub-controls {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+/* Colonne Droite : Settings & DL */
+.right-col {
+    flex: 0 0 auto;
+    gap: 1rem;
+}
+.right-col .menu-button {
+    margin: 0;
+    width: 100%;
+    min-width: 120px;
+    text-align: center;
+}
