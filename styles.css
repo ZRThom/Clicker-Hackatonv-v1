@@ -65,9 +65,9 @@ header #thib{
 /* layer specific backgrounds */
 .LayerMenu { background: linear-gradient(135deg, #ffaf02 0%, #ffb8eb 100%); }
 .LayerGameUINoSave { background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); }
-.LayerSettings { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); }
+.LayerSettings, .LayerCredits { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); }
 
-.settings-content {
+.settings-content, .credits-content {
     background: linear-gradient(135deg, #ffe29f 0%, #ffa99f 100%);
     padding: 2rem;
     border-radius: 15px;
@@ -211,7 +211,6 @@ p {
     border-radius: 20px;
     padding: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
     overflow-y: auto; /* Scroll si trop d'upgrades */
 }
 
@@ -307,4 +306,109 @@ p {
     width: 100%;
     min-width: 120px;
     text-align: center;
+}
+
+/* --- Background Profiles for GameUI --- */
+
+/* Profile 1: Original (Pink/Blue) */
+.LayerGameUINoSave.bg-profile1 {
+    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); /* Original */
+}
+.LayerGameUINoSave.bg-profile1 .upgrade-btn,
+.LayerGameUINoSave.bg-profile1 .menu-button {
+    background: linear-gradient(90deg, #a6c1ee, #fbc2eb);
+    color: white;
+}
+.LayerGameUINoSave.bg-profile1 .main-click-btn {
+    background: linear-gradient(135deg, #ffaf02, #ffb8eb);
+    color: white;
+}
+/* Settings Profile 1 */
+.LayerSettings.bg-profile1 .settings-content,
+.LayerCredits.bg-profile1 .credits-content {
+    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+    color: #444;
+}
+.LayerSettings.bg-profile1 .menu-button,
+.LayerCredits.bg-profile1 .menu-button {
+    background: linear-gradient(90deg, #a6c1ee, #fbc2eb);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Profile 2: Night Mode (Dark Blue/Purple) */
+.LayerGameUINoSave.bg-profile2 {
+    background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%); /* Night Mode */
+}
+.LayerGameUINoSave.bg-profile2 .upgrade-btn,
+.LayerGameUINoSave.bg-profile2 .menu-button {
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.LayerGameUINoSave.bg-profile2 .main-click-btn {
+    background: linear-gradient(135deg, #8E2DE2, #4A00E0);
+    color: white;
+    box-shadow: 0 0 15px rgba(138, 45, 226, 0.6);
+}
+/* Settings Profile 2 */
+.LayerSettings.bg-profile2 .settings-content,
+.LayerCredits.bg-profile2 .credits-content {
+    background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+    color: white;
+}
+.LayerSettings.bg-profile2 .menu-button,
+.LayerCredits.bg-profile2 .menu-button {
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 5px;
+}
+
+/* Profile 3: Mint Fresh (Green) */
+.LayerGameUINoSave.bg-profile3 {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); /* Mint/Nature */
+}
+.LayerGameUINoSave.bg-profile3 .upgrade-btn,
+.LayerGameUINoSave.bg-profile3 .menu-button {
+    background: linear-gradient(90deg, #11998e, #38ef7d);
+    color: white;
+}
+.LayerGameUINoSave.bg-profile3 .main-click-btn {
+    background: linear-gradient(135deg, #d4fc79, #96e6a1);
+    color: #2c3e50; /* Texte foncé pour lisibilité sur vert clair */
+}
+/* Settings Profile 3 */
+.LayerSettings.bg-profile3 .settings-content,
+.LayerCredits.bg-profile3 .credits-content {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: #2c3e50;
+}
+.LayerSettings.bg-profile3 .menu-button,
+.LayerCredits.bg-profile3 .menu-button {
+    background: linear-gradient(90deg, #11998e, #38ef7d);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* --- Header Message (Toast) --- */
+#headerMsg {
+    position: absolute;
+    left: 1.2rem;
+    top: 42px; /* Juste en dessous des cercles */
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #555;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2px 8px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Laisse passer les clics */
+    white-space: nowrap;
+}
+#headerMsg.visible {
+    opacity: 1;
 }

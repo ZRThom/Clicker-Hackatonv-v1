@@ -4,9 +4,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttonUINoSave = document.getElementById('buttonUINoSave');
     const buttonUISettingsNoSave = document.getElementById('buttonUISettingsNoSave');
     const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+    const buttonUICredits = document.getElementById('buttonUICredits');
+    const closeCreditsBtn = document.getElementById('closeCreditsBtn');
     const btnStart = document.getElementById('btnStart');
     const importFile = document.getElementById('importFile');
     const saveNoSaveBtn = document.getElementById('SaveNosave');
+
+    const circle1 = document.getElementById('circle1');
+    const circle2 = document.getElementById('circle2');
+    const circle3 = document.getElementById('circle3');
+    const headerMsg = document.getElementById('headerMsg');
 
     const mainClickBtn = document.getElementById('mainClickBtn');
     const devClickBtn = document.getElementById('devClickBtn');
@@ -20,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const volumeValue = document.getElementById('volumeValue');
     const speedValue = document.getElementById('speedValue');
     const modeSelect = document.getElementById('modeSelect');
+    const bgSelect = document.getElementById('bgSelect');
 
     let click = 0;
     let clickPower = 1;
@@ -34,11 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
     let intervalAutoClick = null;
     let level = 0;
     let currentAudio = null;
+    let msgTimeout = null;
     
     let settings = {
         volume: 50,
         speed: 5,
-        mode: 'normal'
+        mode: 'normal',
+        background: 'profile1' // Default background
     };
 
     // UI update (be called avery time)
@@ -72,6 +82,31 @@ document.addEventListener('DOMContentLoaded', function() {
         if (speedRange) speedRange.value = settings.speed;
         if (speedValue) speedValue.textContent = settings.speed;
         if (modeSelect) modeSelect.value = settings.mode;
+        if (bgSelect) bgSelect.value = settings.background || 'profile1';
+    }
+
+    function applyBackground() {
+        const gameLayer = document.querySelector('.LayerGameUINoSave');
+        const settingsLayer = document.querySelector('.LayerSettings');
+        const creditsLayer = document.querySelector('.LayerCredits');
+
+        if (!gameLayer) return;
+
+        // Remove existing profile classes
+        gameLayer.classList.remove('bg-profile1', 'bg-profile2', 'bg-profile3');
+        if (settingsLayer) settingsLayer.classList.remove('bg-profile1', 'bg-profile2', 'bg-profile3');
+        if (creditsLayer) creditsLayer.classList.remove('bg-profile1', 'bg-profile2', 'bg-profile3');
+        
+        // Add selected profile
+        if (settings.background) {
+            gameLayer.classList.add('bg-' + settings.background);
+            if (settingsLayer) settingsLayer.classList.add('bg-' + settings.background);
+            if (creditsLayer) creditsLayer.classList.add('bg-' + settings.background);
+        } else {
+            gameLayer.classList.add('bg-profile1');
+            if (settingsLayer) settingsLayer.classList.add('bg-profile1');
+            if (creditsLayer) creditsLayer.classList.add('bg-profile1');
+        }
     }
 
     // display all number
@@ -170,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
             autoClickPower++;
 
             if (intervalAutoClick === null){
-                intervalAutoClick = setInterval(autoClick1, 1000);
+                intervalAutoClick = setInterval(autoClick1, 5000 / Number(settings.speed));
             }
 
             upgradeCostAuto *= 1.2;
@@ -210,8 +245,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function showLayer(name) {
         const layers = document.getElementsByClassName('layer');
         for (let i = 0; i < layers.length; i++) {
-            // Si on ouvre les settings et que le layer est le jeu, on ne le cache pas
-            if (name === 'LayerSettings' && layers[i].classList.contains('LayerGameUINoSave')) {
+            // Si on ouvre les settings ou credits et que le layer est le jeu, on ne le cache pas
+            if ((name === 'LayerSettings' || name === 'LayerCredits') && layers[i].classList.contains('LayerGameUINoSave')) {
                 continue;
             }
             layers[i].classList.remove('active');
@@ -235,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 const data = JSON.parse(e.target.result);
 
-                // Restauration progression
+                // Restauration of game state with checks
                 if (data.clicks !== undefined) click = data.clicks;
                 if (data.lvlMult !== undefined) lvlMult = data.lvlMult;
                 if (data.lvlMult2 !== undefined) lvlMult2 = data.lvlMult2;
@@ -253,12 +288,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     settings = data.settings;
                     updateSettingsUI();
                     updateVolume();
+                    applyBackground();
                 }
 
 
                 clearInterval(intervalAutoClick);
                 if (lvlAuto > 0) {
-                    intervalAutoClick = setInterval(autoClick1, 1000);
+                    intervalAutoClick = setInterval(autoClick1, 5000 / Number(settings.speed));
                 }
 
                 updateUI(); 
@@ -320,13 +356,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    if(saveSettingsBtn && volumeRange && speedRange && modeSelect) {
+    if(buttonUICredits) {
+        buttonUICredits.addEventListener('click', function() {
+            showLayer('LayerCredits');
+        });
+    }
+
+    if(closeCreditsBtn) {
+        closeCreditsBtn.addEventListener('click', function() {
+            showLayer('LayerSettings');
+        });
+    }
+
+    if(saveSettingsBtn && volumeRange && speedRange && modeSelect && bgSelect) {
         saveSettingsBtn.addEventListener('click', function() {
             settings.volume = volumeRange.value;
             settings.speed = speedRange.value;
             settings.mode = modeSelect.value;
+            settings.background = bgSelect.value;
+            
+            applyBackground();
         
             updateVolume();
+            
+            // Update AutoClick Speed if active
+            if (intervalAutoClick) {
+                clearInterval(intervalAutoClick);
+                intervalAutoClick = setInterval(autoClick1, 5000 / Number(settings.speed));
+            }
+
             alert('Settings applied!');
             showLayer('LayerGameUINoSave'); 
         });
@@ -363,6 +421,21 @@ document.addEventListener('DOMContentLoaded', function() {
     if (upgradeBtn2) upgradeBtn2.addEventListener('click', clickingUpgrade2);
     if (autoBtn1) autoBtn1.addEventListener('click', turnAutoClick);
 
+    // Header Circles Logic
+    function showHeaderMsg(text) {
+        if (!headerMsg) return;
+        headerMsg.textContent = text;
+        headerMsg.classList.add('visible');
+        if (msgTimeout) clearTimeout(msgTimeout);
+        msgTimeout = setTimeout(() => {
+            headerMsg.classList.remove('visible');
+        }, 2000);
+    }
+    if(circle1) circle1.addEventListener('click', () => showHeaderMsg("Don't you love me?"));
+    if(circle2) circle2.addEventListener('click', () => showHeaderMsg("Why, Thomas?"));
+    if(circle3) circle3.addEventListener('click', () => showHeaderMsg("Professor Oak said it's not the time "));
+
     updateSettingsUI();
+    applyBackground(); 
     updateUI();
 });
