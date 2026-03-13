@@ -377,7 +377,7 @@ p {
 }
 .LayerGameUINoSave.bg-profile3 .main-click-btn {
     background: linear-gradient(135deg, #d4fc79, #96e6a1);
-    color: #2c3e50; /* Texte foncé pour lisibilité sur vert clair */
+    color: #2c3e50; 
 }
 /* Settings Profile 3 */
 .LayerSettings.bg-profile3 .settings-content,
@@ -397,7 +397,7 @@ p {
 #headerMsg {
     position: absolute;
     left: 1.2rem;
-    top: 42px; /* Juste en dessous des cercles */
+    top: 42px; 
     font-size: 0.75rem;
     font-weight: bold;
     color: #555;
@@ -406,7 +406,7 @@ p {
     border-radius: 4px;
     opacity: 0;
     transition: opacity 0.3s ease;
-    pointer-events: none; /* Laisse passer les clics */
+    pointer-events: none; 
     white-space: nowrap;
 }
 #headerMsg.visible {
