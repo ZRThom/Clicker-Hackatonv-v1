@@ -17,7 +17,7 @@ header #thib{
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
-    height:70px; /
+    height:70px; 
 }
 
 
@@ -144,10 +144,219 @@ p {
 
 
 /* Button for games */
-.Button-GameUI{margin:0.5rem;padding:.75rem 1.5rem;font-size:1rem; cursor: pointer;}
+.Button-GameUI {
+    margin: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.75);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.Button-GameUI:hover {
+    transform: scale(1.05);
+    background: rgba(255,255,255,0.9);
+}
+
+.LayerGameUINoSave.layer.active {
+    display: grid;
+}
+
+/* grid mapping */
+.LayerGameUINoSave {
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    grid-template-rows: 1fr 180px;
+    grid-template-areas: "left center right" "left bottom-center bottom-right";
+    gap: 1.5rem;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 100px 2rem 2rem; /* (header) */
+    background: linear-gradient(135deg, #ffc7ef 0%, #9ab7e9 100%);
+    align-items: stretch;
+}
+
+.LayerGameUINoSave p {
+    max-width: none;
+    margin: 0.5rem 0;
+    padding-left: 0;
+    text-align: left;
+    color: #363636;
+    font-style: normal;
+}
+
+.panel {
+    position: relative;
+    overflow: visible;
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.3rem;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+    box-sizing: border-box;
+}
+
+.panel h2 {
+    margin: 0 0 1rem 0;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #2e2e2e;
+}
+
+.panel hr {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.5);
+    margin: 1.3rem 0;
+}
+
+.panel .Button-GameUI {
+    width: 100%;
+    margin: 0.5rem 0 1rem 0;
+}
+
+.panel-left {
+    grid-area: left;
+    border-radius: 0 20px 0 0;
+}
+
+.panel-right {
+    grid-area: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: 20px 0 0 20px;
+}
+
+.panel-bottom-center {
+    grid-area: bottom-center;
+    border-radius: 20px 20px 0 0;
+}
+
+.panel-bottom-right {
+    grid-area: bottom-right;
+    border-radius: 20px 0 0 0;
+}
+
+.game-center {
+    grid-area: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.clicker-zone {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+.center-zone {
+    text-align: center;
+}
 
 
 
+
+
+.panel-toggle {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 100px;
+    background: white;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    z-index: 5;
+    font-size: 1rem;
+}
+
+.panel-left .panel-toggle {
+    top: 10px;
+    right: -20px;
+}
+
+.panel-bottom-center .panel-toggle {
+    top: -20px;
+    right: 15px;
+}
+
+.panel-right .panel-toggle, .panel-bottom-right .panel-toggle {
+    top: 10px;
+    left: -20px;
+}
+
+.panel-left.is-collapsed {
+    transform: translateX(calc(-100% + 40px));
+}
+
+.panel-right.is-collapsed, .panel-bottom-right.is-collapsed {
+    transform: translateX(calc(100% - 40px));
+}
+
+.panel-bottom-center.is-collapsed {
+    transform: translateY(calc(100% - 40px));
+}
+
+
+
+
+
+/* buttons */
+#mainClickBtn {
+    padding: 1rem 3rem;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    background: white;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease;
+}
+
+#mainClickBtn:hover {
+    transform: scale(1.1);
+}
+
+/* resp */
+@media (max-width: 1100px) {
+    .LayerGameUINoSave {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas: "center" "left" "right" "bottom-center" "bottom-right";
+        padding: 110px 1rem 1rem;
+    }
+
+    .panel-left, .panel-right, .panel-bottom-center, .panel-bottom-right {
+        transform: none !important;
+        border-radius: 20px;
+    }
+
+    .panel-toggle {
+        display: none;
+    }
+}
 
 
 
