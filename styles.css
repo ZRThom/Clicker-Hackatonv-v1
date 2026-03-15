@@ -172,7 +172,7 @@ p {
     grid-template-areas: "left center right" "left bottom-center bottom-right";
     gap: 1.5rem;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     box-sizing: border-box;
     padding: 100px 2rem 2rem; /* (header) */
     background: linear-gradient(135deg, #ffc7ef 0%, #9ab7e9 100%);
@@ -221,10 +221,88 @@ p {
     margin: 0.5rem 0 1rem 0;
 }
 
+
+
+/* left panel config */
 .panel-left {
     grid-area: left;
     border-radius: 0 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 }
+
+.upgrade-layout {
+    flex: 1;
+    display: grid;
+    grid-template-rows: 1fr 2px 1fr;
+    gap: 1rem;
+    height: 100%;
+    margin-top: 1.5rem;
+    min-height: 0;
+}
+
+.upgrade-section {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 0.75rem;
+    min-height: 0;
+}
+
+.upgrade-title {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 15px;
+    padding: 0.5rem 1rem;
+    flex-shrink: 0;
+}
+
+.upgrade-title h2 {
+    margin: 0;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.upgrade-box {
+    background: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.4);
+    box-shadow: inset 0 1px 10px rgba(255,255,255,0.2);
+    border-radius: 15px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+/* do not touch */
+.upgrade-divider {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 100px;
+    width: 100%;
+    align-self: center;
+}
+
+.upgrade-box h2 {
+    margin: 0 0 1rem 0;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.upgrade-box p {
+    text-align: left;
+    margin:  0.5rem 0 0.25rem 0;
+    padding-left: 0;
+}
+
+.upgrade-box .Button-GameUI {
+    width: 100%;
+    margin: 0.5rem 0 1rem 0;
+}
+/* end of left panel config */
+
+
 
 .panel-right {
     grid-area: right;
@@ -325,13 +403,10 @@ p {
 
 /* buttons */
 #mainClickBtn {
-    padding: 1rem 3rem;
-    font-size: 1.5rem;
+    background-color: rgba(255, 255, 255, 0);
     border: none;
-    border-radius: 15px;
+    border-radius: 100px;
     cursor: pointer;
-    background: white;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     transition: transform 0.2s ease;
 }
 

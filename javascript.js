@@ -15,9 +15,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const upgradeSimpleBtn1 = document.getElementById('upgradeSimpleBtn1');
     const upgradeSimpleBtn2 = document.getElementById('upgradeSimpleBtn2');
+    const upgradeSimpleBtn3 = document.getElementById('upgradeSimpleBtn3');
+    const upgradeSimpleBtn4 = document.getElementById('upgradeSimpleBtn4');
+    const upgradeSimpleBtn5 = document.getElementById('upgradeSimpleBtn5');
 
     const upgradeBtn1 = document.getElementById('upgradeBtn1');
     const upgradeBtn2 = document.getElementById('upgradeBtn2');
+    const upgradeBtn3 = document.getElementById('upgradeBtn3');
+    const upgradeBtn4 = document.getElementById('upgradeBtn4');
+    const upgradeBtn5 = document.getElementById('upgradeBtn5');
 
     const autoBtn1 = document.getElementById('autoBtn1');
 
@@ -41,6 +47,20 @@ document.addEventListener('DOMContentLoaded', function() {
     let lvlPlus2 = 0;
     let clickPowerPlus2 = 0;
     let upgradeCostPlus2 = 250;
+
+    let lvlPlus3 = 0;
+    let clickPowerPlus3 = 0;
+    let upgradeCostPlus3 = 250;
+
+    let lvlPlus4 = 0;
+    let clickPowerPlus4 = 0;
+    let upgradeCostPlus4 = 250;
+
+    let lvlPlus5 = 0;
+    let clickPowerPlus5 = 0;
+    let upgradeCostPlus5 = 250;
+
+
     
     let lvlMult = 0;
     let clickPower = 1;
@@ -49,6 +69,18 @@ document.addEventListener('DOMContentLoaded', function() {
     let lvlMult2 = 0;
     let clickPower2 = 1;
     let upgradeCostMult2 = 1500;
+
+    let lvlMult3 = 0;
+    let clickPower3 = 1;
+    let upgradeCostMult3 = 200;
+
+    let lvlMult4 = 0;
+    let clickPower4 = 1;
+    let upgradeCostMult4 = 200;
+
+    let lvlMult5 = 0;
+    let clickPower5 = 1;
+    let upgradeCostMult5 = 200;
 
    
     
@@ -74,6 +106,9 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (panel.classList.contains('panel-right')) {
             button.textContent = panel.classList.contains('is-collapsed') ? '<' : '>';
         }
+        else if (panel.classList.contains('panel-bottom-right')) {
+            button.textContent = panel.classList.contains('is-collapsed') ? '<' : '>';
+        }
         else if (panel.classList.contains('panel-bottom-center')) {
             button.textContent = panel.classList.contains('is-collapsed') ? '^' : 'v';
         }
@@ -97,18 +132,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const clicker2 = document.getElementById("clicker2");
         const clicker3 = document.getElementById("clicker3");
+        const clicker4 = document.getElementById("clicker4");
+        const clicker5 = document.getElementById("clicker5");
+        const clicker6 = document.getElementById("clicker6");
 
         const clickerSimple2 = document.getElementById("clickerSimple2");
         const clickerSimple3 = document.getElementById("clickerSimple3");
+        const clickerSimple4 = document.getElementById("clickerSimple4");
+        const clickerSimple5 = document.getElementById("clickerSimple5");
+        const clickerSimple6 = document.getElementById("clickerSimple6");
 
         const ShowAll = document.getElementById("showAll");
         const showAuto = document.getElementById("showAuto");
 
         const upgradeSimpleBtn1 = document.getElementById("upgradeSimpleBtn1");
         const upgradeSimpleBtn2 = document.getElementById("upgradeSimpleBtn2");
+        const upgradeSimpleBtn3 = document.getElementById("upgradeSimpleBtn3");
+        const upgradeSimpleBtn4 = document.getElementById("upgradeSimpleBtn4");
+        const upgradeSimpleBtn5 = document.getElementById("upgradeSimpleBtn5");
 
         const upgradeBtn1 = document.getElementById("upgradeBtn1");
         const upgradeBtn2 = document.getElementById("upgradeBtn2");
+        const upgradeBtn3 = document.getElementById("upgradeBtn3");
+        const upgradeBtn4 = document.getElementById("upgradeBtn4");
+        const upgradeBtn5 = document.getElementById("upgradeBtn5");
 
         const autoBtn1 = document.getElementById("autoBtn1");
         const AutoClicker1 = document.getElementById("AutoClicker1");
@@ -120,19 +167,31 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (clicker2) clicker2.innerHTML = DisplayNbr(upgradeCostMult);
         if (clicker3) clicker3.innerHTML = DisplayNbr(upgradeCostMult2);
+        if (clicker4) clicker3.innerHTML = DisplayNbr(upgradeCostMult3);
+        if (clicker5) clicker3.innerHTML = DisplayNbr(upgradeCostMult4);
+        if (clicker6) clicker3.innerHTML = DisplayNbr(upgradeCostMult5);
 
         if (clickerSimple2) clickerSimple2.innerHTML = DisplayNbr(upgradeCostPlus);
         if (clickerSimple3) clickerSimple3.innerHTML = DisplayNbr(upgradeCostPlus2);
+        if (clickerSimple4) clickerSimple3.innerHTML = DisplayNbr(upgradeCostPlus3);
+        if (clickerSimple5) clickerSimple3.innerHTML = DisplayNbr(upgradeCostPlus4);
+        if (clickerSimple6) clickerSimple3.innerHTML = DisplayNbr(upgradeCostPlus5);
 
-        if (ShowAll) ShowAll.innerHTML = DisplayNbr(clickPower * clickPower2 + clickPowerPlus + clickPowerPlus2); // formula for all upgrade
+        if (ShowAll) ShowAll.innerHTML = DisplayNbr(clickPower * clickPower2 * clickPower3 * clickPower4 * clickPower5 + clickPowerPlus + clickPowerPlus2 + clickPowerPlus3 + clickPowerPlus4 + clickPowerPlus5); // formula for all upgrade
         if (showAuto) showAuto.innerHTML = DisplayNbr(autoClickPower); // formula for all auto upgrade
 
-        if (upgradeSimpleBtn1) upgradeSimpleBtn1.innerHTML = "Request per click lvl " + lvlPlus +" (x" + DisplayNbr(clickPowerPlus) + ")";
-        if (upgradeSimpleBtn2) upgradeSimpleBtn2.innerHTML = "Request per click lvl " + lvlPlus2 +" (x" + DisplayNbr(clickPowerPlus2) + ")";
+        if (upgradeSimpleBtn1) upgradeSimpleBtn1.innerHTML = "Request per click lvl " + lvlPlus +" (x " + DisplayNbr(clickPowerPlus) + ")";
+        if (upgradeSimpleBtn2) upgradeSimpleBtn2.innerHTML = "Request per click lvl " + lvlPlus2 +" (x " + DisplayNbr(clickPowerPlus2) + ")";
+        if (upgradeSimpleBtn3) upgradeSimpleBtn3.innerHTML = "Request per click lvl " + lvlPlus3 +" (x " + DisplayNbr(clickPowerPlus3) + ")";
+        if (upgradeSimpleBtn4) upgradeSimpleBtn4.innerHTML = "Request per click lvl " + lvlPlus4 +" (x " + DisplayNbr(clickPowerPlus4) + ")";
+        if (upgradeSimpleBtn5) upgradeSimpleBtn5.innerHTML = "Request per click lvl " + lvlPlus5 +" (x " + DisplayNbr(clickPowerPlus5) + ")";
 
-        if (upgradeBtn1) upgradeBtn1.innerHTML = "Request Multiplyer per click lvl " + lvlMult +" (x" + DisplayNbr(clickPower) + ")";
-        if (upgradeBtn2) upgradeBtn2.innerHTML = "Request Multiplyer per click lvl " + lvlMult2 +" (x" + DisplayNbr(clickPower2) + ")";
-        
+        if (upgradeBtn1) upgradeBtn1.innerHTML = "Request Multiplyer per click lvl " + lvlMult +" (x " + DisplayNbr(clickPower) + ")";
+        if (upgradeBtn2) upgradeBtn2.innerHTML = "Request Multiplyer per click lvl " + lvlMult2 +" (x " + DisplayNbr(clickPower2) + ")";
+        if (upgradeBtn3) upgradeBtn3.innerHTML = "Request Multiplyer per click lvl " + lvlMult3 +" (x " + DisplayNbr(clickPower3) + ")";
+        if (upgradeBtn4) upgradeBtn4.innerHTML = "Request Multiplyer per click lvl " + lvlMult4 +" (x " + DisplayNbr(clickPower4) + ")";
+        if (upgradeBtn5) upgradeBtn5.innerHTML = "Request Multiplyer per click lvl " + lvlMult5 +" (x " + DisplayNbr(clickPower5) + ")";
+
         if (autoBtn1) autoBtn1.innerHTML = "Auto-Request lvl " + lvlAuto +" (x" + DisplayNbr(autoClickPower) + ")";
         if (AutoClicker1) AutoClicker1.innerHTML = DisplayNbr(upgradeCostAuto);
     }
@@ -167,14 +226,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // add btn (to-add)
     function clicking()
     {
-        click += clickPower * clickPower2 + clickPowerPlus + clickPowerPlus2;
+        click += clickPower * clickPower2 * clickPower3 * clickPower4 * clickPower5 + clickPowerPlus + clickPowerPlus2 + clickPowerPlus3 + clickPowerPlus4 + clickPowerPlus5;
         click = cleanNbr(click);
         updateUI();
     }
 
     function clickingDev()
     {
-        click += 99999;
+        click += 99995559;
         click = cleanNbr(click);
         updateUI();
     }
@@ -184,9 +243,15 @@ document.addEventListener('DOMContentLoaded', function() {
     {
         lvlPlus = 0;
         lvlPlus2 = 0;
+        lvlPlus3 = 0;
+        lvlPlus4 = 0;
+        lvlPlus5 = 0;
 
         lvlMult = 0;
         lvlMult2 = 0;
+        lvlMult3 = 0;
+        lvlMult4 = 0;
+        lvlMult5 = 0;
         
         lvlAuto = 0;
         autoClickPower = 0;
@@ -196,15 +261,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
         clickPower = 1;
         clickPower2 = 1;
+        clickPower3 = 1;
+        clickPower4 = 1;
+        clickPower5 = 1;
 
         clickPowerPlus = 0;
         clickPowerPlus2 = 0;
+        clickPowerPlus3 = 0;
+        clickPowerPlus4 = 0;
+        clickPowerPlus5 = 0;
 
         upgradeCostPlus = 10;
         upgradeCostPlus2 = 250;
+        upgradeCostPlus3 = 250;
+        upgradeCostPlus4 = 250;
+        upgradeCostPlus5 = 250;
         
         upgradeCostMult = 200;
         upgradeCostMult2 = 1500;
+        upgradeCostMult3 = 1500;
+        upgradeCostMult4 = 1500;
+        upgradeCostMult5 = 1500;
         
         clearInterval(intervalAutoClick);
         intervalAutoClick = null;
@@ -244,7 +321,54 @@ document.addEventListener('DOMContentLoaded', function() {
             updateUI();
         }
     }
-    
+
+    function clickingSimpleUpgrade3()
+    {
+        if (click >= upgradeCostPlus3){
+            lvlPlus3++;
+            click -= upgradeCostPlus3;
+            click = cleanNbr(click);
+
+            clickPowerPlus3 += 10;
+            clickPowerPlus3 = cleanNbr(clickPowerPlus3);
+            
+            upgradeCostPlus3 *= 1.3;
+            upgradeCostPlus3 = cleanNbr(upgradeCostPlus3);
+            updateUI();
+        }
+    }
+
+    function clickingSimpleUpgrade4()
+    {
+        if (click >= upgradeCostPlus4){
+            lvlPlus4++;
+            click -= upgradeCostPlus4;
+            click = cleanNbr(click);
+
+            clickPowerPlus4 += 10;
+            clickPowerPlus4 = cleanNbr(clickPowerPlus4);
+            
+            upgradeCostPlus4 *= 1.3;
+            upgradeCostPlus4 = cleanNbr(upgradeCostPlus4);
+            updateUI();
+        }
+    }
+
+    function clickingSimpleUpgrade5()
+    {
+        if (click >= upgradeCostPlus5){
+            lvlPlus5++;
+            click -= upgradeCostPlus5;
+            click = cleanNbr(click);
+
+            clickPowerPlus5 += 10;
+            clickPowerPlus5 = cleanNbr(clickPowerPlus5);
+            
+            upgradeCostPlus5 *= 1.3;
+            upgradeCostPlus5 = cleanNbr(upgradeCostPlus5);
+            updateUI();
+        }
+    }
 
 
 
@@ -283,11 +407,89 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function clickingUpgrade3()
+    {
+        if (click >= upgradeCostMult3){
+            lvlMult3++;
+            click -= upgradeCostMult3;
+            click = cleanNbr(click);
+
+            if (clickPower3 === 1){
+                clickPower3 = 10;
+            }
+            else{
+                clickPower3 *= 1.1;
+                clickPower3 = cleanNbr(clickPower3);
+            }
+            
+            upgradeCostMult3 *= 1.2;
+            upgradeCostMult3 = cleanNbr(upgradeCostMult3);
+            updateUI();
+        }
+    }
+
+    function clickingUpgrade4()
+    {
+        if (click >= upgradeCostMult4){
+            lvlMult4++;
+            click -= upgradeCostMult4;
+            click = cleanNbr(click);
+
+            if (clickPower4 === 1){
+                clickPower4 = 10;
+            }
+            else{
+                clickPower4 *= 1.1;
+                clickPower4 = cleanNbr(clickPower4);
+            }
+            
+            upgradeCostMult4 *= 1.2;
+            upgradeCostMult4 = cleanNbr(upgradeCostMult4);
+            updateUI();
+        }
+    }
+
+    function clickingUpgrade5()
+    {
+        if (click >= upgradeCostMult5){
+            lvlMult5++;
+            click -= upgradeCostMult5;
+            click = cleanNbr(click);
+
+            if (clickPower5 === 1){
+                clickPower5 = 10;
+            }
+            else{
+                clickPower5 *= 1.1;
+                clickPower5 = cleanNbr(clickPower5);
+            }
+            
+            upgradeCostMult5 *= 1.2;
+            upgradeCostMult5 = cleanNbr(upgradeCostMult5);
+            updateUI();
+        }
+    }
+
+    
+
     // auto click test
     function autoClick1(){
         click += autoClickPower;
         click = cleanNbr(click);
         updateUI();
+    }
+
+    function fibonacci(n) {
+        if (n <= 1) return 1;
+        let a = 1;
+        let b = 1;
+
+        for (let i = 2; i <= n; i++) {
+            let temp = a + b;
+            a = b;
+            b = temp;
+        }
+        return b;
     }
 
     function turnAutoClick()
@@ -296,13 +498,13 @@ document.addEventListener('DOMContentLoaded', function() {
             click -= upgradeCostAuto;
             click = cleanNbr(click);
             lvlAuto++;
-            autoClickPower++ * 1.1;
+            autoClickPower = fibonacci(lvlAuto - 1);
 
             if (intervalAutoClick === null){
                 intervalAutoClick = setInterval(autoClick1, 1000);
             }
 
-            upgradeCostAuto *= 1.1;
+            upgradeCostAuto = 100 + fibonacci(lvlAuto - 1) * 5;
             upgradeCostAuto = cleanNbr(upgradeCostAuto);
             updateUI();
         }
@@ -319,9 +521,15 @@ document.addEventListener('DOMContentLoaded', function() {
             clicks: click,
             lvlPlus,
             lvlPlus2,
+            lvlPlus3,
+            lvlPlus4,
+            lvlPlus5,
 
             lvlMult,
             lvlMult2,
+            lvlMult3,
+            lvlMult4,
+            lvlMult5,
 
             lvlAuto,
             autoClickPower,
@@ -329,15 +537,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
             clickPowerPlus,
             clickPowerPlus2,
+            clickPowerPlus3,
+            clickPowerPlus4,
+            clickPowerPlus5,
 
             clickPower,
             clickPower2,
+            clickPower3,
+            clickPower4,
+            clickPower5,
             
             upgradeCostPlus,
             upgradeCostPlus2,
+            upgradeCostPlus3,
+            upgradeCostPlus4,
+            upgradeCostPlus5,
             
             upgradeCostMult,
             upgradeCostMult2,
+            upgradeCostMult3,
+            upgradeCostMult4,
+            upgradeCostMult5,
             
             // Save Actuals Settings
             settings,
@@ -387,22 +607,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 // add btn (to-add)
                 if (data.clicks !== undefined) click = data.clicks;
 
-                // data lvlSimple 
+                if (data.lvlPlus !== undefined) lvlPlus = data.lvlPlus;
+                if (data.lvlPlus2 !== undefined) lvlPlus2 = data.lvlPlus2;
+                if (data.lvlPlus3 !== undefined) lvlPlus3 = data.lvlPlus3;
+                if (data.lvlPlus4 !== undefined) lvlPlus4 = data.lvlPlus4;
+                if (data.lvlPlus5 !== undefined) lvlPlus5 = data.lvlPlus5;
 
                 if (data.lvlMult !== undefined) lvlMult = data.lvlMult;
                 if (data.lvlMult2 !== undefined) lvlMult2 = data.lvlMult2;
+                if (data.lvlMult3 !== undefined) lvlMult3 = data.lvlMult3;
+                if (data.lvlMult4 !== undefined) lvlMult4 = data.lvlMult4;
+                if (data.lvlMult5 !== undefined) lvlMult5 = data.lvlMult5;
 
                 if (data.lvlAuto !== undefined) lvlAuto = data.lvlAuto;
                 if (data.autoClickPower !== undefined) autoClickPower = data.autoClickPower;
                 if (data.upgradeCostAuto !== undefined) upgradeCostAuto = data.upgradeCostAuto;
 
+                if (data.clickPowerPlus !== undefined) clickPowerPlus = data.clickPowerPlus;
+                if (data.clickPowerPlus2 !== undefined) clickPowerPlus2 = data.clickPowerPlus2;
+                if (data.clickPowerPlus3 !== undefined) clickPowerPlus3 = data.clickPowerPlus3;
+                if (data.clickPowerPlus4 !== undefined) clickPowerPlus4 = data.clickPowerPlus4;
+                if (data.clickPowerPlus5 !== undefined) clickPowerPlus5 = data.clickPowerPlus5;
+
                 if (data.clickPower !== undefined) clickPower = data.clickPower;
                 if (data.clickPower2 !== undefined) clickPower2 = data.clickPower2;
+                if (data.clickPower3 !== undefined) clickPower3 = data.clickPower3;
+                if (data.clickPower4 !== undefined) clickPower4 = data.clickPower4;
+                if (data.clickPower5 !== undefined) clickPower5 = data.clickPower5;
 
-                // data upgradeCostSimple
+                if (data.upgradeCostPlus !== undefined) upgradeCostPlus = data.upgradeCostPlus;
+                if (data.upgradeCostPlus2 !== undefined) upgradeCostPlus2 = data.upgradeCostPlus3;
+                if (data.upgradeCostPlus3 !== undefined) upgradeCostPlus3 = data.upgradeCostPlus3;
+                if (data.upgradeCostPlus4 !== undefined) upgradeCostPlus4 = data.upgradeCostPlus4;
+                if (data.upgradeCostPlus5 !== undefined) upgradeCostPlus5 = data.upgradeCostPlus5;
                 
                 if (data.upgradeCostMult !== undefined) upgradeCostMult = data.upgradeCostMult;
                 if (data.upgradeCostMult2 !== undefined) upgradeCostMult2 = data.upgradeCostMult2;
+                if (data.upgradeCostMult3 !== undefined) upgradeCostMult3 = data.upgradeCostMult3;
+                if (data.upgradeCostMult4 !== undefined) upgradeCostMult4 = data.upgradeCostMult4;
+                if (data.upgradeCostMult5 !== undefined) upgradeCostMult5 = data.upgradeCostMult5;
                 
                 if (data.currentLevel !== undefined) level = data.currentLevel;
 
@@ -521,9 +764,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (upgradeSimpleBtn1) upgradeSimpleBtn1.addEventListener('click', clickingSimpleUpgrade);
     if (upgradeSimpleBtn2) upgradeSimpleBtn2.addEventListener('click', clickingSimpleUpgrade2);
+    if (upgradeSimpleBtn3) upgradeSimpleBtn3.addEventListener('click', clickingSimpleUpgrade3);
+    if (upgradeSimpleBtn4) upgradeSimpleBtn4.addEventListener('click', clickingSimpleUpgrade4);
+    if (upgradeSimpleBtn5) upgradeSimpleBtn5.addEventListener('click', clickingSimpleUpgrade5);
 
     if (upgradeBtn1) upgradeBtn1.addEventListener('click', clickingUpgrade);
     if (upgradeBtn2) upgradeBtn2.addEventListener('click', clickingUpgrade2);
+    if (upgradeBtn3) upgradeBtn3.addEventListener('click', clickingUpgrade3);
+    if (upgradeBtn4) upgradeBtn4.addEventListener('click', clickingUpgrade4);
+    if (upgradeBtn5) upgradeBtn5.addEventListener('click', clickingUpgrade5);
 
     if (autoBtn1) autoBtn1.addEventListener('click', turnAutoClick);
 
