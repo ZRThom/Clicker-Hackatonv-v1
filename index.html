@@ -28,6 +28,7 @@
         <!-- Menu Interface -->
         <div class="LayerMenu layer active ">
             <img id="logo" src="pictures/thibidy_Project._-removebg-preview.png" alt="Thibidy Logo" />
+            <button id="buttonUIContinue" class="menu-button" type="button" style="display: none;">Continue</button>
             <button id="buttonUISave" class="menu-button" type="button">Import Save</button>
             <button id="buttonUINoSave" class="menu-button" type="button">New Game</button>
             <p>You will play as a Student Developer in 1999, President of a startup at La Turbine Cergy named Thomas.
@@ -202,8 +203,13 @@
                             <option value="debug">Debug Mode</option>
                         </select>
                     </div>
+                    <div class="setting-group">
+                        <label for="autoSaveToggle">Automatic Save</label>
+                        <input type="checkbox" id="autoSaveToggle" name="autoSave" checked>
+                    </div>
+                    <p class="setting-description">When ON, your progress is saved to the Browser/Application automatically. No need to download your save file to continue later.</p>
                     <div class="setting-actions">
-                        <button type="button" class="menu-button" id="saveSettingsBtn">Save</button>
+                        <button type="button" class="menu-button" id="saveSettingsBtn">Apply & Back</button>
                         <button type="button" class="menu-button" id="buttonUICredits">Credits</button>
                     </div>
                 </form>
