@@ -58,6 +58,7 @@ header #thib{
     border:none;
     border-radius:5px;
     transition: 0.3s;
+    width: 150px;
 }
 .LayerMenu .menu-button:hover {
     background: linear-gradient(45deg, #a6c1ee 0%, #fbc2eb 100%);
@@ -294,7 +295,7 @@ p {
     overflow-y: auto;
 }
 
-/* do not touch */
+
 .upgrade-divider {
     background: rgba(255, 255, 255, 0.7);
     border-radius: 100px;
@@ -663,6 +664,11 @@ p {
 .LayerCredits.bg-profile2 .credits-content {
     background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
     color: white;
+}
+.LayerSettings.bg-profile2 p,
+.LayerSettings.bg-profile2 .setting-description,
+.LayerCredits.bg-profile2 p {
+    color: black;
 }
 .LayerSettings.bg-profile2 .menu-button,
 .LayerCredits.bg-profile2 .menu-button {

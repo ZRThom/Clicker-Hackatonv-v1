@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const speedValue = document.getElementById('speedValue');
     const modeSelect = document.getElementById('modeSelect');
     const autoSaveToggle = document.getElementById('autoSaveToggle');
+    const bgSelect = document.getElementById('bgSelect');
 
     const panelToggles = document.querySelectorAll('.panel-toggle');
 
@@ -639,7 +640,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (roll < superClickChance) {
                 finalGain += superClickValue;
-                showFloatingText("Super Request ! (+ " + DisplayNbr(finalGain)) + ")";
+                showFloatingText("Super Request ! (+ " + DisplayNbr(finalGain) + ")");
             }
         }
         return finalGain;
@@ -662,18 +663,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- LocalStorage Integration ---
     function saveToLocalStorage() {
-        const gameState = {
-            clicks: click, lvlPlus, lvlPlus2, lvlPlus3, lvlPlus4, lvlPlus5,
-            lvlMult, lvlMult2, lvlMult3, lvlMult4, lvlMult5,
-            lvlAuto, autoClickPower, upgradeCostAuto,
-            lvlSuper, superClickChance, superClickValue, upgradeCostSuper,
-            clickPowerPlus, clickPowerPlus2, clickPowerPlus3, clickPowerPlus4, clickPowerPlus5,
-            clickPower, clickPower2, clickPower3, clickPower4, clickPower5,
-            upgradeCostPlus, upgradeCostPlus2, upgradeCostPlus3, upgradeCostPlus4, upgradeCostPlus5,
-            upgradeCostMult, upgradeCostMult2, upgradeCostMult3, upgradeCostMult4, upgradeCostMult5,
-            settings, currentLevel: level, date: new Date().toLocaleDateString()
-        };
-        localStorage.setItem('thibidy_save', JSON.stringify(gameState));
+        try {
+            const gameState = {
+                clicks: click, lvlPlus, lvlPlus2, lvlPlus3, lvlPlus4, lvlPlus5,
+                lvlMult, lvlMult2, lvlMult3, lvlMult4, lvlMult5,
+                lvlAuto, autoClickPower, upgradeCostAuto,
+                lvlSuper, superClickChance, superClickValue, upgradeCostSuper,
+                clickPowerPlus, clickPowerPlus2, clickPowerPlus3, clickPowerPlus4, clickPowerPlus5,
+                clickPower, clickPower2, clickPower3, clickPower4, clickPower5,
+                upgradeCostPlus, upgradeCostPlus2, upgradeCostPlus3, upgradeCostPlus4, upgradeCostPlus5,
+                upgradeCostMult, upgradeCostMult2, upgradeCostMult3, upgradeCostMult4, upgradeCostMult5,
+                settings, currentLevel: level, date: new Date().toLocaleDateString()
+            };
+            localStorage.setItem('thibidy_save', JSON.stringify(gameState));
+        } catch(err) {
+            console.error('Failed to save to local storage', err);
+        }
     }
 
     function loadFromLocalStorage() {
@@ -947,10 +952,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if(buttonUINoSave) {
         buttonUINoSave.addEventListener('click', function() {
-            // If "New Game" is clicked with an existing save, reset it
-            if (localStorage.getItem('thibidy_save')) {
-                clickingReset();
+            // Always reset variables on New Game
+            clickingReset();
+            
+            // Create a 0-state save immediately if auto-save is ON
+            if (settings.autoSave) {
+                saveToLocalStorage();
             }
+            updateMenuButtons();
             showLayer('LayerGameUINoSave');
         });
     }
@@ -963,6 +972,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if(buttonUIMainMenu) {
         buttonUIMainMenu.addEventListener('click', function() {
+            // Save immediately before returning to menu
+            if (settings.autoSave) {
+                saveToLocalStorage();
+            }
+            updateMenuButtons();
             showLayer('LayerMenu');
         });
     }
@@ -1070,20 +1084,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if(circle2) circle2.addEventListener('click', () => showHeaderMsg("Why, Thomas?"));
     if(circle3) circle3.addEventListener('click', () => showHeaderMsg("Professor Oak said it's not the time "));
 
-    // 1. Load any existing local save (this will update the 'settings' object if a save exists)
     loadFromLocalStorage();
-
-    // 2. Apply settings to the UI (either default or loaded ones)
     updateSettingsUI();
     applyBackground(); 
     applyGameMode();
-    
-    // 3. Start or stop the auto-save interval based on the now-current settings
     manageAutoSave();
-    
-    // 4. Update the main game UI with all loaded values
     updateUI();
-    
-    // 5. Update the display of the Continue button
-    updateMenuButtons();
+    updateMenuButtons(); 
+    window.addEventListener('beforeunload', function() {
+        if (settings.autoSave) {
+            saveToLocalStorage();
+        }
+    });
 });
