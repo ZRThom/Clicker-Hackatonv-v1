@@ -167,14 +167,14 @@ p {
 /* grid mapping */
 .LayerGameUINoSave {
     display: grid;
-    grid-template-columns: 300px 1fr 300px;
-    grid-template-rows: 1fr 180px;
+    grid-template-columns: 350px 1fr 350px;
+    grid-template-rows: 1fr 250px;
     grid-template-areas: "left center right" "left bottom-center bottom-right";
-    gap: 1.5rem;
+    gap: 2rem;
     width: 100%;
     height: 100vh;
     box-sizing: border-box;
-    padding: 100px 2rem 2rem; /* (header) */
+    padding: 100px 0 0 0; /* (header) */
     background: linear-gradient(135deg, #ffc7ef 0%, #9ab7e9 100%);
     align-items: stretch;
 }
@@ -328,7 +328,44 @@ p {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
+
+/* floatint text (like chat) */
+#floatingTexts {
+    position: absolute;
+    left: 5rem;
+    top: 90%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    width: 500px;
+    min-height: 200px;
+}
+
+.floating-text {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #790000;
+    text-shadow: 0 1px 10px rgba(255,255,255,0.8);
+    opacity: 1;
+    animation: floatUpFade 1s ease-out forwards;
+}
+
+@keyframes floatUpFade {
+    0% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}
+
+
 
 .top-actions {
     width: 100%;
@@ -356,6 +393,66 @@ p {
 
 
 
+/* specials upgrades */
+.bottom-panel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    height: 100%;
+    align-items: stretch;
+}
+
+.bottom-feature {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 15px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.1rem;
+    text-align: center;
+}
+
+.bottom-feature h3 {
+    margin: 0 0 0.2rem 0;
+    margin-bottom: 0.2rem;
+    text-align: center;
+    font-size: 1rem;
+    color: #2b2b2b;
+}
+
+.bottom-feature p {
+    margin: 0.2rem 0;
+    text-align: center;
+    padding-left: 0;
+    max-width: none;
+    line-height: 1.2;
+}
+
+.bottom-feature .Button-GameUI {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.super-stats-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+    margin: 0.1rem 0;
+    line-height: 1.2;
+}
+
+.separator {
+    opacity: 0.5;
+}
+/* end specials upgrades */
+
+
+
+
 
 .panel-toggle {
     position: absolute;
@@ -378,6 +475,7 @@ p {
 .panel-bottom-center .panel-toggle {
     top: -20px;
     right: 15px;
+    right: auto;
 }
 
 .panel-right .panel-toggle, .panel-bottom-right .panel-toggle {
@@ -420,7 +518,7 @@ p {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         grid-template-areas: "center" "left" "right" "bottom-center" "bottom-right";
-        padding: 110px 1rem 1rem;
+        padding: 100px 1rem 1rem;
     }
 
     .panel-left, .panel-right, .panel-bottom-center, .panel-bottom-right {
@@ -430,6 +528,10 @@ p {
 
     .panel-toggle {
         display: none;
+    }
+
+    .bottom-panel-grid {
+        grid-template-columns: 1fr;
     }
 }
 

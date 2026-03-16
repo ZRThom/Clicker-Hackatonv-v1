@@ -48,7 +48,7 @@
                 </div>
                 <div class="clicker-zone">
                     <button type="button" id="mainClickBtn">
-                        <img id="logo" src="pictures/Sprite_Thibidy_v2.png" alt="Thibidy"/>
+                        <img id="mainClickImg" src="pictures/Sprite_Thibidy_v2.png" alt="Thibidy Logo"/>
                     </button>
 
                     <button type="button" id="devClickBtn"> Thibidy dev (debug)</button>
@@ -61,14 +61,41 @@
 
                     <p> Auto-Request : <span id="showAuto">0</span> </p>
                 </div>
+                <div id="floatingTexts"></div>
             </section>
 
             <section class="panel panel-bottom-center" id="panelBottomCenter"> <!-- layer auto -->
                 <button type="button" class="panel-toggle">X</button>
-                <h2>Automation</h2>
-                <p>auto : <span id="AutoClicker1">0</span> request</p>
-                <button type="button" id="autoBtn1" class="Button-GameUI"> Auto-Request lvl 1 (+1) </button>
+                <h2>Special Upgrade</h2>
 
+                <div class="bottom-panel-grid">
+                    <div class="bottom-feature">
+                        <h3>Auto Request</h3>
+                        <p>Cost Auto : <span id="AutoClicker1">0</span> request</p>
+                        <button type="button" id="autoBtn1" class="Button-GameUI"> Auto-Request lvl 1 (+1) </button>
+                    </div>
+
+                    <div class="bottom-feature">
+                        <h3>Super Request</h3>
+
+                        <div class="super-stats-line">
+                            <span>Chance : <span id="superChanceValue">0</span>%</span>
+                            <span class="separator"> | </span>
+                            <span>Request : <span id="superPowerValue">0</span></span>
+                        </div>
+
+                        <p>Cost Super-Request : <span id="superCostValue">200</span> request</p>
+                        <button type="button" id="superBtn1" class="Button-GameUI"> Super-Request lvl 1 (+10) </button>
+                    </div>
+
+                    <div class="bottom-feature">
+                        <h3>Test Coming soon</h3>
+                        <p>Coming soon</p>
+                        <button type="button" id="testBtn1" class="Button-GameUI">
+                            Coming soon
+                        </button>
+                    </div>
+                </div>
             </section>
 
             <section class="panel panel-left" id="panelLeft"> <!-- layer left -->
@@ -108,20 +135,20 @@
                         </div>
                         <div class="upgrade-box">
 
-                            <p>Cost mult : <span id="clicker2">1</span> request</p>
+                            <p>Cost mult : <span id="clicker2">40</span> request</p>
                             <button type="button" id="upgradeBtn1" class="Button-GameUI"> Multiplyer per click lvl 1 (x 1)</button>
 
-                            <p>Cost mult : <span id="clicker3">20</span> request</p>
+                            <p>Cost mult : <span id="clicker3">300</span> request</p>
                             <button type="button" id="upgradeBtn2" class="Button-GameUI"> Multiplyer per click lvl 1 (x 10) </button>
 
-                            <p>Cost mult : <span id="clicker4">5000</span> request</p>
-                            <button type="button" id="upgradeBtn3" class="Button-GameUI"> Multiplyer per click lvl 1 (x 100) </button>
+                            <p>Cost mult : <span id="clicker4">40 000</span> request</p>
+                            <button type="button" id="upgradeBtn3" class="Button-GameUI"> Multiplyer per click lvl 1 (x 90) </button>
                         
-                            <p>Cost mult : <span id="clicker5">900 000</span> request</p>
-                            <button type="button" id="upgradeBtn4" class="Button-GameUI"> Multiplyer per click lvl 1 (x 1 000) </button>
+                            <p>Cost mult : <span id="clicker5">1 300 000</span> request</p>
+                            <button type="button" id="upgradeBtn4" class="Button-GameUI"> Multiplyer per click lvl 1 (x 800) </button>
 
-                            <p>Cost mult : <span id="clicker6">15 000 000</span> request</p>
-                            <button type="button" id="upgradeBtn5" class="Button-GameUI"> Multiplyer per click lvl 1 (x 10 000) </button>
+                            <p>Cost mult : <span id="clicker6">70 000 000</span> request</p>
+                            <button type="button" id="upgradeBtn5" class="Button-GameUI"> Multiplyer per click lvl 1 (x 7 000) </button>
 
                         </div>
                     </div>
