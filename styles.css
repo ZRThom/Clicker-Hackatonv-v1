@@ -1,7 +1,9 @@
 body{margin:0;padding:0;font-family:sans-serif; background-color: #f4f4f4;overflow:hidden;/* avoid horizontal scroll */}
 header{text-align:center;padding:1rem 1rem;background:#eee;position:relative;top:0;width:100%;box-shadow:0 1px 4px rgba(0,0,0,.1);z-index:20;min-height:20px;}
+
 /* three small circles on left side of header */
 .header-circles{position:absolute;left:1rem;top:50%;transform:translateY(-50%);display:flex;gap:.5rem;}
+
 /* logo in header  */
 header #pearhone{
     position:absolute;
@@ -123,7 +125,6 @@ header #thib{
     animation: logoteam 7s linear infinite;
 }
 @keyframes logoteam {
-    /* use transform instead of invalid position values */
     0%   { transform: translateY(0); }
     50%  { transform: translateY(-10px); }
     100% { transform: translateY(0); }
@@ -475,7 +476,6 @@ p {
 .panel-bottom-center .panel-toggle {
     top: -20px;
     right: 15px;
-    right: auto;
 }
 
 .panel-right .panel-toggle, .panel-bottom-right .panel-toggle {
@@ -575,7 +575,7 @@ p {
 
 /* Profile 1: Original (Pink/Blue) */
 .LayerGameUINoSave.bg-profile1 {
-    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); /* Original */
+    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
 }
 .LayerGameUINoSave.bg-profile1 .upgrade-btn,
 .LayerGameUINoSave.bg-profile1 .menu-button {
@@ -602,7 +602,7 @@ p {
 
 /* Profile 2: Night Mode (Dark Blue/Purple) */
 .LayerGameUINoSave.bg-profile2 {
-    background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%); /* Night Mode */
+    background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
 }
 .LayerGameUINoSave.bg-profile2 .upgrade-btn,
 .LayerGameUINoSave.bg-profile2 .menu-button {
@@ -631,7 +631,7 @@ p {
 
 /* Profile 3: Mint Fresh (Green) */
 .LayerGameUINoSave.bg-profile3 {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); /* Mint/Nature */
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
 }
 .LayerGameUINoSave.bg-profile3 .upgrade-btn,
 .LayerGameUINoSave.bg-profile3 .menu-button {
