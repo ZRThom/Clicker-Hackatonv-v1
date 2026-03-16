@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . ClickerApp --platform=win32 --arch=x64 --overwrite"
+    "build": "electron-packager . ClickerFinal --platform=win32 --arch=x64"
   },
   "author": "",
   "license": "ISC",

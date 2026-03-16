@@ -67,9 +67,9 @@ header #thib{
 /* layer specific backgrounds */
 .LayerMenu { background: linear-gradient(135deg, #ffaf02 0%, #ffb8eb 100%); }
 .LayerGameUINoSave { background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); }
-.LayerSettings { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); }
+.LayerSettings, .LayerCredits { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); }
 
-.settings-content {
+.settings-content, .credits-content {
     background: linear-gradient(135deg, #ffe29f 0%, #ffa99f 100%);
     padding: 2rem;
     border-radius: 15px;
