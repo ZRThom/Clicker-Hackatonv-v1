@@ -1,16 +1,28 @@
 {
-  "name": "clicker-hackaton",
+  "name": "thibidy-clicker",
   "version": "1.0.0",
-  "description": "Mon jeu clicker en version bureau",
+  "description": "l'expience thibidy sur votre bureau",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . ClickerFinal --platform=win32 --arch=x64"
+    "build": "electron-builder"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "electron": "^28.0.0",
+    "electron-builder": "^26.8.1",
     "electron-packager": "^17.1.2"
+  },
+  "build": {
+    "appId": "com.monprojet.clicker",
+    "productName": "Clicker Hackaton Deluxe",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "portable",
+      "artifactName": "Clicker_Hackaton_Setup_${version}.${ext}"
+    }
   }
 }
