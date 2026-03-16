@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // add btn (to-add)
     function clicking()
     {
-        let gain = clickPower * clickPower2 * clickPower3 * clickPower4 * clickPower5 + clickPowerPlus + clickPowerPlus2 + clickPowerPlus3 + clickPowerPlus4 + clickPowerPlus5;
+        let gain = (clickPower * clickPower2 * clickPower3 * clickPower4 * clickPower5) + (clickPowerPlus + clickPowerPlus2 + clickPowerPlus3 + clickPowerPlus4 + clickPowerPlus5);
         
         gain = trySuperClick(gain);
         click += gain;
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function clickingDev()
     {
-        click += 99995559;
+        click += 999999999;
         click = cleanNbr(click);
         updateUI();
     }
@@ -606,7 +606,7 @@ document.addEventListener('DOMContentLoaded', function() {
             lvlSuper++;
             superClickChance += 5;
             superClickValue += 10; 
-            upgradeCostSuper *= 5;
+            upgradeCostSuper *= 3;
             upgradeCostSuper = cleanNbr(upgradeCostSuper);
             updateUI();
         }
