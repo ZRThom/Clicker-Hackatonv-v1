@@ -887,6 +887,20 @@ document.addEventListener('DOMContentLoaded', function() {
     if (autoBtn1) autoBtn1.addEventListener('click', turnAutoClick);
     if (superBtn1) superBtn1.addEventListener('click', turnSuperClick);
 
+    // Header Circles Logic
+    function showHeaderMsg(text) {
+        if (!headerMsg) return;
+        headerMsg.textContent = text;
+        headerMsg.classList.add('visible');
+        if (msgTimeout) clearTimeout(msgTimeout);
+        msgTimeout = setTimeout(() => {
+            headerMsg.classList.remove('visible');
+        }, 2000);
+    }
+    if(circle1) circle1.addEventListener('click', () => showHeaderMsg("Don't you love me?"));
+    if(circle2) circle2.addEventListener('click', () => showHeaderMsg("Why, Thomas?"));
+    if(circle3) circle3.addEventListener('click', () => showHeaderMsg("Professor Oak said it's not the time "));
+
     updateSettingsUI();
     applyBackground(); 
     updateUI();
