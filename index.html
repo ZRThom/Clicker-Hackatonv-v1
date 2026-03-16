@@ -26,7 +26,7 @@
         </header>
 
         <!-- Menu Interface -->
-        <div class="LayerMenu layer active">
+        <div class="LayerMenu layer active ">
             <img id="logo" src="pictures/thibidy_Project._-removebg-preview.png" alt="Thibidy Logo" />
             <button id="buttonUISave" class="menu-button" type="button">Import Save</button>
             <button id="buttonUINoSave" class="menu-button" type="button">New Game</button>
@@ -53,9 +53,9 @@
                         <img id="mainClickImg" src="pictures/Sprite_Thibidy_v2.png" alt="Thibidy Logo"/>
                     </button>
 
-                    <button type="button" id="devClickBtn"> Thibidy dev (debug)</button>
+                    <button type="button" id="devClickBtn" class="Button-GameUI"> Thibidy dev (debug)</button>
 
-                    <button type="button" id="resetBtn"> Thibidy Reset </button>
+                    <button type="button" id="resetBtn" class="Button-GameUI"> Thibidy Reset </button>
 
                     <p> Request: <span id="clicker1">0</span> </p>
 
@@ -198,9 +198,8 @@
                     <div class="setting-group">
                         <label for="modeSelect">Game Mode</label>
                         <select id="modeSelect" name="mode">
-                            <option value="normal">Thibidy Classic</option>
-                            <option value="hard">Hell Tesla Thibidy</option>
-                            <option value="easy">Thibidy Admin/Debug </option>
+                            <option value="classique">Classic Mode</option>
+                            <option value="debug">Debug Mode</option>
                         </select>
                     </div>
                     <div class="setting-actions">

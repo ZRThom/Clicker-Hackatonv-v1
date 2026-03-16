@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let settings = {
         volume: 50,
         speed: 5,
-        mode: 'normal',
+        mode: 'classique',
         background: 'profile1' // Default background
     };
 
@@ -272,6 +272,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (creditsLayer) creditsLayer.classList.add('bg-profile1');
         }
     }
+
+    function applyGameMode() {
+        // Add or remove the CSS class based on the selected mode
+        if (settings.mode === 'debug') {
+            document.body.classList.add('mode-debug');
+        } else {
+            document.body.classList.remove('mode-debug');
+        }
+    }
+
 
 
 
@@ -767,6 +777,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     updateSettingsUI();
                     updateVolume();
                     applyBackground();
+                    applyGameMode();
                 }
 
 
@@ -860,6 +871,7 @@ document.addEventListener('DOMContentLoaded', function() {
             settings.background = bgSelect.value;
             
             applyBackground();
+            applyGameMode();
         
             updateVolume();
             
@@ -934,5 +946,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateSettingsUI();
     applyBackground(); 
+    applyGameMode();
     updateUI();
 });

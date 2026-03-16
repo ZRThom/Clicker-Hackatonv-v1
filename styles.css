@@ -713,3 +713,10 @@ p {
 #headerMsg.visible {
     opacity: 1;
 }
+
+/* --- Game Modes --- */
+/* Hide the debug button by default (in Classic Mode) */
+body:not(.mode-debug) #devClickBtn,
+body:not(.mode-debug) #resetBtn {
+    display: none !important;
+}
