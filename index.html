@@ -17,6 +17,7 @@
                 <span id="circle2" class="circle"></span>
                 <span id="circle3" class="circle"></span>
             </div>
+            <div id="headerMsg"></div>
             <audio id="bgMusic_LayerMenu" loop><source src="Music/Menus.mp3" type="audio/mpeg"></audio>
             <audio id="bgMusic_LayerGameUINoSave" loop><source src="Music/Game.mp3" type="audio/mpeg"></audio>
             <audio id="bgMusic_LayerSettings" loop><source src="Music/Settings.mp3" type="audio/mpeg"></audio>
@@ -181,9 +182,17 @@
                         <span id="volumeValue">50</span>%
                     </div>
                     <div class="setting-group">
-                        <label for="speedRange">Speed</label>
+                        <label for="speedRange">Auto-Click Speed</label>
                         <input type="range" id="speedRange" name="speed" min="1" max="10" value="5">
                         <span id="speedValue">5</span>
+                    </div>
+                    <div class="setting-group">
+                        <label for="bgSelect">Background</label>
+                        <select id="bgSelect" name="background">
+                            <option value="profile1">Original (Pink/Blue)</option>
+                            <option value="profile2">Night Mode (Dark)</option>
+                            <option value="profile3">Mint Fresh (Green)</option>
+                        </select>
                     </div>
                     <div class="setting-group">
                         <label for="modeSelect">Game Mode</label>
@@ -195,12 +204,26 @@
                     </div>
                     <div class="setting-actions">
                         <button type="button" class="menu-button" id="saveSettingsBtn">Save</button>
+                        <button type="button" class="menu-button" id="buttonUICredits">Credits</button>
                     </div>
                 </form>
             </div>
         </div>
+        
+        <!-- Credits Interface -->
+        <div class="LayerCredits layer">
+            <div class="credits-content">
+                <h1>Credits</h1>
+                <p><strong>Developped by</strong><br>Kyllian & Thomas</p>
+                <p><strong>Design & Audio</strong><br>Pokemon Compagny & Fans</p>
+                <p><em>"The Click, the Click, the Click!"</em></p>
+                <div class="setting-actions">
+                    <button type="button" class="menu-button" id="closeCreditsBtn">Back</button>
+                </div>
+            </div>
+        </div>   
+        
 
         <script src="javascript.js"></script>
     </body>
 </html>
-

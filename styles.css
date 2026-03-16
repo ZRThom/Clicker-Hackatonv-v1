@@ -65,9 +65,9 @@ header #thib{
 /* layer specific backgrounds */
 .LayerMenu { background: linear-gradient(135deg, #ffaf02 0%, #ffb8eb 100%); }
 .LayerGameUINoSave { background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); }
-.LayerSettings { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); }
+.LayerSettings, .LayerCredits { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); }
 
-.settings-content {
+.settings-content, .credits-content {
     background: linear-gradient(135deg, #ffe29f 0%, #ffa99f 100%);
     padding: 2rem;
     border-radius: 15px;
@@ -567,4 +567,234 @@ p {
 }
 #btnStart:hover {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Game UI Layout (Redesign 3 colonnes) --- */
+
+/* Container principal du jeu - Surcharge le flex-column par défaut */
+.LayerGameUINoSave.active {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 2rem 3rem;
+    gap: 2rem;
+    box-sizing: border-box;
+}
+
+.game-col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Colonne Gauche : Améliorations & Stats */
+.left-col {
+    flex: 1;
+    max-width: 350px;
+    min-width: 280px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    overflow-y: auto; /* Scroll si trop d'upgrades */
+}
+
+.left-col h3 {
+    margin-top: 0;
+    color: #444;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid rgba(255,255,255,0.5);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Override du style P global pour l'alignement à gauche */
+.stats-panel p, .upgrade-item p {
+    text-align: left;
+    padding-left: 0;
+    margin: 0.5rem 0;
+    font-weight: 600;
+    color: #333;
+}
+
+.upgrade-item {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    transition: transform 0.2s ease, background 0.2s;
+}
+.upgrade-item:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.upgrade-btn {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #a6c1ee, #fbc2eb);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.upgrade-btn:hover { filter: brightness(1.1); }
+.upgrade-btn:active { transform: scale(0.98); }
+
+/* Colonne Centrale : Image & Action Principale */
+.center-col {
+    flex: 2;
+    align-items: center;
+    justify-content: center;
+}
+
+.center-img {
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,0.6));
+    animation: logoteam 6s ease-in-out infinite; /* Utilise l'animation existante */
+}
+
+.main-click-btn {
+    padding: 1.2rem 4rem;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #ffaf02, #ffb8eb);
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transition: transform 0.1s;
+    text-transform: uppercase;
+}
+.main-click-btn:hover { transform: scale(1.05); }
+.main-click-btn:active { transform: scale(0.95); }
+
+.sub-controls {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+/* Colonne Droite : Settings & DL */
+.right-col {
+    flex: 0 0 auto;
+    gap: 1rem;
+}
+.right-col .menu-button {
+    margin: 0;
+    width: 100%;
+    min-width: 120px;
+    text-align: center;
+}
+
+/* --- Background Profiles for GameUI --- */
+
+/* Profile 1: Original (Pink/Blue) */
+.LayerGameUINoSave.bg-profile1 {
+    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); /* Original */
+}
+.LayerGameUINoSave.bg-profile1 .upgrade-btn,
+.LayerGameUINoSave.bg-profile1 .menu-button {
+    background: linear-gradient(90deg, #a6c1ee, #fbc2eb);
+    color: white;
+}
+.LayerGameUINoSave.bg-profile1 .main-click-btn {
+    background: linear-gradient(135deg, #ffaf02, #ffb8eb);
+    color: white;
+}
+/* Settings Profile 1 */
+.LayerSettings.bg-profile1 .settings-content,
+.LayerCredits.bg-profile1 .credits-content {
+    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+    color: #444;
+}
+.LayerSettings.bg-profile1 .menu-button,
+.LayerCredits.bg-profile1 .menu-button {
+    background: linear-gradient(90deg, #a6c1ee, #fbc2eb);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Profile 2: Night Mode (Dark Blue/Purple) */
+.LayerGameUINoSave.bg-profile2 {
+    background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%); /* Night Mode */
+}
+.LayerGameUINoSave.bg-profile2 .upgrade-btn,
+.LayerGameUINoSave.bg-profile2 .menu-button {
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.LayerGameUINoSave.bg-profile2 .main-click-btn {
+    background: linear-gradient(135deg, #8E2DE2, #4A00E0);
+    color: white;
+    box-shadow: 0 0 15px rgba(138, 45, 226, 0.6);
+}
+/* Settings Profile 2 */
+.LayerSettings.bg-profile2 .settings-content,
+.LayerCredits.bg-profile2 .credits-content {
+    background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+    color: white;
+}
+.LayerSettings.bg-profile2 .menu-button,
+.LayerCredits.bg-profile2 .menu-button {
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 5px;
+}
+
+/* Profile 3: Mint Fresh (Green) */
+.LayerGameUINoSave.bg-profile3 {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); /* Mint/Nature */
+}
+.LayerGameUINoSave.bg-profile3 .upgrade-btn,
+.LayerGameUINoSave.bg-profile3 .menu-button {
+    background: linear-gradient(90deg, #11998e, #38ef7d);
+    color: white;
+}
+.LayerGameUINoSave.bg-profile3 .main-click-btn {
+    background: linear-gradient(135deg, #d4fc79, #96e6a1);
+    color: #2c3e50; 
+}
+/* Settings Profile 3 */
+.LayerSettings.bg-profile3 .settings-content,
+.LayerCredits.bg-profile3 .credits-content {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: #2c3e50;
+}
+.LayerSettings.bg-profile3 .menu-button,
+.LayerCredits.bg-profile3 .menu-button {
+    background: linear-gradient(90deg, #11998e, #38ef7d);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* --- Header Message (Toast) --- */
+#headerMsg {
+    position: absolute;
+    left: 1.2rem;
+    top: 42px; 
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #555;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2px 8px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; 
+    white-space: nowrap;
+}
+#headerMsg.visible {
+    opacity: 1;
 }
