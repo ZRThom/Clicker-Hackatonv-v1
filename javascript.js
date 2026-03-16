@@ -113,7 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let settings = {
         volume: 50,
         speed: 5,
-        mode: 'normal'
+        mode: 'normal',
+        background: 'profile1' // Default background
     };
 
     // change symbol for panel toggle
@@ -244,9 +245,32 @@ document.addEventListener('DOMContentLoaded', function() {
         if (speedRange) speedRange.value = settings.speed;
         if (speedValue) speedValue.textContent = settings.speed;
         if (modeSelect) modeSelect.value = settings.mode;
+        if (bgSelect) bgSelect.value = settings.background || 'profile1';
     }
 
+    function applyBackground() {
+        const gameLayer = document.querySelector('.LayerGameUINoSave');
+        const settingsLayer = document.querySelector('.LayerSettings');
+        const creditsLayer = document.querySelector('.LayerCredits');
 
+        if (!gameLayer) return;
+
+        // Remove existing profile classes
+        gameLayer.classList.remove('bg-profile1', 'bg-profile2', 'bg-profile3');
+        if (settingsLayer) settingsLayer.classList.remove('bg-profile1', 'bg-profile2', 'bg-profile3');
+        if (creditsLayer) creditsLayer.classList.remove('bg-profile1', 'bg-profile2', 'bg-profile3');
+        
+        // Add selected profile
+        if (settings.background) {
+            gameLayer.classList.add('bg-' + settings.background);
+            if (settingsLayer) settingsLayer.classList.add('bg-' + settings.background);
+            if (creditsLayer) creditsLayer.classList.add('bg-' + settings.background);
+        } else {
+            gameLayer.classList.add('bg-profile1');
+            if (settingsLayer) settingsLayer.classList.add('bg-profile1');
+            if (creditsLayer) creditsLayer.classList.add('bg-profile1');
+        }
+    }
 
 
 
