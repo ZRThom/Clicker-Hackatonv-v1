@@ -1,0 +1,4 @@
+node_modules/
+dist/
+*.exe
+ClickerApp-win32-x64/

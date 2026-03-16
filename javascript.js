@@ -684,7 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showLayer(name) {
         const layers = document.getElementsByClassName('layer');
         for (let i = 0; i < layers.length; i++) {
-            // Si on ouvre les settings ou credits et que le layer est le jeu, on ne le cache pas
+            // Do not hide the game layer when opening settings or credits
             if ((name === 'LayerSettings' || name === 'LayerCredits') && layers[i].classList.contains('LayerGameUINoSave')) {
                 continue;
             }
@@ -709,7 +709,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 const data = JSON.parse(e.target.result);
 
-                // Restauration progression
+                // Restore progression
                 // add btn (to-add)
                 if (data.clicks !== undefined) click = data.clicks;
 
