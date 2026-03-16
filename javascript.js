@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttonUISave = document.getElementById('buttonUISave');
     const buttonUINoSave = document.getElementById('buttonUINoSave');
     const buttonUISettingsNoSave = document.getElementById('buttonUISettingsNoSave');
+    const buttonUIMainMenu = document.getElementById('buttonUIMainMenu');
     const saveSettingsBtn = document.getElementById('saveSettingsBtn');
     const buttonUICredits = document.getElementById('buttonUICredits');
     const closeCreditsBtn = document.getElementById('closeCreditsBtn');
@@ -824,6 +825,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if(buttonUINoSave) {
         buttonUINoSave.addEventListener('click', function() {
             showLayer('LayerGameUINoSave');
+        });
+    }
+
+    if(buttonUIMainMenu) {
+        buttonUIMainMenu.addEventListener('click', function() {
+            showLayer('LayerMenu');
         });
     }
 
