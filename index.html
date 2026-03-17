@@ -26,8 +26,9 @@
         </header>
 
         <!-- Menu Interface -->
-        <div class="LayerMenu layer ">
+        <div class="LayerMenu layer active ">
             <img id="logo" src="pictures/thibidy_Project._-removebg-preview.png" alt="Thibidy Logo" />
+            <button id="buttonUIContinue" class="menu-button" type="button" style="display: none;">Continue</button>
             <button id="buttonUISave" class="menu-button" type="button">Import Save</button>
             <button id="buttonUINoSave" class="menu-button" type="button">New Game</button>
             <p>You will play as a Student Developer in 1999, President of a startup at La Turbine Cergy named Thomas.
@@ -54,7 +55,7 @@
                         <img id="mainClickImg" src="pictures/Sprite_Thibidy_v2.png" alt="Thibidy Logo" width="200px"/>
                     </button>
 
-                    <button type="button" id="devClickBtn"> Thibidy dev (debug)</button>
+                    <button type="button" id="devClickBtn" class="Button-GameUI"> Thibidy dev (debug)</button>
 
                     <p>Request: <span id="clicker1">0</span> </p>
 
@@ -214,13 +215,17 @@
                     <div class="setting-group">
                         <label for="modeSelect">Game Mode</label>
                         <select id="modeSelect" name="mode">
-                            <option value="normal">Thibidy Classic</option>
-                            <option value="hard">Hell Tesla Thibidy</option>
-                            <option value="easy">Thibidy Admin/Debug </option>
+                            <option value="classique">Classic Mode</option>
+                            <option value="debug">Debug Mode</option>
                         </select>
                     </div>
+                    <div class="setting-group">
+                        <label for="autoSaveToggle">Automatic Save</label>
+                        <input type="checkbox" id="autoSaveToggle" name="autoSave" checked>
+                    </div>
+                    <p class="setting-description">When ON, your progress is saved to the rowser/Application automatically. No need to download your save file to continue later.</p>
                     <div class="setting-actions">
-                        <button type="button" class="menu-button" id="saveSettingsBtn">Save</button>
+                        <button type="button" class="menu-button" id="saveSettingsBtn">Apply & Back</button>
                         <button type="button" class="menu-button" id="buttonUICredits">Credits</button>
                     </div>
                 </form>

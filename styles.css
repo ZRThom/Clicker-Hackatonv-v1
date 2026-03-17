@@ -58,6 +58,7 @@ header #thib{
     border:none;
     border-radius:5px;
     transition: 0.3s;
+    width: 150px;
 }
 .LayerMenu .menu-button:hover {
     background: linear-gradient(45deg, #a6c1ee 0%, #fbc2eb 100%);
@@ -112,6 +113,23 @@ header #thib{
     justify-content: center;
     gap: 1rem;
     margin-top: 1rem;
+}
+
+.LayerSettings .setting-group input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    accent-color: #a6c1ee; /* Match the theme */
+}
+
+.setting-description {
+    font-size: 0.8rem;
+    color: #555;
+    text-align: center;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    max-width: 80%;
+    line-height: 1.3;
 }
 
 /* logo in menu */
@@ -277,7 +295,7 @@ p {
     overflow-y: auto;
 }
 
-/* do not touch */
+
 .upgrade-divider {
     background: rgba(255, 255, 255, 0.7);
     border-radius: 100px;
@@ -585,13 +603,13 @@ p {
 
 /* resp */
 @media (max-width: 1100px) {
-    body { overflow: auto; } /* Necessaire pour scroller la pile verticale */
+    body { overflow: auto; } /* Necessary to scroll the vertical stack */
     .LayerGameUINoSave {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         grid-template-areas: "center" "left" "right" "bottom-center" "bottom-right";
         padding: 100px 1rem 1rem;
-        height: auto; /* Necessaire pour ne pas couper le contenu */
+        height: auto; /* Necessary to avoid cutting the content */
     }
 
     .panel-left, .panel-right, .panel-bottom-center, .panel-bottom-right {
@@ -659,7 +677,7 @@ p {
     background: linear-gradient(135deg, #ffaf02, #ffb8eb);
     color: white;
 }
-/* Elements Profil 1 */
+/* Profile 1 Elements */
 .LayerGameUINoSave.bg-profile1 .panel { background: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.5); }
 .LayerGameUINoSave.bg-profile1 .upgrade-title, 
 .LayerGameUINoSave.bg-profile1 .bottom-feature { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.4); }
@@ -700,7 +718,7 @@ p {
     color: white;
     box-shadow: 0 0 15px rgba(138, 45, 226, 0.6);
 }
-/* Elements Profil 2 (Night Mode) */
+/* Profile 2 Elements (Night Mode) */
 .LayerGameUINoSave.bg-profile2 .panel { background: rgba(0, 0, 0, 0.4); border-color: rgba(255,255,255,0.1); }
 .LayerGameUINoSave.bg-profile2 .upgrade-title, 
 .LayerGameUINoSave.bg-profile2 .bottom-feature { background: rgba(0, 0, 0, 0.3); border-color: rgba(255,255,255,0.1); }
@@ -717,6 +735,11 @@ p {
 .LayerCredits.bg-profile2 .credits-content {
     background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
     color: white;
+}
+.LayerSettings.bg-profile2 p,
+.LayerSettings.bg-profile2 .setting-description,
+.LayerCredits.bg-profile2 p {
+    color: black;
 }
 .LayerSettings.bg-profile2 .menu-button,
 .LayerCredits.bg-profile2 .menu-button {
@@ -739,7 +762,7 @@ p {
     background: linear-gradient(135deg, #d4fc79, #96e6a1);
     color: #2c3e50; 
 }
-/* Elements Profil 3 (Mint) */
+/* Profile 3 Elements (Mint) */
 .LayerGameUINoSave.bg-profile3 .panel { background: rgba(255, 255, 255, 0.6); border-color: rgba(255,255,255,0.6); }
 .LayerGameUINoSave.bg-profile3 .upgrade-title, 
 .LayerGameUINoSave.bg-profile3 .bottom-feature { background: rgba(255, 255, 255, 0.4); border-color: rgba(255,255,255,0.5); }
@@ -783,4 +806,11 @@ p {
 }
 #headerMsg.visible {
     opacity: 1;
+}
+
+/* --- Game Modes --- */
+/* Hide the debug button by default (in Classic Mode) */
+body:not(.mode-debug) #devClickBtn,
+body:not(.mode-debug) #resetBtn {
+    display: none !important;
 }

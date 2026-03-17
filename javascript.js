@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttonUINoSave = document.getElementById('buttonUINoSave');
     const buttonUISettingsNoSave = document.getElementById('buttonUISettingsNoSave');
     const buttonUIMainMenu = document.getElementById('buttonUIMainMenu');
+    const buttonUIContinue = document.getElementById('buttonUIContinue');
     const saveSettingsBtn = document.getElementById('saveSettingsBtn');
     const buttonUICredits = document.getElementById('buttonUICredits');
     const closeCreditsBtn = document.getElementById('closeCreditsBtn');
@@ -41,12 +42,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const volumeValue = document.getElementById('volumeValue');
     const speedValue = document.getElementById('speedValue');
     const modeSelect = document.getElementById('modeSelect');
+    const autoSaveToggle = document.getElementById('autoSaveToggle');
+    const bgSelect = document.getElementById('bgSelect');
 
     const panelToggles = document.querySelectorAll('.panel-toggle');
 
     const floatingTexts = document.getElementById('floatingTexts');
-
-    const bgSelect = document.getElementById('bgSelect');
     
     const adsManualBtn = document.getElementById('adsManualBtn');
     const adsAutoBtn = document.getElementById('adsAutoBtn');
@@ -135,12 +136,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let level = 0;
     let currentAudio = null;
     let msgTimeout = null;
+    let autoSaveInterval = null;
     
     let settings = {
         volume: 50,
         speed: 5,
-        mode: 'normal',
-        background: 'profile1' // Default background
+        mode: 'classique',
+        background: 'profile1', // Default background
+        autoSave: true
     };
 
     // change symbol for panel toggle
@@ -293,6 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (speedValue) speedValue.textContent = settings.speed;
         if (modeSelect) modeSelect.value = settings.mode;
         if (bgSelect) bgSelect.value = settings.background || 'profile1';
+        if (autoSaveToggle) autoSaveToggle.checked = settings.autoSave;
     }
 
     function applyBackground() {
@@ -319,6 +323,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function applyGameMode() {
+        // Add or remove the CSS class based on the selected mode
+        if (settings.mode === 'debug') {
+            document.body.classList.add('mode-debug');
+        } else {
+            document.body.classList.remove('mode-debug');
+        }
+    }
+
+
 
 
 
@@ -334,6 +348,33 @@ document.addEventListener('DOMContentLoaded', function() {
         return Number(value.toFixed(1));
     }
     // end display
+    
+    // Updates the display of the Continue button in the main menu
+    function updateMenuButtons() {
+        if (buttonUIContinue) {
+            if (localStorage.getItem('thibidy_save') && settings.autoSave) {
+                buttonUIContinue.style.display = 'inline-block';
+            } else {
+                buttonUIContinue.style.display = 'none';
+            }
+        }
+    }
+
+    // --- Auto-Save Management ---
+    function manageAutoSave() {
+        if (settings.autoSave) {
+            if (!autoSaveInterval) { // Start interval if it's not already running
+                autoSaveInterval = setInterval(saveToLocalStorage, 10000);
+                // console.log("Auto-save enabled.");
+            }
+        } else {
+            if (autoSaveInterval) { // Stop interval if it is running
+                clearInterval(autoSaveInterval);
+                autoSaveInterval = null;
+                // console.log("Auto-save disabled.");
+            }
+        }
+    }
     
     // add btn (to-add)
     function clicking()
@@ -425,8 +466,12 @@ document.addEventListener('DOMContentLoaded', function() {
         clearInterval(intervalAutoMoney);
         intervalAutoMoney = null;
 
+        // Deletes the local save during reset
+        localStorage.removeItem('thibidy_save');
+
         updateUI();
         renderProjectGrid();
+        updateMenuButtons();
     }
 
 
@@ -789,6 +834,190 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+    // money 
+    function buyAdsManual() {
+        if (click >= upgradeCostMoneyManual) {
+            click -= upgradeCostMoneyManual;
+            click = cleanNbr(click);
+
+            lvlMoneyManual++;
+
+            if (moneyClickPower === 0) {
+                moneyClickPower = 1;
+            } else {
+                moneyClickPower *= 1.1;
+                moneyClickPower = cleanNbr(moneyClickPower);
+            }
+
+            upgradeCostMoneyManual *= 1.2;
+            upgradeCostMoneyManual = cleanNbr(upgradeCostMoneyManual);
+            updateUI();
+        }
+    }
+
+    function autoMoneyTick() {
+        money += autoMoneyPower;
+        money = cleanNbr(money);
+        updateUI();
+    }
+
+    function buyAdsAuto() {
+        if (click >= upgradeCostMoneyAuto) {
+            click -= upgradeCostMoneyAuto;
+            click = cleanNbr(click);
+
+            lvlMoneyAuto++;
+            
+            if (autoMoneyPower === 0) {
+                autoMoneyPower = 1;
+            } else {
+                autoMoneyPower *= 1.1;
+                autoMoneyPower = cleanNbr(autoMoneyPower);
+            }
+
+            if (intervalAutoMoney === null) {
+                intervalAutoMoney = setInterval(autoMoneyTick, 5000 / Number(settings.speed));
+            }
+
+            upgradeCostMoneyAuto *= 1.2;
+            upgradeCostMoneyAuto = cleanNbr(upgradeCostMoneyAuto);
+            updateUI();
+        }
+    }
+
+    function updateLaunchBtnState() {
+        if (!launchBtn) return;
+        launchBtn.disabled = !projectCasesBought.every(Boolean);
+    }
+
+    function buyProjectCase(index) {
+        const cost = projectCaseCosts[index];
+
+        if (projectCasesBought[index]) return;
+        if (money < cost) return;
+
+        money -= cost;
+        money = cleanNbr(money);
+        projectCasesBought[index] = true;
+        
+        updateUI();
+        renderProjectGrid();
+    }
+
+    // check for launching btn while 9 case are occupied (pressed)
+    function renderProjectGrid() {
+        if (!projectGrid) return;
+
+        projectGrid.innerHTML = '';
+
+        projectCaseCosts.forEach((cost, index) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'project-case';
+
+            if (projectCasesBought[index]) {
+                btn.textContent = 'case' + (index + 1) + ' - bought';
+                btn.disabled = true;
+                btn.classList.add('is-brought');
+            } else {
+                btn.innerHTML = 'Case ' + (index + 1) + '<br><small>Cost : ' + DisplayNbr(cost) + ' money</small>';
+                btn.addEventListener('click', function() {
+                    buyProjectCase(index);
+                });
+            }
+            projectGrid.appendChild(btn);
+        });
+    }
+
+    function launchProjectReset() {
+        if (!projectCasesBought.every(Boolean)) return;
+        clickingReset();
+        // test
+    }
+
+
+    // --- LocalStorage Integration ---
+    function saveToLocalStorage() {
+        try {
+            const gameState = {
+                clicks: click, lvlPlus, lvlPlus2, lvlPlus3, lvlPlus4, lvlPlus5,
+                lvlMult, lvlMult2, lvlMult3, lvlMult4, lvlMult5,
+                lvlAuto, autoClickPower, upgradeCostAuto,
+                lvlSuper, superClickChance, superClickValue, upgradeCostSuper,
+                clickPowerPlus, clickPowerPlus2, clickPowerPlus3, clickPowerPlus4, clickPowerPlus5,
+                clickPower, clickPower2, clickPower3, clickPower4, clickPower5,
+                upgradeCostPlus, upgradeCostPlus2, upgradeCostPlus3, upgradeCostPlus4, upgradeCostPlus5,
+                upgradeCostMult, upgradeCostMult2, upgradeCostMult3, upgradeCostMult4, upgradeCostMult5,
+                settings, currentLevel: level, date: new Date().toLocaleDateString()
+            };
+            localStorage.setItem('thibidy_save', JSON.stringify(gameState));
+        } catch(err) {
+            console.error('Failed to save to local storage', err);
+        }
+    }
+
+    function loadFromLocalStorage() {
+        const savedData = localStorage.getItem('thibidy_save');
+        if (!savedData) return;
+        
+        try {
+            const data = JSON.parse(savedData);
+            
+            if (data.clicks !== undefined) click = data.clicks;
+            if (data.lvlPlus !== undefined) lvlPlus = data.lvlPlus;
+            if (data.lvlPlus2 !== undefined) lvlPlus2 = data.lvlPlus2;
+            if (data.lvlPlus3 !== undefined) lvlPlus3 = data.lvlPlus3;
+            if (data.lvlPlus4 !== undefined) lvlPlus4 = data.lvlPlus4;
+            if (data.lvlPlus5 !== undefined) lvlPlus5 = data.lvlPlus5;
+            if (data.lvlMult !== undefined) lvlMult = data.lvlMult;
+            if (data.lvlMult2 !== undefined) lvlMult2 = data.lvlMult2;
+            if (data.lvlMult3 !== undefined) lvlMult3 = data.lvlMult3;
+            if (data.lvlMult4 !== undefined) lvlMult4 = data.lvlMult4;
+            if (data.lvlMult5 !== undefined) lvlMult5 = data.lvlMult5;
+            if (data.lvlAuto !== undefined) lvlAuto = data.lvlAuto;
+            if (data.autoClickPower !== undefined) autoClickPower = data.autoClickPower;
+            if (data.upgradeCostAuto !== undefined) upgradeCostAuto = data.upgradeCostAuto;
+            if (data.lvlSuper !== undefined) lvlSuper = data.lvlSuper;
+            if (data.superClickChance !== undefined) superClickChance = data.superClickChance;
+            if (data.superClickValue !== undefined) superClickValue = data.superClickValue;
+            if (data.upgradeCostSuper !== undefined) upgradeCostSuper = data.upgradeCostSuper;
+            if (data.clickPowerPlus !== undefined) clickPowerPlus = data.clickPowerPlus;
+            if (data.clickPowerPlus2 !== undefined) clickPowerPlus2 = data.clickPowerPlus2;
+            if (data.clickPowerPlus3 !== undefined) clickPowerPlus3 = data.clickPowerPlus3;
+            if (data.clickPowerPlus4 !== undefined) clickPowerPlus4 = data.clickPowerPlus4;
+            if (data.clickPowerPlus5 !== undefined) clickPowerPlus5 = data.clickPowerPlus5;
+            if (data.clickPower !== undefined) clickPower = data.clickPower;
+            if (data.clickPower2 !== undefined) clickPower2 = data.clickPower2;
+            if (data.clickPower3 !== undefined) clickPower3 = data.clickPower3;
+            if (data.clickPower4 !== undefined) clickPower4 = data.clickPower4;
+            if (data.clickPower5 !== undefined) clickPower5 = data.clickPower5;
+            if (data.upgradeCostPlus !== undefined) upgradeCostPlus = data.upgradeCostPlus;
+            if (data.upgradeCostPlus2 !== undefined) upgradeCostPlus2 = data.upgradeCostPlus2;
+            if (data.upgradeCostPlus3 !== undefined) upgradeCostPlus3 = data.upgradeCostPlus3;
+            if (data.upgradeCostPlus4 !== undefined) upgradeCostPlus4 = data.upgradeCostPlus4;
+            if (data.upgradeCostPlus5 !== undefined) upgradeCostPlus5 = data.upgradeCostPlus5;
+            if (data.upgradeCostMult !== undefined) upgradeCostMult = data.upgradeCostMult;
+            if (data.upgradeCostMult2 !== undefined) upgradeCostMult2 = data.upgradeCostMult2;
+            if (data.upgradeCostMult3 !== undefined) upgradeCostMult3 = data.upgradeCostMult3;
+            if (data.upgradeCostMult4 !== undefined) upgradeCostMult4 = data.upgradeCostMult4;
+            if (data.upgradeCostMult5 !== undefined) upgradeCostMult5 = data.upgradeCostMult5;
+            if (data.currentLevel !== undefined) level = data.currentLevel;
+            
+            if (data.settings) {
+                settings = { ...settings, ...data.settings };
+            }
+            
+            clearInterval(intervalAutoClick);
+            if (lvlAuto > 0) {
+                intervalAutoClick = setInterval(autoClick1, 5000 / Number(settings.speed));
+            }
+        } catch(err) {
+            console.error('Failed to parse local save', err);
+        }
+    }
+
+
+
     // add btn (to-add)
     function downloadSave() {
         const gameState = {
@@ -960,10 +1189,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             
                 if (data.settings) {
-                    settings = data.settings;
+                    settings = { ...settings, ...data.settings };
                     updateSettingsUI();
                     updateVolume();
                     applyBackground();
+                    applyGameMode();
+                    manageAutoSave();
                 }
 
 
@@ -1029,12 +1260,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if(buttonUINoSave) {
         buttonUINoSave.addEventListener('click', function() {
+            // Always reset variables on New Game
+            clickingReset();
+            
+            // Create a 0-state save immediately if auto-save is ON
+            if (settings.autoSave) {
+                saveToLocalStorage();
+            }
+            updateMenuButtons();
+            showLayer('LayerGameUINoSave');
+        });
+    }
+
+    if(buttonUIContinue) {
+        buttonUIContinue.addEventListener('click', function() {
             showLayer('LayerGameUINoSave');
         });
     }
 
     if(buttonUIMainMenu) {
         buttonUIMainMenu.addEventListener('click', function() {
+            // Save immediately before returning to menu
+            if (settings.autoSave) {
+                saveToLocalStorage();
+            }
+            updateMenuButtons();
             showLayer('LayerMenu');
         });
     }
@@ -1057,14 +1307,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    if(saveSettingsBtn && volumeRange && speedRange && modeSelect && bgSelect) {
+    if(saveSettingsBtn && volumeRange && speedRange && modeSelect && bgSelect && autoSaveToggle) {
         saveSettingsBtn.addEventListener('click', function() {
             settings.volume = volumeRange.value;
             settings.speed = speedRange.value;
             settings.mode = modeSelect.value;
             settings.background = bgSelect.value;
+            settings.autoSave = autoSaveToggle.checked;
             
             applyBackground();
+            applyGameMode();
         
             updateVolume();
             
@@ -1078,6 +1330,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 clearInterval(intervalAutoMoney);
                 intervalAutoMoney = setInterval(autoMoneyTick, 5000 / Number(settings.speed));
             }
+
+            manageAutoSave();
+            updateMenuButtons();
 
             alert('Settings applied!');
             showLayer('LayerGameUINoSave'); 
@@ -1147,7 +1402,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if(circle3) circle3.addEventListener('click', () => showHeaderMsg("Professor Oak said it's not the time "));
 
     renderProjectGrid();
+    loadFromLocalStorage();
     updateSettingsUI();
     applyBackground(); 
+    applyGameMode();
+    manageAutoSave();
     updateUI();
+    updateMenuButtons(); 
+    window.addEventListener('beforeunload', function() {
+        if (settings.autoSave) {
+            saveToLocalStorage();
+        }
+    });
 });
