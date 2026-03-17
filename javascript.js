@@ -46,6 +46,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const floatingTexts = document.getElementById('floatingTexts');
 
+    const bgSelect = document.getElementById('bgSelect');
+    
+    const adsManualBtn = document.getElementById('adsManualBtn');
+    const adsAutoBtn = document.getElementById('adsAutoBtn');
+
+    const launchBtn = document.getElementById('launchBtn');
+    const projectGrid = document.getElementById('projectGrid');
+
     // add btn (to-add)
     let click = 0;
 
@@ -104,6 +112,23 @@ document.addEventListener('DOMContentLoaded', function() {
     let superClickChance = 0;
     let superClickValue = 0;
     let upgradeCostSuper = 200;
+
+
+
+    let money = 0;
+    let lvlMoneyManual = 0;
+    let moneyClickPower = 0;
+    let upgradeCostMoneyManual = 1000000;
+
+    let lvlMoneyAuto = 0;
+    let autoMoneyPower = 0;
+    let upgradeCostMoneyAuto = 2000000;
+    let intervalAutoMoney = null;
+
+
+
+    const projectCaseCosts = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    let projectCasesBought = new Array(9).fill(false);
 
 
 
@@ -197,6 +222,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const superChanceValue = document.getElementById("superChanceValue");
         const superPowerValue = document.getElementById("superPowerValue");
         const superCostValue = document.getElementById("superCostValue");
+
+        const moneyValue = document.getElementById("moneyValue");
+        const showMoney = document.getElementById("showMoney");
+        const showAutoMoney = document.getElementById("showAutoMoney");
+
+        const adsManualBtnUI = document.getElementById("adsManualBtn");
+        const adsAutoBtnUI = document.getElementById("adsAutoBtn");
+        const adsManualCost = document.getElementById("adsManualCost");
+        const adsAutoCost = document.getElementById("adsAutoCost");
         
         
         
@@ -237,6 +271,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (superChanceValue) superChanceValue.innerHTML = DisplayNbr(superClickChance);
         if (superPowerValue) superPowerValue.innerHTML = DisplayNbr(superClickValue);
         if (superCostValue) superCostValue.innerHTML = DisplayNbr(upgradeCostSuper);
+
+        if (moneyValue) moneyValue.innerHTML = DisplayNbr(money);
+        if (showMoney) showMoney.innerHTML = DisplayNbr(moneyClickPower);
+        if (showAutoMoney) showAutoMoney.innerHTML = DisplayNbr(autoMoneyPower);
+
+        if (adsManualBtnUI) adsManualBtnUI.innerHTML = "Ads (manual) lvl " + lvlMoneyManual + " (x " + DisplayNbr(moneyClickPower) + ")";
+        if (adsAutoBtnUI) adsAutoBtnUI.innerHTML = "Ads (auto) lvl " + lvlMoneyAuto + " (x " + DisplayNbr(autoMoneyPower) + ")";
+
+        if (adsManualCost) adsManualCost.innerHTML = DisplayNbr(upgradeCostMoneyManual);
+        if (adsAutoCost) adsAutoCost.innerHTML = DisplayNbr(upgradeCostMoneyAuto);
+        
+        updateLaunchBtnState();
     }
 
   
@@ -297,6 +343,10 @@ document.addEventListener('DOMContentLoaded', function() {
         gain = trySuperClick(gain);
         click += gain;
         click = cleanNbr(click);
+
+        money += moneyClickPower;
+        money = cleanNbr(money);
+
         updateUI();
     }
 
@@ -331,6 +381,18 @@ document.addEventListener('DOMContentLoaded', function() {
         superClickValue = 0
         upgradeCostSuper = 200;
 
+        money = 0;
+
+        lvlMoneyManual = 0;
+        moneyClickPower = 0;
+        upgradeCostMoneyManual = 1000000;
+
+        lvlMoneyAuto = 0;
+        autoMoneyPower = 0;
+        upgradeCostMoneyAuto = 2000000;
+
+        projectCasesBought = new Array(9).fill(false);
+
         click = 0;
 
         clickPower = 1;
@@ -359,7 +421,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         clearInterval(intervalAutoClick);
         intervalAutoClick = null;
+
+        clearInterval(intervalAutoMoney);
+        intervalAutoMoney = null;
+
         updateUI();
+        renderProjectGrid();
     }
 
 
@@ -593,7 +660,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (roll < superClickChance) {
                 finalGain += superClickValue;
-                showFloatingText("Super Request ! (+ " + DisplayNbr(finalGain)) + ")";
+                showFloatingText("Super Request ! (+ " + DisplayNbr(superClickValue)) + ")";
             }
         }
         return finalGain;
@@ -612,6 +679,111 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     // end special slick
+
+
+
+
+
+    // money 
+    function buyAdsManual() {
+        if (click >= upgradeCostMoneyManual) {
+            click -= upgradeCostMoneyManual;
+            click = cleanNbr(click);
+
+            lvlMoneyManual++;
+
+            if (moneyClickPower === 0) {
+                moneyClickPower = 1;
+            } else {
+                moneyClickPower *= 1.1;
+                moneyClickPower = cleanNbr(moneyClickPower);
+            }
+
+            upgradeCostMoneyManual *= 1.2;
+            upgradeCostMoneyManual = cleanNbr(upgradeCostMoneyManual);
+            updateUI();
+        }
+    }
+
+    function autoMoneyTick() {
+        money += autoMoneyPower;
+        money = cleanNbr(money);
+        updateUI();
+    }
+
+    function buyAdsAuto() {
+        if (click >= upgradeCostMoneyAuto) {
+            click -= upgradeCostMoneyAuto;
+            click = cleanNbr(click);
+
+            lvlMoneyAuto++;
+            
+            if (autoMoneyPower === 0) {
+                autoMoneyPower = 1;
+            } else {
+                autoMoneyPower *= 1.1;
+                autoMoneyPower = cleanNbr(autoMoneyPower);
+            }
+
+            if (intervalAutoMoney === null) {
+                intervalAutoMoney = setInterval(autoMoneyTick, 5000 / Number(settings.speed));
+            }
+
+            upgradeCostMoneyAuto *= 1.2;
+            upgradeCostMoneyAuto = cleanNbr(upgradeCostMoneyAuto);
+            updateUI();
+        }
+    }
+
+    function updateLaunchBtnState() {
+        if (!launchBtn) return;
+        launchBtn.disabled = !projectCasesBought.every(Boolean);
+    }
+
+    function buyProjectCase(index) {
+        const cost = projectCaseCosts[index];
+
+        if (projectCasesBought[index]) return;
+        if (money < cost) return;
+
+        money -= cost;
+        money = cleanNbr(money);
+        projectCasesBought[index] = true;
+        
+        updateUI();
+        renderProjectGrid();
+    }
+
+    // check for launching btn while 9 case are occupied (pressed)
+    function renderProjectGrid() {
+        if (!projectGrid) return;
+
+        projectGrid.innerHTML = '';
+
+        projectCaseCosts.forEach((cost, index) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'project-case';
+
+            if (projectCasesBought[index]) {
+                btn.textContent = 'case' + (index + 1) + ' - bought';
+                btn.disabled = true;
+                btn.classList.add('is-brought');
+            } else {
+                btn.innerHTML = 'Case ' + (index + 1) + '<br><small>Cost : ' + DisplayNbr(cost) + ' money</small>';
+                btn.addEventListener('click', function() {
+                    buyProjectCase(index);
+                });
+            }
+            projectGrid.appendChild(btn);
+        });
+    }
+
+    function launchProjectReset() {
+        if (!projectCasesBought.every(Boolean)) return;
+        clickingReset();
+        // test
+    }
 
 
 
@@ -641,6 +813,17 @@ document.addEventListener('DOMContentLoaded', function() {
             superClickChance,
             superClickValue,
             upgradeCostSuper,
+
+            money,
+            lvlMoneyManual,
+            moneyClickPower,
+            upgradeCostMoneyManual,
+
+            lvlMoneyAuto,
+            autoMoneyPower,
+            upgradeCostMoneyAuto,
+
+            projectCasesBought,
 
             clickPowerPlus,
             clickPowerPlus2,
@@ -735,6 +918,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.superClickValue !== undefined) superClickValue = data.superClickValue;
                 if (data.upgradeCostSuper !== undefined) upgradeCostSuper = data.upgradeCostSuper;
 
+                if (data.money !== undefined) money = data.money;
+
+                if (data.lvlMoneyManual !== undefined) lvlMoneyManual = data.lvlMoneyManual;
+                if (data.moneyClickPower !== undefined) moneyClickPower = data.moneyClickPower;
+                if (data.upgradeCostMoneyManual !== undefined) upgradeCostMoneyManual = data.upgradeCostMoneyManual;
+
+                if (data.lvlMoneyAuto !== undefined) lvlMoneyAuto = data.lvlMoneyAuto;
+                if (data.autoMoneyPower !== undefined) autoMoneyPower = data.autoMoneyPower;
+                if (data.upgradeCostMoneyAuto !== undefined) upgradeCostMoneyAuto = data.upgradeCostMoneyAuto;
+
+                if (Array.isArray(data.projectCasesBought) && data.projectCasesBought.length === 9) {
+                    projectCasesBought = data.projectCasesBought;
+                }
+
                 if (data.clickPowerPlus !== undefined) clickPowerPlus = data.clickPowerPlus;
                 if (data.clickPowerPlus2 !== undefined) clickPowerPlus2 = data.clickPowerPlus2;
                 if (data.clickPowerPlus3 !== undefined) clickPowerPlus3 = data.clickPowerPlus3;
@@ -775,6 +972,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     intervalAutoClick = setInterval(autoClick1, 5000 / Number(settings.speed));
                 }
 
+                clearInterval(intervalAutoMoney);
+                if (lvlMoneyAuto > 0) {
+                    intervalAutoMoney = setInterval(autoMoneyTick, 5000 / Number(settings.speed));
+                } else {
+                    intervalAutoMoney = null;
+                }
+
                 updateUI(); 
                 showLayer('LayerGameUINoSave'); 
                 
@@ -783,6 +987,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Failed to parse save file');
             }
         };
+        renderProjectGrid();
         reader.readAsText(file);
         event.target.value = '';
     }
@@ -869,6 +1074,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 intervalAutoClick = setInterval(autoClick1, 5000 / Number(settings.speed));
             }
 
+            if (intervalAutoMoney) {
+                clearInterval(intervalAutoMoney);
+                intervalAutoMoney = setInterval(autoMoneyTick, 5000 / Number(settings.speed));
+            }
+
             alert('Settings applied!');
             showLayer('LayerGameUINoSave'); 
         });
@@ -918,6 +1128,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (autoBtn1) autoBtn1.addEventListener('click', turnAutoClick);
     if (superBtn1) superBtn1.addEventListener('click', turnSuperClick);
 
+    if (adsManualBtn) adsManualBtn.addEventListener('click', buyAdsManual);
+    if (adsAutoBtn) adsAutoBtn.addEventListener('click', buyAdsAuto);
+    if (launchBtn) launchBtn.addEventListener('click', launchProjectReset);
+
     // Header Circles Logic
     function showHeaderMsg(text) {
         if (!headerMsg) return;
@@ -932,6 +1146,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if(circle2) circle2.addEventListener('click', () => showHeaderMsg("Why, Thomas?"));
     if(circle3) circle3.addEventListener('click', () => showHeaderMsg("Professor Oak said it's not the time "));
 
+    renderProjectGrid();
     updateSettingsUI();
     applyBackground(); 
     updateUI();
