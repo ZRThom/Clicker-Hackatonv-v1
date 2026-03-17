@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const autoBtn1 = document.getElementById('autoBtn1');
     const superBtn1 = document.getElementById('superBtn1');
+    
+    const lvlOfServer = document.getElementById('lvlOfServer');
 
     const volumeRange = document.getElementById('volumeRange');
     const speedRange = document.getElementById('speedRange');
@@ -57,6 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // add btn (to-add)
     let click = 0;
+
+    let lvlServer = 0;
 
 
 
@@ -221,6 +225,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const autoBtn1 = document.getElementById("autoBtn1");
         const AutoClicker1 = document.getElementById("AutoClicker1");
 
+        const lvlOfServer = document.getElementById("lvlOfServer");
+
         const superBtn1 = document.getElementById("superBtn1");
         const superChanceValue = document.getElementById("superChanceValue");
         const superPowerValue = document.getElementById("superPowerValue");
@@ -255,6 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (ShowAll) ShowAll.innerHTML = DisplayNbr(clickPower * clickPower2 * clickPower3 * clickPower4 * clickPower5 + clickPowerPlus + clickPowerPlus2 + clickPowerPlus3 + clickPowerPlus4 + clickPowerPlus5); // formula for all upgrade
         if (showAuto) showAuto.innerHTML = DisplayNbr(autoClickPower); // formula for all auto upgrade
 
+
         if (upgradeSimpleBtn1) upgradeSimpleBtn1.innerHTML = "Request per click lvl " + lvlPlus +" (+ " + DisplayNbr(clickPowerPlus) + ")";
         if (upgradeSimpleBtn2) upgradeSimpleBtn2.innerHTML = "Request per click lvl " + lvlPlus2 +" (+ " + DisplayNbr(clickPowerPlus2) + ")";
         if (upgradeSimpleBtn3) upgradeSimpleBtn3.innerHTML = "Request per click lvl " + lvlPlus3 +" (+ " + DisplayNbr(clickPowerPlus3) + ")";
@@ -269,6 +276,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (autoBtn1) autoBtn1.innerHTML = "Auto-Request lvl " + lvlAuto +" (+ " + DisplayNbr(autoClickPower) + ")";
         if (AutoClicker1) AutoClicker1.innerHTML = DisplayNbr(upgradeCostAuto);
+
+        if (lvlOfServer) lvlOfServer.innerHTML = lvlServer;
 
         if (superBtn1) superBtn1.innerHTML = "Super Request " + lvlSuper +" (+ " + DisplayNbr(superClickChance) + "%)";
         if (superChanceValue) superChanceValue.innerHTML = DisplayNbr(superClickChance);
@@ -411,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function clicking()
     {
         playClickSound();
-        let gain = clickPower * clickPower2 * clickPower3 * clickPower4 * clickPower5 + clickPowerPlus + clickPowerPlus2 + clickPowerPlus3 + clickPowerPlus4 + clickPowerPlus5;
+        let gain = (clickPower * clickPower2 * clickPower3 * clickPower4 * clickPower5) + (clickPowerPlus + clickPowerPlus2 + clickPowerPlus3 + clickPowerPlus4 + clickPowerPlus5);
         
         gain = trySuperClick(gain);
         click += gain;
@@ -425,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function clickingDev()
     {
-        click += 99995559;
+        click += 999999999;
         click = cleanNbr(click);
         updateUI();
     }
@@ -453,6 +462,8 @@ document.addEventListener('DOMContentLoaded', function() {
         superClickChance = 0;
         superClickValue = 0
         upgradeCostSuper = 200;
+
+        lvlServer = 0;
 
         money = 0;
 
@@ -506,7 +517,82 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMenuButtons();
     }
 
+    function clickingResetNoServer()
+    {
+        lvlPlus = 0;
+        lvlPlus2 = 0;
+        lvlPlus3 = 0;
+        lvlPlus4 = 0;
+        lvlPlus5 = 0;
 
+        lvlMult = 0;
+        lvlMult2 = 0;
+        lvlMult3 = 0;
+        lvlMult4 = 0;
+        lvlMult5 = 0;
+        
+        lvlAuto = 0;
+        autoClickPower = 0;
+        upgradeCostAuto = 100; 
+
+        lvlSuper = 0;
+        superClickChance = 0;
+        superClickValue = 0
+        upgradeCostSuper = 200;
+
+        money = 0;
+
+        lvlServer++;
+
+        lvlMoneyManual = 0;
+        moneyClickPower = 0;
+        upgradeCostMoneyManual = 1000000;
+
+        lvlMoneyAuto = 0;
+        autoMoneyPower = 0;
+        upgradeCostMoneyAuto = 2000000;
+
+        projectCasesBought = new Array(9).fill(false);
+
+        click = 0;
+
+        clickPower = 1;
+        clickPower2 = 1;
+        clickPower3 = 1;
+        clickPower4 = 1;
+        clickPower5 = 1;
+
+        clickPowerPlus = 0;
+        clickPowerPlus2 = 0;
+        clickPowerPlus3 = 0;
+        clickPowerPlus4 = 0;
+        clickPowerPlus5 = 0;
+
+        upgradeCostPlus = 10;
+        upgradeCostPlus2 = 900;
+        upgradeCostPlus3 = 25000;
+        upgradeCostPlus4 = 700000;
+        upgradeCostPlus5 = 30000000;
+        
+        upgradeCostMult = 40;
+        upgradeCostMult2 = 300;
+        upgradeCostMult3 = 40000;
+        upgradeCostMult4 = 1300000;
+        upgradeCostMult5 = 70000000;
+        
+        clearInterval(intervalAutoClick);
+        intervalAutoClick = null;
+
+        clearInterval(intervalAutoMoney);
+        intervalAutoMoney = null;
+
+        // Deletes the local save during reset
+        localStorage.removeItem('thibidy_save');
+
+        updateUI();
+        renderProjectGrid();
+        updateMenuButtons();
+    }
 
     function clickingSimpleUpgrade()
     {
@@ -749,6 +835,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (roll < superClickChance) {
                 finalGain += superClickValue;
                 playSuperClickSound();
+                console.log("test");
                 showFloatingText("Super Request ! (+ " + DisplayNbr(superClickValue)) + ")";
             }
         }
@@ -762,7 +849,7 @@ document.addEventListener('DOMContentLoaded', function() {
             lvlSuper++;
             superClickChance += 5;
             superClickValue += 10; 
-            upgradeCostSuper *= 5;
+            upgradeCostSuper *= 3;
             upgradeCostSuper = cleanNbr(upgradeCostSuper);
             playUpgradeSound();
             updateUI();
@@ -872,7 +959,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function launchProjectReset() {
         if (!projectCasesBought.every(Boolean)) return;
         clickingReset();
-        // test
+        lvlServer++;
     }
 
 
@@ -965,7 +1052,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.disabled = true;
                 btn.classList.add('is-brought');
             } else {
-                btn.innerHTML = 'Case ' + (index + 1) + '<br><small>Cost : ' + DisplayNbr(cost) + ' money</small>';
+                btn.innerHTML = 'Server-Case ' + (index + 1) + '<br><small>Cost : ' + DisplayNbr(cost) + ' money</small>';
                 btn.addEventListener('click', function() {
                     buyProjectCase(index);
                 });
@@ -976,8 +1063,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function launchProjectReset() {
         if (!projectCasesBought.every(Boolean)) return;
-        clickingReset();
-        // test
+        clickingResetNoServer();
     }
 
 
@@ -985,7 +1071,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function saveToLocalStorage() {
         try {
             const gameState = {
-                clicks: click, lvlPlus, lvlPlus2, lvlPlus3, lvlPlus4, lvlPlus5,
+                clicks: click, lvlServer, lvlPlus, lvlPlus2, lvlPlus3, lvlPlus4, lvlPlus5,
                 lvlMult, lvlMult2, lvlMult3, lvlMult4, lvlMult5,
                 lvlAuto, autoClickPower, upgradeCostAuto,
                 lvlSuper, superClickChance, superClickValue, upgradeCostSuper,
@@ -1008,7 +1094,8 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const data = JSON.parse(savedData);
             
-            if (data.clicks !== undefined) click = data.clicks;
+            if (data.clicks !== undefined) clicks = data.clicks;
+            if (data.lvlServer !== undefined) lvlServer = data.lvlServer;
             if (data.lvlPlus !== undefined) lvlPlus = data.lvlPlus;
             if (data.lvlPlus2 !== undefined) lvlPlus2 = data.lvlPlus2;
             if (data.lvlPlus3 !== undefined) lvlPlus3 = data.lvlPlus3;
@@ -1046,7 +1133,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.upgradeCostMult3 !== undefined) upgradeCostMult3 = data.upgradeCostMult3;
             if (data.upgradeCostMult4 !== undefined) upgradeCostMult4 = data.upgradeCostMult4;
             if (data.upgradeCostMult5 !== undefined) upgradeCostMult5 = data.upgradeCostMult5;
-            if (data.currentLevel !== undefined) level = data.currentLevel;
+            if (data.currentLevel !== undefined) currentLevel = data.currentLevel;
             
             if (data.settings) {
                 settings = { ...settings, ...data.settings };
@@ -1087,6 +1174,8 @@ document.addEventListener('DOMContentLoaded', function() {
             superClickChance,
             superClickValue,
             upgradeCostSuper,
+
+            lvlServer, 
 
             money,
             lvlMoneyManual,
@@ -1202,6 +1291,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.superClickChance !== undefined) superClickChance = data.superClickChance;
                 if (data.superClickValue !== undefined) superClickValue = data.superClickValue;
                 if (data.upgradeCostSuper !== undefined) upgradeCostSuper = data.upgradeCostSuper;
+
+                if (data.lvlServer !== undefined) lvlServer = data.lvlServer;
 
                 if (data.money !== undefined) money = data.money;
 

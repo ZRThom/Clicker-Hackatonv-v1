@@ -23,7 +23,7 @@ header #thib{
 }
 
 
-/* Menus UI */ 
+/* Menus UI */
 
 
 /* three small circles on left side of header */
@@ -189,7 +189,7 @@ p {
     grid-template-columns: 350px 1fr 350px;
     grid-template-rows: 1fr 250px;
     grid-template-areas: "left center right" "left bottom-center bottom-right";
-    gap: 2rem;
+    gap: 3rem;
     width: 100%;
     height: 100vh;
     box-sizing: border-box;
@@ -415,7 +415,6 @@ p {
 
 
 .top-actions {
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -503,7 +502,7 @@ p {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 0.2rem;    
     text-align: center;
 }
 
@@ -527,11 +526,10 @@ p {
     background: rgba(255,255,255,0.2);
     border: 1px solid rgba(255,255,255,0.3);
     border-radius: 15px;
-    padding: 1rem;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 0.1rem;
     text-align: center;
 }
 
@@ -553,7 +551,7 @@ p {
 
 .bottom-feature .Button-GameUI {
     width: 100%;
-    margin-top: 1rem;
+    padding: 1rem 1rem;
 }
 
 .super-stats-line {
