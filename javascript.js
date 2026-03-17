@@ -375,10 +375,38 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-    
+
+    function playClickSound() {
+        const clickAudio = document.getElementById('sfx_click');
+        if (clickAudio) {
+            const audioClone = clickAudio.cloneNode(true); // play with no delay (true clones the inner <source>)
+            audioClone.volume = settings.volume / 100; // save setting volume 
+            audioClone.play().catch(error => { console.log("Auto-play empêché :", error); });
+        }
+    }
+
+    function playUpgradeSound() {
+        const upgradeAudio = document.getElementById('sfx_upgrade');
+        if (upgradeAudio) {
+            const audioClone = upgradeAudio.cloneNode(true); // play with no delay (true clones the inner <source>)
+            audioClone.volume = settings.volume / 100; // save setting volume 
+            audioClone.play().catch(error => { console.log("Auto-play empêché :", error); });
+        }
+    }
+
+    function playSuperClickSound() {
+        const superClickAudio = document.getElementById('sfx_superclick');
+        if (superClickAudio) {
+            const audioClone = superClickAudio.cloneNode(true); // play with no delay (true clones the inner <source>)
+            audioClone.volume = settings.volume / 100; // save setting volume 
+            audioClone.play().catch(error => { console.log("Auto-play empêché :", error); });
+        }
+    }
+
     // add btn (to-add)
     function clicking()
     {
+        playClickSound();
         let gain = clickPower * clickPower2 * clickPower3 * clickPower4 * clickPower5 + clickPowerPlus + clickPowerPlus2 + clickPowerPlus3 + clickPowerPlus4 + clickPowerPlus5;
         
         gain = trySuperClick(gain);
@@ -488,6 +516,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             upgradeCostPlus *= 1.2;
             upgradeCostPlus = cleanNbr(upgradeCostPlus);
+            playUpgradeSound();
             updateUI();
         }
     }
@@ -504,6 +533,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             upgradeCostPlus2 *= 1.25;
             upgradeCostPlus2 = cleanNbr(upgradeCostPlus2);
+            playUpgradeSound();
             updateUI();
         }
     }
@@ -520,6 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             upgradeCostPlus3 *= 1.3;
             upgradeCostPlus3 = cleanNbr(upgradeCostPlus3);
+            playUpgradeSound();
             updateUI();
         }
     }
@@ -536,6 +567,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             upgradeCostPlus4 *= 1.35;
             upgradeCostPlus4 = cleanNbr(upgradeCostPlus4);
+            playUpgradeSound();
             updateUI();
         }
     }
@@ -552,6 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             upgradeCostPlus5 *= 1.4;
             upgradeCostPlus5 = cleanNbr(upgradeCostPlus5);
+            playUpgradeSound();
             updateUI();
         }
     }
@@ -568,6 +601,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clickPower = cleanNbr(clickPower);
             upgradeCostMult *= 1.2;
             upgradeCostMult = cleanNbr(upgradeCostMult);
+            playUpgradeSound();
             updateUI();
         }
     }
@@ -589,6 +623,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             upgradeCostMult2 *= 1.25;
             upgradeCostMult2 = cleanNbr(upgradeCostMult2);
+            playUpgradeSound();
             updateUI();
         }
     }
@@ -610,6 +645,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             upgradeCostMult3 *= 1.3;
             upgradeCostMult3 = cleanNbr(upgradeCostMult3);
+            playUpgradeSound();
             updateUI();
         }
     }
@@ -631,6 +667,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             upgradeCostMult4 *= 1.35;
             upgradeCostMult4 = cleanNbr(upgradeCostMult4);
+            playUpgradeSound();
             updateUI();
         }
     }
@@ -652,6 +689,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             upgradeCostMult5 *= 1.4;
             upgradeCostMult5 = cleanNbr(upgradeCostMult5);
+            playUpgradeSound();
             updateUI();
         }
     }

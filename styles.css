@@ -331,6 +331,34 @@ p {
     border-radius: 20px 0 0 20px;
 }
 
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.project-case {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 8px;
+    line-height: 1.2;
+    transition: transform 0.2s ease, background 0.2s ease;
+    text-align: center;
+}
+
+.project-case small {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    display: block;
+}
+
+.project-case.is-brought {
+    cursor: default;
+    opacity: 0.7;
+}
+
 .panel-bottom-center {
     grid-area: bottom-center;
     border-radius: 20px 20px 0 0;
@@ -391,6 +419,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
 }
@@ -690,6 +719,18 @@ p {
 .LayerGameUINoSave.bg-profile1 p, 
 .LayerGameUINoSave.bg-profile1 h2, 
 .LayerGameUINoSave.bg-profile1 h3 { color: #363636; }
+.LayerGameUINoSave.bg-profile1 .project-case {
+    background: rgba(255,255,255,0.75);
+    color: #363636;
+    border: 1px solid transparent;
+}
+.LayerGameUINoSave.bg-profile1 .project-case:not([disabled]):hover {
+    background: rgba(255,255,255,0.9);
+    transform: scale(1.05);
+}
+.LayerGameUINoSave.bg-profile1 .project-case.is-brought {
+    background: rgba(255,255,255,0.5);
+}
 
 /* Settings Profile 1 */
 .LayerSettings.bg-profile1 .settings-content,
@@ -731,6 +772,19 @@ p {
 .LayerGameUINoSave.bg-profile2 p, 
 .LayerGameUINoSave.bg-profile2 h2, 
 .LayerGameUINoSave.bg-profile2 h3 { color: #e0e0e0; }
+.LayerGameUINoSave.bg-profile2 .project-case {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.LayerGameUINoSave.bg-profile2 .project-case:not([disabled]):hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(255,255,255,0.4);
+    transform: scale(1.05);
+}
+.LayerGameUINoSave.bg-profile2 .project-case.is-brought {
+    background: rgba(0, 0, 0, 0.4);
+}
 
 /* Settings Profile 2 */
 .LayerSettings.bg-profile2 .settings-content,
@@ -775,6 +829,18 @@ p {
 .LayerGameUINoSave.bg-profile3 p, 
 .LayerGameUINoSave.bg-profile3 h2, 
 .LayerGameUINoSave.bg-profile3 h3 { color: #2c3e50; }
+.LayerGameUINoSave.bg-profile3 .project-case {
+    background: rgba(255, 255, 255, 0.85);
+    color: #2c3e50;
+    border: none;
+}
+.LayerGameUINoSave.bg-profile3 .project-case:not([disabled]):hover {
+    background: #ffffff;
+    transform: scale(1.05);
+}
+.LayerGameUINoSave.bg-profile3 .project-case.is-brought {
+    background: rgba(255, 255, 255, 0.6);
+}
 
 /* Settings Profile 3 */
 .LayerSettings.bg-profile3 .settings-content,
