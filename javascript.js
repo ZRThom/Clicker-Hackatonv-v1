@@ -758,6 +758,7 @@ document.addEventListener('DOMContentLoaded', function() {
             superClickValue += 10; 
             upgradeCostSuper *= 5;
             upgradeCostSuper = cleanNbr(upgradeCostSuper);
+            playUpgradeSound();
             updateUI();
         }
     }
