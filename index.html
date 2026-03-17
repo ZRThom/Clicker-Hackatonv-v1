@@ -47,6 +47,7 @@
                     <button id="buttonUIMainMenu" class="Button-GameUI" type="button">Back</button>
                     <button id="buttonUISettingsNoSave" class="Button-GameUI" type="button">Settings</button>
                     <button id="SaveNosave" class="Button-GameUI" type="button">Dl Your Save </button>
+                    <button id="resetBtn" class="Button-GameUI" type="button">Thibidy Reset </button>
                 </div>
                 <div class="clicker-zone">
                     <button type="button" id="mainClickBtn">
@@ -55,13 +56,21 @@
 
                     <button type="button" id="devClickBtn"> Thibidy dev (debug)</button>
 
-                    <button type="button" id="resetBtn"> Thibidy Reset </button>
+                    <p>Request: <span id="clicker1">0</span> </p>
 
-                    <p> Request: <span id="clicker1">0</span> </p>
+                    <div class="stats-row">
+                        <p>Request-Sending per click : <span id="showAll">0</span> </p>
+                        <p>Auto-Request : <span id="showAuto">0</span> </p>
+                    </div>
 
-                    <p> Request-Sending per click : <span id="showAll">0</span> </p>
+                    <div class="stats-row single-stat">
+                        <p>Money : <span id="moneyValue">0</span></p>
+                    </div>
 
-                    <p> Auto-Request : <span id="showAuto">0</span> </p>
+                    <div class="stats-row">
+                        <p>Money per click : <span id="showMoney">0</span> </p>
+                        <p>Auto money : <span id="showAutoMoney">0</span> </p>
+                    </div>
                 </div>
                 <div id="floatingTexts"></div>
             </section>
@@ -160,12 +169,19 @@
             <section class="panel panel-right" id="panelRight"> <!-- layer right -->
                 <button type="button" class="panel-toggle">X</button>
                 <button type="button" id="launchBtn" class="Button-GameUI">Test button1</button>
+                <div id="projectGrid" class="project-grid"></div>
             </section>
 
             <section class="panel panel-bottom-right" id="panelBottomRight"> <!-- layer bottom right -->
                 <button type="button" class="panel-toggle">X</button>
                 <h2>Shop</h2>
-                <button type="button" class="Button-GameUI">Money : <span id ="moneyValue">0</span></button>
+                <div>
+                    <p>Cost ads (manual) : <span id="adsManualCost">1 000 000</span> requests</p>
+                    <button type="button" id="adsManualBtn" class="Button-GameUI">Ads (normal) lvl 0 (x 0)</button>
+                
+                    <p>Cost ads (auto) : <span id="adsAutoCost">2 000 000</span> requests</p>
+                    <button type="button" id="adsAutoBtn" class="Button-GameUI">Ads (auto) lvl 0 (x 0)</button>
+                </div>
             </section>
 
         </div>
