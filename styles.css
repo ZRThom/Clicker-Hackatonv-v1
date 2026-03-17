@@ -750,6 +750,14 @@ p {
 .LayerGameUINoSave.bg-profile2 {
     background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
 }
+header.in-game.bg-profile2 {
+    background: #182848;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+}
+header.in-game.bg-profile2 #headerMsg {
+    background: rgba(0, 0, 0, 0.8);
+    color: #e0e0e0;
+}
 .LayerGameUINoSave.bg-profile2 .upgrade-btn,
 .LayerGameUINoSave.bg-profile2 .menu-button {
     background: linear-gradient(90deg, #4b6cb7, #182848);

@@ -303,6 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const gameLayer = document.querySelector('.LayerGameUINoSave');
         const settingsLayer = document.querySelector('.LayerSettings');
         const creditsLayer = document.querySelector('.LayerCredits');
+        const header = document.querySelector('header');
 
         if (!gameLayer) return;
 
@@ -310,16 +311,19 @@ document.addEventListener('DOMContentLoaded', function() {
         gameLayer.classList.remove('bg-profile1', 'bg-profile2', 'bg-profile3');
         if (settingsLayer) settingsLayer.classList.remove('bg-profile1', 'bg-profile2', 'bg-profile3');
         if (creditsLayer) creditsLayer.classList.remove('bg-profile1', 'bg-profile2', 'bg-profile3');
+        if (header) header.classList.remove('bg-profile1', 'bg-profile2', 'bg-profile3');
         
         // Add selected profile
         if (settings.background) {
             gameLayer.classList.add('bg-' + settings.background);
             if (settingsLayer) settingsLayer.classList.add('bg-' + settings.background);
             if (creditsLayer) creditsLayer.classList.add('bg-' + settings.background);
+            if (header) header.classList.add('bg-' + settings.background);
         } else {
             gameLayer.classList.add('bg-profile1');
             if (settingsLayer) settingsLayer.classList.add('bg-profile1');
             if (creditsLayer) creditsLayer.classList.add('bg-profile1');
+            if (header) header.classList.add('bg-profile1');
         }
     }
 
@@ -730,6 +734,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             upgradeCostAuto = 100 + fibonacci(lvlAuto - 1) * 5;
             upgradeCostAuto = cleanNbr(upgradeCostAuto);
+            playUpgradeSound();
             updateUI();
         }
     }
@@ -743,6 +748,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (roll < superClickChance) {
                 finalGain += superClickValue;
+                playSuperClickSound();
                 showFloatingText("Super Request ! (+ " + DisplayNbr(superClickValue)) + ")";
             }
         }
@@ -1146,6 +1152,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (tgt.length) {
             tgt[0].classList.add('active');
         }
+
+        // Active le mode sombre du header uniquement si on n'est pas dans le menu
+        const header = document.querySelector('header');
+        if (header) {
+            if (name === 'LayerMenu') {
+                header.classList.remove('in-game');
+            } else {
+                header.classList.add('in-game');
+            }
+        }
+        
         playMusicForLayer(name);
     }
 

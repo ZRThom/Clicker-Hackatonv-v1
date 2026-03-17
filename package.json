@@ -22,7 +22,8 @@
     },
     "win": {
       "target": "portable",
-      "artifactName": "Clicker_Hackaton_Setup_${version}.${ext}"
+      "artifactName": "Clicker_Hackaton_Setup_${version}.${ext}",
+      "icon": "pictures/iconethibidy.png"
     }
   }
 }
