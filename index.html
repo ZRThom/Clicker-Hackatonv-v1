@@ -6,11 +6,11 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <!-- Start Overlay -->
+        <!-- Start Overlay
         <div id="startOverlay">
             <button id="btnStart" class="menu-button">Start !</button>
         </div>
-        <!-- Header & Audio Resources -->
+        Header & Audio Resources -->
         <header>
             <div class="header-circles">
                 <span id="circle1" class="circle"></span>
@@ -29,7 +29,7 @@
         </header>
 
         <!-- Menu Interface -->
-        <div class="LayerMenu layer active">
+        <div class="LayerMenu layer">
             <img id="logo" src="pictures/thibidy_Project._-removebg-preview.png" alt="Thibidy Logo" />
             <button id="buttonUIContinue" class="menu-button" type="button" style="display: none;">Continue</button>
             <button id="buttonUISave" class="menu-button" type="button">Import Save</button>
@@ -45,7 +45,7 @@
         
 
         <!-- Game Interface -->
-        <div class="LayerGameUINoSave layer">
+        <div class="LayerGameUINoSave layer active">
             <section class="game-center"> <!-- layer middle -->
                 <div class="top-actions">
                     <button id="buttonUIMainMenu" class="Button-GameUI" type="button">Back</button>
@@ -87,7 +87,7 @@
                     <div class="bottom-feature">
                         <h3>Auto Request</h3>
                         <p>Cost Auto : <span id="AutoClicker1">0</span> request</p>
-                        <button type="button" id="autoBtn1" class="Button-GameUI"> Auto-Request lvl 1 (+1) </button>
+                        <button type="button" id="autoBtn1" class="Button-GameUI" class="can-buy"> Auto-Request lvl 1 (+1) </button>
                     </div>
 
                     <div class="bottom-feature">
@@ -100,7 +100,7 @@
                         </div>
 
                         <p>Cost Super-Request : <span id="superCostValue">200</span> request</p>
-                        <button type="button" id="superBtn1" class="Button-GameUI"> Super-Request lvl 1 (+10) </button>
+                        <button type="button" id="superBtn1" class="Button-GameUI" class="can-buy"> Super-Request lvl 1 (+10) </button>
                     </div>
 
                     <div class="bottom-feature">
@@ -125,19 +125,19 @@
                         <div class="upgrade-box">
 
                         <p>Cost simple : <span id="clickerSimple2">10</span> request</p>
-                        <button type="button" id="upgradeSimpleBtn1" class="Button-GameUI"> Request per click lvl 0 (+ 0) </button>
+                        <button type="button" id="upgradeSimpleBtn1" class="Button-GameUI" class="can-buy"> Request per click lvl 0 (+ 0) </button>
 
                         <p>Cost simple : <span id="clickerSimple3">900</span> request</p>
-                        <button type="button" id="upgradeSimpleBtn2" class="Button-GameUI"> Request per click lvl 0 (+ 0) </button>
+                        <button type="button" id="upgradeSimpleBtn2" class="Button-GameUI" class="can-buy"> Request per click lvl 0 (+ 0) </button>
 
                         <p>Cost simple : <span id="clickerSimple4">25 000</span> request</p>
-                        <button type="button" id="upgradeSimpleBtn3" class="Button-GameUI"> Request per click lvl 0 (+ 0) </button>
+                        <button type="button" id="upgradeSimpleBtn3" class="Button-GameUI" class="can-buy"> Request per click lvl 0 (+ 0) </button>
 
                         <p>Cost simple : <span id="clickerSimple5">700 000</span> request</p>
-                        <button type="button" id="upgradeSimpleBtn4" class="Button-GameUI"> Request per click lvl 0 (+ 0) </button>
+                        <button type="button" id="upgradeSimpleBtn4" class="Button-GameUI" class="can-buy"> Request per click lvl 0 (+ 0) </button>
 
                         <p>Cost simple : <span id="clickerSimple6">30 000 000</span> request</p>
-                        <button type="button" id="upgradeSimpleBtn5" class="Button-GameUI"> Request per click lvl 0 (+ 0) </button>
+                        <button type="button" id="upgradeSimpleBtn5" class="Button-GameUI" class="can-buy"> Request per click lvl 0 (+ 0) </button>
 
                         </div>
                     </div>
@@ -151,19 +151,19 @@
                         <div class="upgrade-box">
 
                             <p>Cost mult : <span id="clicker2">40</span> request</p>
-                            <button type="button" id="upgradeBtn1" class="Button-GameUI"> Multiplyer per click lvl 0 (x 0)</button>
+                            <button type="button" id="upgradeBtn1" class="Button-GameUI" class="can-buy"> Multiplyer per click lvl 0 (x 0)</button>
 
                             <p>Cost mult : <span id="clicker3">300</span> request</p>
-                            <button type="button" id="upgradeBtn2" class="Button-GameUI"> Multiplyer per click lvl 0 (x 0) </button>
+                            <button type="button" id="upgradeBtn2" class="Button-GameUI" class="can-buy"> Multiplyer per click lvl 0 (x 0) </button>
 
                             <p>Cost mult : <span id="clicker4">40 000</span> request</p>
-                            <button type="button" id="upgradeBtn3" class="Button-GameUI"> Multiplyer per click lvl 0 (x 0) </button>
+                            <button type="button" id="upgradeBtn3" class="Button-GameUI" class="can-buy"> Multiplyer per click lvl 0 (x 0) </button>
                         
                             <p>Cost mult : <span id="clicker5">1 300 000</span> request</p>
-                            <button type="button" id="upgradeBtn4" class="Button-GameUI"> Multiplyer per click lvl 0 (x 0) </button>
+                            <button type="button" id="upgradeBtn4" class="Button-GameUI" class="can-buy"> Multiplyer per click lvl 0 (x 0) </button>
 
                             <p>Cost mult : <span id="clicker6">70 000 000</span> request</p>
-                            <button type="button" id="upgradeBtn5" class="Button-GameUI"> Multiplyer per click lvl 0 (x 0) </button>
+                            <button type="button" id="upgradeBtn5" class="Button-GameUI" class="can-buy"> Multiplyer per click lvl 0 (x 0) </button>
 
                         </div>
                     </div>
@@ -182,10 +182,10 @@
                 <h2><img id="mainCoinsImg" src="pictures/Sprite_coins_spinning_v2.gif" alt="coinLogo" width="25px"/> Shop</h2>
                 <div>
                     <p>Cost ads (manual) : <span id="adsManualCost">1 000 000</span> requests</p>
-                    <button type="button" id="adsManualBtn" class="Button-GameUI">Ads (normal) lvl 0 (x 0)</button>
+                    <button type="button" id="adsManualBtn" class="Button-GameUI" class="can-buy">Ads (normal) lvl 0 (x 0)</button>
                 
                     <p>Cost ads (auto) : <span id="adsAutoCost">2 000 000</span> requests</p>
-                    <button type="button" id="adsAutoBtn" class="Button-GameUI">Ads (auto) lvl 0 (x 0)</button>
+                    <button type="button" id="adsAutoBtn" class="Button-GameUI" class="can-buy">Ads (auto) lvl 0 (x 0)</button>
                 </div>
             </section>
 

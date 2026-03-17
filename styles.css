@@ -165,7 +165,7 @@ p {
 /* Button for games */
 .Button-GameUI {
     margin: 0.5rem;
-    padding: 0.8rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     font-size: 1rem;
     cursor: pointer;
     border: none;
@@ -189,7 +189,7 @@ p {
     grid-template-columns: 350px 1fr 350px;
     grid-template-rows: 1fr 250px;
     grid-template-areas: "left center right" "left bottom-center bottom-right";
-    gap: 3rem;
+    gap: 0.5rem;
     width: 100%;
     height: 100vh;
     box-sizing: border-box;
@@ -444,13 +444,12 @@ p {
 }
 
 .single-stat {
-    margin-top: 0.2rem;
+    margin-top: 0.1rem;
 }
 
 .money-shop {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
 }
 
 .money-shop p {
@@ -562,6 +561,7 @@ p {
     flex-wrap: wrap;
     margin: 0.1rem 0;
     line-height: 1.2;
+    color: white;
 }
 
 .separator {
@@ -612,6 +612,24 @@ p {
 .panel-bottom-center.is-collapsed {
     transform: translateY(calc(100% - 40px));
 }
+
+
+
+
+
+/* unlocked upgrade color */
+.Button-GameUI.can-buy {
+    background: linear-gradient(135deg, #57e277 0%, #199141 100%) !important;
+    color: white !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
+    box-shadow: 0 0 15px rgba(34, 161, 74, 0.3);
+}
+
+.Button-GameUI.can-buy:hover {
+    background: linear-gradient(135deg, #20973c 0%, #4edb7b 100%) !important;
+    transform: scale(1.1);
+}
+/* endunlocked upgrade color */
 
 
 

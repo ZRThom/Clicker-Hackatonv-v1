@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const autoBtn1 = document.getElementById('autoBtn1');
     const superBtn1 = document.getElementById('superBtn1');
     
-    const lvlOfServer = document.getElementById('lvlOfServer');
+    //const lvlOfServer = document.getElementById('lvlOfServer');
 
     const volumeRange = document.getElementById('volumeRange');
     const speedRange = document.getElementById('speedRange');
@@ -56,6 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const launchBtn = document.getElementById('launchBtn');
     const projectGrid = document.getElementById('projectGrid');
+
+
+
+    const autoTickMs = 100;
 
     // add btn (to-add)
     let click = 0;
@@ -115,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let lvlSuper = 0;
     let superClickChance = 0;
-    let superClickValue = 0;
+    let superClickValue = 10;
     let upgradeCostSuper = 200;
 
 
@@ -132,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    const projectCaseCosts = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    const projectCaseCosts = [10, 50, 250, 1250, 6250, 31250, 156250, 781250, 3906250]
     let projectCasesBought = new Array(9).fill(false);
 
 
@@ -176,6 +180,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    function getAutoCicleMs() {
+        return 5000 / Number(settings.speed);
+    }
+
     function showFloatingText(message) {
         if (!floatingTexts) return;
         const text = document.createElement('div');
@@ -187,6 +195,32 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             text.remove();
         }, 1000);
+    }
+
+    // color when upgrade cost = request
+    function toggleCanBuy(button, canBuy) {
+        if (!button) return;
+        button.classList.toggle('can-buy', canBuy);
+    }
+
+    function updateAffordableButtons() {
+        toggleCanBuy(upgradeSimpleBtn1, click >= upgradeCostPlus);
+        toggleCanBuy(upgradeSimpleBtn2, click >= upgradeCostPlus2);
+        toggleCanBuy(upgradeSimpleBtn3, click >= upgradeCostPlus3);
+        toggleCanBuy(upgradeSimpleBtn4, click >= upgradeCostPlus4);
+        toggleCanBuy(upgradeSimpleBtn5, click >= upgradeCostPlus5);
+
+        toggleCanBuy(upgradeBtn1, click >= upgradeCostMult);
+        toggleCanBuy(upgradeBtn2, click >= upgradeCostMult2);
+        toggleCanBuy(upgradeBtn3, click >= upgradeCostMult3);
+        toggleCanBuy(upgradeBtn4, click >= upgradeCostMult4);
+        toggleCanBuy(upgradeBtn5, click >= upgradeCostMult5);
+
+        toggleCanBuy(autoBtn1, click >= upgradeCostAuto);
+        toggleCanBuy(superBtn1, click >= upgradeCostSuper);
+
+        toggleCanBuy(adsManualBtn, click >= upgradeCostMoneyManual);
+        toggleCanBuy(adsAutoBtn, click >= upgradeCostMoneyAuto);
     }
 
     // UI update (be called avery time)
@@ -279,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (lvlOfServer) lvlOfServer.innerHTML = lvlServer;
 
-        if (superBtn1) superBtn1.innerHTML = "Super Request " + lvlSuper +" (+ " + DisplayNbr(superClickChance) + "%)";
+        if (superBtn1) superBtn1.innerHTML = "Super Request lvl" + lvlSuper + " (+ " + DisplayNbr(superClickChance) + ")";
         if (superChanceValue) superChanceValue.innerHTML = DisplayNbr(superClickChance);
         if (superPowerValue) superPowerValue.innerHTML = DisplayNbr(superClickValue);
         if (superCostValue) superCostValue.innerHTML = DisplayNbr(upgradeCostSuper);
@@ -295,6 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (adsAutoCost) adsAutoCost.innerHTML = DisplayNbr(upgradeCostMoneyAuto);
         
         updateLaunchBtnState();
+        updateAffordableButtons();
     }
 
   
@@ -352,13 +387,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // display all number
     function DisplayNbr(value) // avoid 1.20000000000002 (arround to number)
     {
-        if (Number.isInteger(value)) return value;
+        if (Math.abs(value - Math.round(value)) < 0.0001) return Math.round(value);
         return value.toFixed(1);
     }
 
     function cleanNbr(value) 
     {
-        return Number(value.toFixed(1));
+        return Number(value.toFixed(4));
     }
     // end display
     
@@ -460,7 +495,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         lvlSuper = 0;
         superClickChance = 0;
-        superClickValue = 0
+        superClickValue = 10;
         upgradeCostSuper = 200;
 
         lvlServer = 0;
@@ -537,7 +572,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         lvlSuper = 0;
         superClickChance = 0;
-        superClickValue = 0
+        superClickValue = 10;
         upgradeCostSuper = 200;
 
         money = 0;
@@ -788,7 +823,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // auto click test
     function autoClick1(){
-        click += autoClickPower;
+        if (autoClickPower <= 0) return;
+        const gainPerTick = autoClickPower * (autoTickMs / getAutoCicleMs());
+        click += gainPerTick;
         click = cleanNbr(click);
         updateUI();
     }
@@ -833,10 +870,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const roll = Math.random() * 100;
 
             if (roll < superClickChance) {
-                finalGain += superClickValue;
+                finalGain += baseGain * superClickValue;
                 playSuperClickSound();
-                console.log("test");
-                showFloatingText("Super Request ! (+ " + DisplayNbr(superClickValue)) + ")";
+                console.log("superClick (debug)");
+                showFloatingText("Super Request ! (x " + DisplayNbr(superClickValue) + ")");
             }
         }
         return finalGain;
@@ -848,7 +885,6 @@ document.addEventListener('DOMContentLoaded', function() {
             click = cleanNbr(click);
             lvlSuper++;
             superClickChance += 5;
-            superClickValue += 10; 
             upgradeCostSuper *= 3;
             upgradeCostSuper = cleanNbr(upgradeCostSuper);
             playUpgradeSound();
@@ -883,7 +919,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function autoMoneyTick() {
-        money += autoMoneyPower;
+        if (autoMoneyPower <= 0) return;
+        const gainPerTick = autoMoneyPower * (autoTickMs / getAutoCicleMs());
+        money += gainPerTick;
         money = cleanNbr(money);
         updateUI();
     }
@@ -1065,6 +1103,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!projectCasesBought.every(Boolean)) return;
         clickingResetNoServer();
     }
+
 
 
     // --- LocalStorage Integration ---
