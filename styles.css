@@ -389,9 +389,82 @@ p {
 .top-actions {
     width: 100%;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
     gap: 1rem;
     flex-wrap: wrap;
+}
+
+#resetBtn {
+    margin-left: auto;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.stats-row p {
+    margin: 0;
+    padding-left: 0;
+    text-align: center !important;
+    min-width: 200px;
+}
+
+.single-stat {
+    margin-top: 0.2rem;
+}
+
+.money-shop {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.money-shop p {
+    margin: 0.5rem 0 0.2rem 0;
+    text-align: left;
+    padding-left: 0;
+}
+
+.panel-right {
+    grid-area: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: 10px 0 0 20px;
+    gap: 1rem;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
+}
+
+.project-case {
+    min-height: 100px;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    font-weight: bold;
+}
+
+.project-case:hover:not(:disabled) {
+    transform: scale(1.05);
+}
+
+.project-case:disabled, .project-case.is-bought, #launchBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(1);
 }
 
 .clicker-zone {
