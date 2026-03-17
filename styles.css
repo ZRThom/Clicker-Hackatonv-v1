@@ -19,7 +19,7 @@ header #thib{
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
-    height:70px; 
+    height:70px;
 }
 
 
@@ -889,4 +889,33 @@ header.in-game.bg-profile2 #headerMsg {
 body:not(.mode-debug) #devClickBtn,
 body:not(.mode-debug) #resetBtn {
     display: none !important;
+}
+
+/* --- Custom Scrollbars --- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Dark Theme (Profile 2) specific scrollbar */
+.bg-profile2 ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.bg-profile2 ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
 }
