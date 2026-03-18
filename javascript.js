@@ -57,9 +57,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const launchBtn = document.getElementById('launchBtn');
     const projectGrid = document.getElementById('projectGrid');
 
-
-
     const autoTickMs = 100;
+
+    const closeServerEndBtn = document.getElementById('closeServerEndBtn');
 
     // add btn (to-add)
     let click = 0;
@@ -134,9 +134,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let upgradeCostMoneyAuto = 2000000;
     let intervalAutoMoney = null;
 
+    let serverEndPanelSeen = false;
+
 
 
     const projectCaseCosts = [10, 50, 250, 1250, 6250, 31250, 156250, 781250, 3906250]
+    //const projectCaseCosts = [1, 1, 1, 1, 1, 1, 1, 1, 1];
     let projectCasesBought = new Array(9).fill(false);
 
 
@@ -469,7 +472,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function clickingDev()
     {
-        click += 999999999;
+        click += 9999999999999999999;
         click = cleanNbr(click);
         updateUI();
     }
@@ -537,6 +540,8 @@ document.addEventListener('DOMContentLoaded', function() {
         upgradeCostMult3 = 40000;
         upgradeCostMult4 = 1300000;
         upgradeCostMult5 = 70000000;
+
+        serverEndPanelSeen = false;
         
         clearInterval(intervalAutoClick);
         intervalAutoClick = null;
@@ -627,6 +632,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateUI();
         renderProjectGrid();
         updateMenuButtons();
+        checkServerLevelPopup();
     }
 
     function clickingSimpleUpgrade()
@@ -852,7 +858,7 @@ document.addEventListener('DOMContentLoaded', function() {
             autoClickPower = fibonacci(lvlAuto - 1);
 
             if (intervalAutoClick === null){
-                intervalAutoClick = setInterval(autoClick1, 5000 / Number(settings.speed));
+                intervalAutoClick = setInterval(autoClick1, autoTickMs);
             }
 
             upgradeCostAuto = 100 + fibonacci(lvlAuto - 1) * 5;
@@ -941,112 +947,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (intervalAutoMoney === null) {
-                intervalAutoMoney = setInterval(autoMoneyTick, 5000 / Number(settings.speed));
-            }
-
-            upgradeCostMoneyAuto *= 1.2;
-            upgradeCostMoneyAuto = cleanNbr(upgradeCostMoneyAuto);
-            updateUI();
-        }
-    }
-
-    function updateLaunchBtnState() {
-        if (!launchBtn) return;
-        launchBtn.disabled = !projectCasesBought.every(Boolean);
-    }
-
-    function buyProjectCase(index) {
-        const cost = projectCaseCosts[index];
-
-        if (projectCasesBought[index]) return;
-        if (money < cost) return;
-
-        money -= cost;
-        money = cleanNbr(money);
-        projectCasesBought[index] = true;
-        
-        updateUI();
-        renderProjectGrid();
-    }
-
-    // check for launching btn while 9 case are occupied (pressed)
-    function renderProjectGrid() {
-        if (!projectGrid) return;
-
-        projectGrid.innerHTML = '';
-
-        projectCaseCosts.forEach((cost, index) => {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'project-case';
-
-            if (projectCasesBought[index]) {
-                btn.textContent = 'case' + (index + 1) + ' - bought';
-                btn.disabled = true;
-                btn.classList.add('is-brought');
-            } else {
-                btn.innerHTML = 'Case ' + (index + 1) + '<br><small>Cost : ' + DisplayNbr(cost) + ' money</small>';
-                btn.addEventListener('click', function() {
-                    buyProjectCase(index);
-                });
-            }
-            projectGrid.appendChild(btn);
-        });
-    }
-
-    function launchProjectReset() {
-        if (!projectCasesBought.every(Boolean)) return;
-        clickingReset();
-        lvlServer++;
-    }
-
-
-
-
-
-    // money 
-    function buyAdsManual() {
-        if (click >= upgradeCostMoneyManual) {
-            click -= upgradeCostMoneyManual;
-            click = cleanNbr(click);
-
-            lvlMoneyManual++;
-
-            if (moneyClickPower === 0) {
-                moneyClickPower = 1;
-            } else {
-                moneyClickPower *= 1.1;
-                moneyClickPower = cleanNbr(moneyClickPower);
-            }
-
-            upgradeCostMoneyManual *= 1.2;
-            upgradeCostMoneyManual = cleanNbr(upgradeCostMoneyManual);
-            updateUI();
-        }
-    }
-
-    function autoMoneyTick() {
-        money += autoMoneyPower;
-        money = cleanNbr(money);
-        updateUI();
-    }
-
-    function buyAdsAuto() {
-        if (click >= upgradeCostMoneyAuto) {
-            click -= upgradeCostMoneyAuto;
-            click = cleanNbr(click);
-
-            lvlMoneyAuto++;
-            
-            if (autoMoneyPower === 0) {
-                autoMoneyPower = 1;
-            } else {
-                autoMoneyPower *= 1.1;
-                autoMoneyPower = cleanNbr(autoMoneyPower);
-            }
-
-            if (intervalAutoMoney === null) {
-                intervalAutoMoney = setInterval(autoMoneyTick, 5000 / Number(settings.speed));
+                intervalAutoMoney = setInterval(autoMoneyTick, autoTickMs);
             }
 
             upgradeCostMoneyAuto *= 1.2;
@@ -1110,15 +1011,34 @@ document.addEventListener('DOMContentLoaded', function() {
     function saveToLocalStorage() {
         try {
             const gameState = {
-                clicks: click, lvlServer, lvlPlus, lvlPlus2, lvlPlus3, lvlPlus4, lvlPlus5,
+                clicks: click, 
+                lvlServer, lvlPlus, lvlPlus2, lvlPlus3, lvlPlus4, lvlPlus5,
                 lvlMult, lvlMult2, lvlMult3, lvlMult4, lvlMult5,
+
                 lvlAuto, autoClickPower, upgradeCostAuto,
                 lvlSuper, superClickChance, superClickValue, upgradeCostSuper,
+
+                money,
+                lvlMoneyManual,
+                moneyClickPower,
+                upgradeCostMoneyManual,
+
+                lvlMoneyAuto,
+                autoMoneyPower,
+                upgradeCostMoneyAuto,
+
+                projectCasesBought,
+
                 clickPowerPlus, clickPowerPlus2, clickPowerPlus3, clickPowerPlus4, clickPowerPlus5,
                 clickPower, clickPower2, clickPower3, clickPower4, clickPower5,
+
                 upgradeCostPlus, upgradeCostPlus2, upgradeCostPlus3, upgradeCostPlus4, upgradeCostPlus5,
                 upgradeCostMult, upgradeCostMult2, upgradeCostMult3, upgradeCostMult4, upgradeCostMult5,
-                settings, currentLevel: level, date: new Date().toLocaleDateString()
+
+                settings,
+                currentLevel: level,
+                date: new Date().toLocaleDateString(),
+                serverEndPanelSeen
             };
             localStorage.setItem('thibidy_save', JSON.stringify(gameState));
         } catch(err) {
@@ -1133,7 +1053,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const data = JSON.parse(savedData);
             
-            if (data.clicks !== undefined) clicks = data.clicks;
+            if (data.clicks !== undefined) click = data.clicks;
             if (data.lvlServer !== undefined) lvlServer = data.lvlServer;
             if (data.lvlPlus !== undefined) lvlPlus = data.lvlPlus;
             if (data.lvlPlus2 !== undefined) lvlPlus2 = data.lvlPlus2;
@@ -1172,7 +1092,18 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.upgradeCostMult3 !== undefined) upgradeCostMult3 = data.upgradeCostMult3;
             if (data.upgradeCostMult4 !== undefined) upgradeCostMult4 = data.upgradeCostMult4;
             if (data.upgradeCostMult5 !== undefined) upgradeCostMult5 = data.upgradeCostMult5;
-            if (data.currentLevel !== undefined) currentLevel = data.currentLevel;
+            if (data.currentLevel !== undefined) level = data.currentLevel;
+            if(data.serverEndPanelSeen !== undefined) serverEndPanelSeen = data.serverEndPanelSeen;
+            if (data.money !== undefined) money = data.money;
+            if (data.lvlMoneyManual !== undefined) lvlMoneyManual = data.lvlMoneyManual;
+            if (data.moneyClickPower !== undefined) moneyClickPower = data.moneyClickPower;
+            if (data.upgradeCostMoneyManual !== undefined) upgradeCostMoneyManual = data.upgradeCostMoneyManual;
+            if (data.lvlMoneyAuto !== undefined) lvlMoneyAuto = data.lvlMoneyAuto;
+            if (data.autoMoneyPower !== undefined) autoMoneyPower = data.autoMoneyPower;
+            if (data.upgradeCostMoneyAuto !== undefined) upgradeCostMoneyAuto = data.upgradeCostMoneyAuto;
+            if (Array.isArray(data.projectCasesBought) && data.projectCasesBought.length === 9) {
+                projectCasesBought = data.projectCasesBought;
+            }
             
             if (data.settings) {
                 settings = { ...settings, ...data.settings };
@@ -1180,8 +1111,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
             clearInterval(intervalAutoClick);
             if (lvlAuto > 0) {
-                intervalAutoClick = setInterval(autoClick1, 5000 / Number(settings.speed));
+                intervalAutoClick = setInterval(autoClick1, autoTickMs);
             }
+
+            clearInterval(intervalAutoMoney);
+            if (lvlMoneyAuto > 0) {
+                intervalAutoMoney = setInterval(autoMoneyTick, autoTickMs)
+            }
+            checkServerLevelPopup();
         } catch(err) {
             console.error('Failed to parse local save', err);
         }
@@ -1254,7 +1191,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Save Actuals Settings
             settings,
             currentLevel: level,
-            date: new Date().toLocaleDateString()
+            date: new Date().toLocaleDateString(),
+            serverEndPanelSeen
         };
 
         const json = JSON.stringify(gameState, null, 2);
@@ -1271,7 +1209,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const layers = document.getElementsByClassName('layer');
         for (let i = 0; i < layers.length; i++) {
             // Do not hide the game layer when opening settings or credits
-            if ((name === 'LayerSettings' || name === 'LayerCredits') && layers[i].classList.contains('LayerGameUINoSave')) {
+            if ((name === 'LayerSettings' || name === 'LayerCredits' || name === 'LayerServerEnd') && layers[i].classList.contains('LayerGameUINoSave')) {
                 continue;
             }
             layers[i].classList.remove('active');
@@ -1290,8 +1228,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 header.classList.add('in-game');
             }
         }
-        
-        playMusicForLayer(name);
+        if (name !== 'layerServerEnd') {
+            playMusicForLayer(name);
+        }
+    }
+
+    function checkServerLevelPopup() {
+        if (lvlServer === 10 && !serverEndPanelSeen) {
+            serverEndPanelSeen = true;
+            showLayer('LayerServerEnd');
+        }
     }
 
     function triggerImport() {
@@ -1373,6 +1319,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (data.currentLevel !== undefined) level = data.currentLevel;
 
+                if (data.serverEndPanelSeen !== undefined) serverEndPanelSeen = data.serverEndPanelSeen;
+
             
                 if (data.settings) {
                     settings = { ...settings, ...data.settings };
@@ -1386,18 +1334,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 clearInterval(intervalAutoClick);
                 if (lvlAuto > 0) {
-                    intervalAutoClick = setInterval(autoClick1, 5000 / Number(settings.speed));
+                    intervalAutoClick = setInterval(autoClick1, autoTickMs);
                 }
 
                 clearInterval(intervalAutoMoney);
                 if (lvlMoneyAuto > 0) {
-                    intervalAutoMoney = setInterval(autoMoneyTick, 5000 / Number(settings.speed));
+                    intervalAutoMoney = setInterval(autoMoneyTick, autoTickMs);
                 } else {
                     intervalAutoMoney = null;
                 }
 
                 updateUI(); 
-                showLayer('LayerGameUINoSave'); 
+                showLayer('LayerGameUINoSave');
+                checkServerLevelPopup();
                 
                 alert('Save imported successfully! Welcome back, Thomas.');
             } catch(err) {
@@ -1509,12 +1458,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update AutoClick Speed if active
             if (intervalAutoClick) {
                 clearInterval(intervalAutoClick);
-                intervalAutoClick = setInterval(autoClick1, 5000 / Number(settings.speed));
+                intervalAutoClick = setInterval(autoClick1, autoTickMs);
             }
 
             if (intervalAutoMoney) {
                 clearInterval(intervalAutoMoney);
-                intervalAutoMoney = setInterval(autoMoneyTick, 5000 / Number(settings.speed));
+                intervalAutoMoney = setInterval(autoMoneyTick, autoTickMs);
             }
 
             manageAutoSave();
@@ -1572,6 +1521,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (adsManualBtn) adsManualBtn.addEventListener('click', buyAdsManual);
     if (adsAutoBtn) adsAutoBtn.addEventListener('click', buyAdsAuto);
     if (launchBtn) launchBtn.addEventListener('click', launchProjectReset);
+
+    if (closeServerEndBtn) {
+        closeServerEndBtn.addEventListener('click', function() {
+            const popup = document.querySelector('.LayerServerEnd');
+            if (popup) popup.classList.remove('active');
+        });
+    }
 
     // Header Circles Logic
     function showHeaderMsg(text) {
