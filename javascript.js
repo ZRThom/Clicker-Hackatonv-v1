@@ -61,6 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const closeServerEndBtn = document.getElementById('closeServerEndBtn');
 
+    const cpsDisplay = document.getElementById('cpsDisplay');
+
     // add btn (to-add)
     let click = 0;
 
@@ -136,7 +138,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let serverEndPanelSeen = false;
 
-
+    const cpsLimit = 15;
+    const cpsWindowMs = 1000;
+    const minClickIntervalMs = 1000 / cpsLimit;
+    let clickHistory = [];
+    let lastAcceptedClickTime = 0;
 
     const projectCaseCosts = [10, 50, 250, 1250, 6250, 31250, 156250, 781250, 3906250]
     //const projectCaseCosts = [1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -204,6 +210,42 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleCanBuy(button, canBuy) {
         if (!button) return;
         button.classList.toggle('can-buy', canBuy);
+    }
+
+    function onClickHistory(now = performance.now()) {
+        clickHistory = clickHistory.filter(timestamp => now - timestamp < cpsWindowMs);
+    }
+
+    function updateCpsDisplay() {
+        const now = performance.now();
+        onClickHistory(now);
+
+        const cps = clickHistory.length;
+        const isBlocked = (now - lastAcceptedClickTime) < minClickIntervalMs;
+
+        if (cpsDisplay) {
+            cpsDisplay.textContent = "CPS : " + cps + " / " + cpsLimit + " MAX";
+            cpsDisplay.classList.toggle('is-max', cps >= cpsLimit);
+        }
+
+        if (mainClickBtn) {
+            mainClickBtn.classList.toggle('is-cps-blocked', isBlocked);
+        }
+    }
+
+    function registerManualClick() {
+        const now = performance.now();
+        onClickHistory(now);
+
+        if (clickHistory.length >= cpsLimit) {
+            updateCpsDisplay();
+            return false;
+        }
+
+        lastAcceptedClickTime = now;
+        clickHistory.push(now);
+        updateCpsDisplay();
+        return true;
     }
 
     function updateAffordableButtons() {
@@ -457,6 +499,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // add btn (to-add)
     function clicking()
     {
+        if (!registerManualClick()) {
+            return;
+        }
+
         playClickSound();
         let gain = (clickPower * clickPower2 * clickPower3 * clickPower4 * clickPower5) + (clickPowerPlus + clickPowerPlus2 + clickPowerPlus3 + clickPowerPlus4 + clickPowerPlus5);
         
@@ -472,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function clickingDev()
     {
-        click += 9999999999999999999;
+        click += 99999999999999;
         click = cleanNbr(click);
         updateUI();
     }
@@ -514,6 +560,10 @@ document.addEventListener('DOMContentLoaded', function() {
         upgradeCostMoneyAuto = 2000000;
 
         projectCasesBought = new Array(9).fill(false);
+
+        clickHistory = [];
+        lastAcceptedClickTime = 0;
+        updateCpsDisplay();
 
         click = 0;
 
@@ -593,6 +643,10 @@ document.addEventListener('DOMContentLoaded', function() {
         upgradeCostMoneyAuto = 2000000;
 
         projectCasesBought = new Array(9).fill(false);
+
+        clickHistory = [];
+        lastAcceptedClickTime = 0;
+        updateCpsDisplay();
 
         click = 0;
 
@@ -1119,6 +1173,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 intervalAutoMoney = setInterval(autoMoneyTick, autoTickMs)
             }
             checkServerLevelPopup();
+
+            clickHistory = [];
+            lastAcceptedClickTime = 0;
+            updateCpsDisplay();
         } catch(err) {
             console.error('Failed to parse local save', err);
         }
@@ -1347,6 +1405,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateUI(); 
                 showLayer('LayerGameUINoSave');
                 checkServerLevelPopup();
+
+                clickHistory = [];
+                lastAcceptedClickTime = 0;
+                updateCpsDisplay();
                 
                 alert('Save imported successfully! Welcome back, Thomas.');
             } catch(err) {
@@ -1551,6 +1613,10 @@ document.addEventListener('DOMContentLoaded', function() {
     manageAutoSave();
     updateUI();
     updateMenuButtons(); 
+
+    setInterval(updateCpsDisplay, 50);
+    updateCpsDisplay();
+
     window.addEventListener('beforeunload', function() {
         if (settings.autoSave) {
             saveToLocalStorage();
